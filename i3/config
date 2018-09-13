@@ -11,7 +11,7 @@
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:Iosevka SS10 11
+font pango:DejaVu Sans 11
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -180,10 +180,11 @@ bindsym Mod1+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-        status_command i3status
-        separator_symbol " | "
-}
+# bar {
+#         status_command i3status
+#         separator_symbol " | "
+# }
+exec_always --no-startup-id $HOME/.i3/scripts/start-polybar.sh
 
 #######################################################################
 # automatically start i3-config-wizard to offer the user to create a
@@ -216,7 +217,7 @@ bindsym Mod1+t exec emacsclient -c -e "(eshell (universal-argument))"
 exec emacs --daemon
 
 # set wallpaper
-exec_always feh --bg-scale ~/Pictures/forest.jpg
+# exec_always feh --bg-scale ~/Pictures/forest.jpg
 
 # otpimal split
 bindsym Mod1+Shift+Return exec /home/dvicente/i3-scripts/split_optimal.sh && emacsclient -c
