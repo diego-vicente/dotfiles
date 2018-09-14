@@ -45,7 +45,7 @@ bindsym Mod1+q kill
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
-bindsym Mod1+d exec --no-startup-id i3-dmenu-desktop
+bindsym Mod1+d exec --no-startup-id rofi -show run # i3-dmenu-desktop
 
 # change focus
 bindsym Mod1+$left focus left
@@ -103,6 +103,16 @@ bindsym Mod1+Shift+minus move scratchpad
 # Show the next scratchpad window or hide the focused scratchpad window.
 # If there are multiple scratchpad windows, this command cycles through them.
 bindsym Mod1+minus scratchpad show
+
+# class                 border  backgr. text    indicator child_border
+# client.focused          #83a598 #285577 #ffffff #2e9ef4   #83a598
+client.focused          #665c54 #285577 #ffffff #2e9ef4   #665c54
+client.focused_inactive #3c3836 #5f676a #ffffff #484e50   #3c3836
+client.unfocused        #333333 #222222 #888888 #292d2e   #222222
+client.urgent           #2f343a #fb4934 #ffffff #fb4934   #fb4934
+client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
+
+client.background       #ffffff
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
@@ -199,10 +209,26 @@ exec_always --no-startup-id $HOME/.i3/scripts/start-polybar.sh
 
 # gaps
 
-for_window [class="^.*"] border pixel 3
+for_window [class="^.*"] border pixel 2
 
 gaps inner 15
 gaps outer 25
+
+# toggle gaps on and off
+
+set $mode_gaps_toggle Set gaps: [o]ff, o[n]
+
+bindsym Mod1+Shift+g mode "$mode_gaps_toggle"
+
+mode "$mode_gaps_toggle" {
+     bindsym n gaps inner current set 15; gaps outer current set 25
+     bindsym o gaps inner current set 0; gaps outer current set 0
+
+    bindsym Escape mode "default"
+    bindsym Return mode "default"
+}
+
+# bindsym Mod1+Shift+g exec ~/dotfiles/i3/scripts/toggle-gaps.sh
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
@@ -211,15 +237,17 @@ gaps outer 25
 bindsym Mod1+Shift+x exec i3lock
 
 # open emacs eshell
-bindsym Mod1+t exec emacsclient -c -e "(eshell (universal-argument))"
+bindsym Mod1+t exec  --no-startup-id emacsclient -c -e "(eshell (universal-argument))"
 
 # run emacs server automatically when starting i3
-exec emacs --daemon
+exec --no-startup-id emacs --daemon
 
 # set wallpaper
-# exec_always feh --bg-scale ~/Pictures/forest.jpg
+exec_always  --no-startup-id feh --bg-scale ~/Pictures/vietnam.jpg
+# exec_always xsetroot -solid "#fdf6e3"
 
 # otpimal split
+bindsym Mod1+Shift+s exec /home/dvicente/i3-scripts/split_optimal.sh
 bindsym Mod1+Shift+Return exec /home/dvicente/i3-scripts/split_optimal.sh && emacsclient -c
 
-exec compton -f
+exec  --no-startup-id compton -f
