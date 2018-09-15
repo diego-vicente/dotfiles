@@ -243,7 +243,7 @@ bindsym Mod1+t exec  --no-startup-id emacsclient -c -e "(eshell (universal-argum
 exec --no-startup-id emacs --daemon
 
 # set wallpaper
-exec_always  --no-startup-id feh --bg-scale ~/Pictures/vietnam.jpg
+exec_always  --no-startup-id feh --bg-scale ~/dotfiles/wallpapers/vietnam.jpg
 # exec_always xsetroot -solid "#fdf6e3"
 
 # otpimal split
