@@ -121,7 +121,7 @@ client.background       #ffffff
 set $ws1 "1: "
 set $ws2 "2: "
 set $ws3 "3: "
-set $ws4 "4: "
+set $ws4 "4: "
 set $ws5 "5: "
 set $ws6 "6: "
 set $ws7 "7: "
@@ -310,6 +310,10 @@ for_window [class="Emacs" title="\*Emacs Anywhere\*"] floating enable
 
 # run emacs server automatically when starting i3
 # exec --no-startup-id emacs --daemon
+
+# Tell the emacs server that i3wm is running and should be configured. This
+# function is defined in my Emacs config.
+exec --no-startup-id emacsclient -e "(set-up-i3)"
 
 # start bridge
 exec --no-startup-id Desktop-Bridge
