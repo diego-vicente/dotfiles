@@ -518,7 +518,7 @@ menu-2-1 = cancel
 menu-2-1-exec = menu-open-0
 
 menu-3-0 = suspend
-menu-3-0-exec = ~/dotfiles/i3/scripts/lock-and-blur.sh && systemctl suspend
+menu-3-0-exec = ~/dotfiles/scripts/lock-and-blur.sh && systemctl suspend
 menu-3-1 = cancel
 menu-3-1-exec = menu-open-0
 
