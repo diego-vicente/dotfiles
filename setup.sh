@@ -14,6 +14,10 @@ ln -s $HOME/dotfiles/polybar/config $DEST/polybar/config
 
 echo "Symbolic links in $DEST created"
 
+sudo cp -r $HOME/dotfiles/systemd/* /etc/systemd/
+
+echo "All services copied to the systemd folder. Remember to activate them!"
+
 # TODO: Activate or deactivate with a switch?
 # echo "Updating grub to XPS-15 (Antergos)..."
 # cp grub/xps15-antergos
