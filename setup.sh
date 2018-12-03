@@ -13,3 +13,8 @@ ln -s $HOME/dotfiles/i3/config      $DEST/i3/config
 ln -s $HOME/dotfiles/polybar/config $DEST/polybar/config
 
 echo "Symbolic links in $DEST created"
+
+# TODO: Activate or deactivate with a switch?
+# echo "Updating grub to XPS-15 (Antergos)..."
+# cp grub/xps15-antergos
+# grub-mkconfig -o /boot/grub/grub.cfg
