@@ -2,5 +2,3 @@ clear lock
 clear control
 keycode 66 = Control_L
 add control = Control_L Control_R
-
-pointer = 1 2 3 5 4 7 6 8 9 10 11 12
