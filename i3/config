@@ -316,14 +316,8 @@ for_window [class="Emacs" title="\*Emacs Anywhere\*"] floating enable
 # function is defined in my Emacs config.
 exec --no-startup-id emacsclient -e "(set-up-i3)"
 
-# start bridge
-exec --no-startup-id Desktop-Bridge
-
 # set wallpaper
-exec_always --no-startup-id feh --bg-scale ~/dotfiles/wallpapers/skye_road.jpg
-# exec_always --no-startup-id feh --bg-scale ~/dotfiles/wallpapers/bristlecone.png
-
-# exec_always xsetroot -solid "#fdf6e3"
+exec_always --no-startup-id feh --bg-scale ~/dotfiles/wallpapers/ibm.png
 
 # otpimal split
 bindsym $mod+Shift+s exec /home/dvicente/dotfiles/scripts/split-optimal.sh
