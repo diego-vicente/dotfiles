@@ -26,10 +26,10 @@ font pango:Iosevka SS10 10
 
 # use these keys for focus, movement, and resize directions when reaching for
 # the arrows is not convenient
-set $up l
+set $up i
 set $down k
 set $left j
-set $right semicolon
+set $right l
 
 set $mod Mod4
 
