@@ -7,8 +7,7 @@ killall -q polybar
 while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 
 # Launch all the bars
-polybar bar-hdmi-home &
-polybar bar-hdmi-work &
+polybar bar-hdmi &
 polybar bar-laptop &
 
 echo "Bars launched..."
