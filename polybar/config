@@ -30,7 +30,7 @@ aqua = #8ec07c
 orange = #fe8019
 
 [bar/bar-laptop]
-monitor = ${env:MONITOR:eDP1}
+monitor = ${env:LAPTOP}
 width = 100%
 height = 35
 ;offset-x = 1%
@@ -84,8 +84,8 @@ wm-restack = i3
 cursor-click = pointer
 cursor-scroll = ns-resize
 
-[bar/bar-hdmi-home]
-monitor = ${env:MONITOR:HDMI-1}
+[bar/bar-hdmi]
+monitor = ${env:HDMI}
 width = 100%
 height = 35
 ;offset-x = 1%
