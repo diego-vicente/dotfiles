@@ -448,7 +448,7 @@ ramp-capacity-foreground = ${colors.foreground-alt}
 [module/temperature]
 type = internal/temperature
 thermal-zone = 0
-hwmon-path = ${env:TEMP}
+hwmon-path = ${env:TEMP_SENSOR}
 warn-temperature = 80
 
 format = <ramp> <label>
