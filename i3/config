@@ -317,7 +317,7 @@ for_window [class="Emacs" title="\*Emacs Anywhere\*"] floating enable
 exec --no-startup-id emacsclient -e "(set-up-i3)"
 
 # set wallpaper
-exec_always --no-startup-id feh --bg-scale ~/dotfiles/wallpapers/ibm.png
+exec_always --no-startup-id feh --bg-fill $BG_PATH
 
 # otpimal split
 bindsym $mod+Shift+s exec /home/dvicente/dotfiles/scripts/split-optimal.sh
