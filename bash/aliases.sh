@@ -8,3 +8,9 @@ alias systemctl='sudo systemctl'
 alias se='ls /usr/bin | grep'
 
 alias fuck='COMMAND=$(history -p \!\!); echo sudo $COMMAND; sudo $COMMAND'
+
+
+# Use xdg-open in a subshell, derived output and detached
+open() {
+    (nohup xdg-open "$1" >/dev/null 2>&1 &)
+}
