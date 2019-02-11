@@ -63,7 +63,7 @@ font-5 = Wuncon Siji:size=10; 1
 
 modules-left = bspwm i3
 modules-center =
-modules-right = pulseaudio memory cpu wlan eth battery temperature date powermenu
+modules-right = pulseaudio memory cpu wlan eth_home eth_work battery temperature date powermenu
 
 ; tray-position = right
 ; tray-padding = 2
@@ -118,7 +118,7 @@ font-5 = Wuncon Siji:size=10; 1
 
 modules-left = bspwm i3
 modules-center =
-modules-right = pulseaudio memory cpu wlan eth battery temperature date powermenu
+modules-right = pulseaudio memory cpu wlan eth_home eth_work battery temperature date powermenu
 
 ; tray-position = right
 ; tray-padding = 2
@@ -319,9 +319,9 @@ ramp-signal-2-foreground = ${colors.yellow}
 ramp-signal-3-foreground = ${colors.green}
 ramp-signal-4-foreground = ${colors.green}
 
-[module/eth]
+[module/eth_home]
 type = internal/network
-interface = ${env:ETH}
+interface = ${env:ETH_HOME}
 interval = 3.0
 
 format-connected-underline = ${colors.green}
@@ -335,6 +335,24 @@ accumulate-stats = true
 ;format-disconnected-underline = ${self.format-connected-underline}
 ;label-disconnected = %ifname% disconnected
 ;label-disconnected-foreground = ${colors.foreground-alt}
+
+[module/eth_work]
+type = internal/network
+interface = ${env:ETH_WORK}
+interval = 3.0
+
+format-connected-underline = ${colors.green}
+format-connected-prefix = " "
+format-connected-prefix-foreground = ${colors.foreground-alt}
+label-connected = %local_ip%
+
+format-disconnected =
+accumulate-stats = true
+;format-disconnected = <label-disconnected>
+;format-disconnected-underline = ${self.format-connected-underline}
+;label-disconnected = %ifname% disconnected
+;label-disconnected-foreground = ${colors.foreground-alt}
+
 
 [module/date]
 type = internal/date
