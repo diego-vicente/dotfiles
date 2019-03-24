@@ -14,6 +14,7 @@ ln -s $HOME/dotfiles/xfce4-terminal/terminalrc $DEST/xfce4/terminal/terminalrc
 ln -s $HOME/dotfiles/polybar/config            $DEST/polybar/config
 ln -s $HOME/dotfiles/X/.Xmodmap                $HOME/.Xmodmap
 ln -s $HOME/dotfiles/X/.Xresources             $HOME/.Xresources
+ln -s $HOME/dotfiles/zsh/zshrc                 $HOME/.zshrc
 
 echo "Symbolic links in $DEST created"
 
