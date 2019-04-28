@@ -17,17 +17,17 @@
 ;==========================================================
 
 [colors]
-foreground-alt = #d5c4a1
-foreground = #fdf4c1
-background-alt = #665c54
-background = #282828
-green = #b8bb26
-red = #fb4934
-yellow = #fabd2f
-blue = #83a598
-purple = #d3869b
-aqua = #8ec07c
-orange = #fe8019
+foreground-alt = #d8dee9
+foreground = #eceff4
+background-alt = #4c566a
+background = #2e3440
+green = #a3be8c
+red = #bf616a
+yellow = #ebcb8b
+blue = #88c0d0
+purple = #b48ead
+aqua = #8fbcbb
+orange = #d08770
 
 [bar/bar-laptop]
 monitor = ${env:LAPTOP}
@@ -43,7 +43,7 @@ background = ${colors.background}
 foreground = ${colors.foreground}
 
 line-size = 3
-line-color = #f00
+line-color = ${colors.red}
 
 ; border-size = 4
 ; border-color = #fdf6e3
@@ -54,7 +54,7 @@ padding-right = 5
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = Iosevka SS10:size=10;1
+font-0 = Iosevka SS10:pixelsize=11;1
 font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-2 = "Font Awesome 5 Free:style=Regular:pixelsize=10;1"
 font-3 = "Font Awesome 5 Free:style=Solid:pixelsize=10;1"
@@ -98,7 +98,7 @@ background = ${colors.background}
 foreground = ${colors.foreground}
 
 line-size = 3
-line-color = #f00
+line-color = ${colors.red}
 
 ; border-size = 4
 ; border-color = #fdf6e3
@@ -109,7 +109,7 @@ padding-right = 5
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = Iosevka SS10:pixelsize=10;1
+font-0 = Iosevka SS10:pixelsize=11;1
 font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-2 = "Font Awesome 5 Free:style=Regular:pixelsize=10;1"
 font-3 = "Font Awesome 5 Free:style=Solid:pixelsize=10;1"
@@ -175,7 +175,7 @@ type = internal/bspwm
 
 label-focused = %index%
 label-focused-background = ${colors.background-alt}
-label-focused-underline= ${colors.yellow}
+label-focused-underline= ${colors.blue}
 label-focused-padding = 2
 
 label-occupied = %index%
@@ -214,8 +214,8 @@ wrapping-scroll = false
 pin-workspaces = true
 
 label-mode-padding = 2
-label-mode-foreground = #000
-label-mode-background = ${colors.yellow}
+label-mode-foreground = ${colors.background}
+label-mode-background = ${colors.blue}
 
 ; focused = Active workspace on focused monitor
 label-focused = %index%: %icon%

@@ -108,13 +108,13 @@ bindsym $mod+minus move scratchpad
 bindsym $mod+equal scratchpad show
 
 # class                 border   backgr.  text    indicator child_border
-client.focused          #665c54  #665c54  #fdf4c1 #458588   #665c54
-client.focused_inactive #282828  #282828  #fdf4c1 #463c34   #282828
-client.unfocused        #333333  #222222  #888888 #333333   #222222
-client.urgent           #2f343a  #fb4934  #ffffff #83a598   #fb4934
-client.placeholder      #000000  #0c0c0c  #fdf4c1 #000000   #0c0c0c
+client.focused          #4c566a  #4c566a  #eceff4 #458588   #4c566a
+client.focused_inactive #3b4252  #3b4252  #eceff4 #4c566a   #282828
+client.unfocused        #2e3440  #2e3440  #eceff4 #2e3440   #2e3440
+client.urgent           #bf616a  #bf616a  #2e3440 #d08770   #bf616a
+client.placeholder      #000000  #0c0c0c  #eceff4 #000000   #0c0c0c
 
-client.background       #ffffff
+client.background       #2e3440
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
@@ -177,7 +177,7 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+c exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
-mode "resize" {
+mode "Resize" {
         # These bindings trigger as soon as you enter the resize mode
 
         # Pressing left will shrink the window’s width.
@@ -252,8 +252,8 @@ for_window [class="(?i)mpv"] floating enable
 
 for_window [class="^.*"] border pixel 2
 
-gaps inner 25
-gaps outer 20
+gaps inner 20
+gaps outer 7
 
 # toggle gaps on and off
 
@@ -262,13 +262,13 @@ set $mode_gaps_toggle Set gaps: [p]retty, [c]omfortable, [o]ff
 bindsym $mod+Shift+g mode "$mode_gaps_toggle"
 
 mode "$mode_gaps_toggle" {
-    bindsym p gaps inner current set 20; gaps outer current set 25
-    bindsym c gaps inner current set 15i; gaps outer current set 5
+    bindsym p gaps inner current set 20; gaps outer current set 7
+    bindsym c gaps inner current set 15; gaps outer current set 5
     bindsym o gaps inner current set 0; gaps outer current set 0
 
-    bindsym P gaps inner all set 20; gaps outer all set 25
-    bindsym C gaps inner all set 15i; gaps outer all set 5
-    bindsym O gaps inner all set 0; gaps outer all set 0
+    # bindsym P gaps inner all set 20; gaps outer all set 15
+    # bindsym C gaps inner all set 15; gaps outer all set 5
+    # bindsym O gaps inner all set 0; gaps outer all set 0
 
     bindsym Escape mode "default"
     bindsym Return mode "default"
