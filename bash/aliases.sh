@@ -1,10 +1,10 @@
 alias ls='ls --color=auto'
 
 alias pacrepo='sudo reflector -l 20 -f 10 --save /etc/pacman.d/mirrorlist'
-alias journalctl='sudo journalctl'
+# alias journalctl='sudo journalctl'
 alias pacu='sudo pacman -Syu --noconfirm'
 alias auru='yaourt -Syua --noconfirm'
-alias systemctl='sudo systemctl'
+# alias systemctl='sudo systemctl'
 alias se='ls /usr/bin | grep'
 
 alias fuck='COMMAND=$(history -p \!\!); echo sudo $COMMAND; sudo $COMMAND'

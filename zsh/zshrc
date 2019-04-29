@@ -22,3 +22,17 @@ zstyle :compinstall filename '/home/dvicente/.zshrc'
 autoload -Uz compinit
 compinit
 # End of lines added by compinstall
+
+# Enable the Pure power theme
+source ~/dotfiles/zsh/purepower
+source ~/dotfiles/zsh/powerlevel10k/powerlevel10k.zsh-theme
+
+# Add the environmental variables
+source /etc/profile
+source ~/.profile
+
+# Add custom user aliases
+source ~/dotfiles/zsh/alias.sh
+
+# Activate conda
+. /home/dvicente/Utilities/anaconda3/etc/profile.d/conda.sh

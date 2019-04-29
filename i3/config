@@ -290,7 +290,7 @@ mode "$mode_monitor_toggle" {
 }
 
 # move workspace to left and right monitors
-bindsym $mod+Shift+bracketleft move workspace to output left
+bindsym $mod+Shift+bracketleft move workspace to output up
 bindsym $mod+Shift+bracketright move workspace to output right
 
 # bindsym $mod+Shift+g exec ~/dotfiles/scripts/toggle-gaps.sh
