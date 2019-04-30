@@ -14,10 +14,14 @@ if [[ $LANG = '' ]]; then
 fi
 
 # Custom
-alias open='xdg-open'
 alias ls-services="systemctl --type=service --no-pager"
-alias powertop='sudo powertop'
 alias wifi-menu='sudo wifi-menu -o'
 alias update-grub='sudo grub-mkconfig -o /boot/grub/grub.cfg'
 alias e='emacsclient -c'
 alias yt_pip="mpv --really-quiet --volume=50 --autofit=30% --geometry=-10-15 --ytdl --ytdl-format='mp4[height<=?720]' -ytdl-raw-options=playlist-start=1"
+alias fuck='COMMAND=$(history -p \!\!); echo sudo $COMMAND; sudo $COMMAND'
+
+# Use xdg-open in a subshell, derived output and detached
+open() {
+    (nohup xdg-open "$1" >/dev/null 2>&1 &)
+}
