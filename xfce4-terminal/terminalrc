@@ -16,7 +16,6 @@ MiscTabCloseMiddleClick=TRUE
 MiscTabPosition=GTK_POS_TOP
 MiscHighlightUrls=TRUE
 ScrollingLines=999999
-BackgroundMode=TERMINAL_BACKGROUND_TRANSPARENT
 BackgroundDarkness=0.830000
 ScrollingOnOutput=FALSE
 FontName=Iosevka SS10 Medium 11
