@@ -15,7 +15,6 @@ shadow = false;			# Enabled client-side shadows on windows.
 # shadow-exclude = "n:e:Notification";
 # shadow-exclude = "n:a:Conky";
 # shadow-exclude = "synapse";
-
 # shadow-ignore-shaped = true;
 
 # Opacity
@@ -24,11 +23,16 @@ shadow = false;			# Enabled client-side shadows on windows.
 #frame-opacity = 0.8;			# Opacity of window titlebars and borders. (0.1 - 1.0)
 # inactive-opacity-override = true;	# Inactive opacity set by 'inactive-opacity' overrides value of _NET_WM_OPACITY.
 
+refresh-rate = 0;
+sw-opti = false;
+vsync = true;
+dbe = false;
+
 # Fading
-fading = false;			# Fade windows during opacity changes.
+fading = true;			# Fade windows during opacity changes.
 # fade-delta = 100;		# The time between steps in a fade in milliseconds. (default 10).
-fade-in-step = 0.01;		# Opacity change between steps while fading in. (default 0.028).
-fade-out-step = 0.01;		# Opacity change between steps while fading out. (default 0.03).
+fade-in-step = 0.1;		# Opacity change between steps while fading in. (default 0.028).
+fade-out-step = 0.1;		# Opacity change between steps while fading out. (default 0.03).
 # no-fading-openclose = true;	# Fade windows in/out when opening/closing.
 
 # Other
@@ -36,6 +40,10 @@ fade-out-step = 0.01;		# Opacity change between steps while fading out. (default
 mark-wmwin-focused = true;	# Try to detect WM windows and mark them as active.
 mark-ovredir-focused = true;
 detect-rounded-corners = true;
+
+# inactive-opacity = 0.8;
+inactive-dim = 0.15;
+
 
 # Window type settings
 # wintypes:
