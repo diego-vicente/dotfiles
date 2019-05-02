@@ -108,9 +108,9 @@ bindsym $mod+minus move scratchpad
 bindsym $mod+equal scratchpad show
 
 # class                 border   backgr.  text    indicator child_border
-client.focused          #3b4252  #3b4252  #eceff4 #434c5e   #2e3440
-client.focused_inactive #3b4252  #3b4252  #eceff4 #434c5e   #2e3440
-client.unfocused        #3b4252  #3b4252  #eceff4 #434c5e   #2e3440
+client.focused          #5e81ac  #5e81ac  #eceff4 #81a1c1   #5e81ac
+client.focused_inactive #4c566a  #4c566a  #eceff4 #5c667a   #4c566a
+client.unfocused        #4c566a  #4c566a  #eceff4 #5c667a   #4c566a
 client.urgent           #bf616a  #bf616a  #2e3440 #d08770   #bf616a
 client.placeholder      #000000  #0c0c0c  #eceff4 #000000   #0c0c0c
 
@@ -250,7 +250,7 @@ for_window [class="(?i)mpv"] floating enable
 
 # gaps
 
-for_window [class="^.*"] border pixel 5
+for_window [class="^.*"] border pixel 4
 
 gaps inner 20
 gaps outer 7
@@ -317,7 +317,7 @@ for_window [class="Emacs" title="\*Emacs Anywhere\*"] floating enable
 exec --no-startup-id emacsclient -e "(set-up-i3)"
 
 # set wallpaper
-exec_always --no-startup-id hsetroot -solid "#4c566a"
+exec_always --no-startup-id hsetroot -solid "#404552"
 
 # otpimal split
 bindsym $mod+Shift+s exec /home/dvicente/dotfiles/scripts/split-optimal.sh
