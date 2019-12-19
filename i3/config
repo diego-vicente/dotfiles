@@ -302,8 +302,8 @@ bindsym $mod+Shift+bracketright move workspace to output right
 bindsym $mod+Shift+x exec --no-startup-id ~/dotfiles/scripts/lock-and-blur.sh
 
 # open terminal
-bindsym $mod+t exec --no-startup-id xfce4-terminal
-bindsym $mod+Shift+t exec --no-startup-id emacsclient -c -e "(eshell (universal-argument))"
+bindsym $mod+t exec --no-startup-id emacsclient -c -e "(vterm)"
+bindsym $mod+Shift+t exec --no-startup-id xfce4-terminal
 
 # open emacs anywhere
 bindsym $mod+Shift+e exec ~/.emacs_anywhere/bin/run
