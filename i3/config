@@ -326,3 +326,6 @@ bindsym $mod+Shift+Return exec /home/dvicente/dotfiles/scripts/split-optimal.sh 
 # exec --no-startup-id compton --config ~/.config/compton.conf
 
 exec_always --no-startup-id ~/dotfiles/scripts/fix-keyboard.sh
+
+# Run xbindkeys to disable middle-click paste
+exec xbindkeys
