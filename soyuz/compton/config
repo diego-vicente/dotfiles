@@ -23,9 +23,12 @@ shadow = false;			# Enabled client-side shadows on windows.
 #frame-opacity = 0.8;			# Opacity of window titlebars and borders. (0.1 - 1.0)
 # inactive-opacity-override = true;	# Inactive opacity set by 'inactive-opacity' overrides value of _NET_WM_OPACITY.
 
+backend = "glx";
+glx-no-stencil = true;
+
 refresh-rate = 0;
-sw-opti = false;
-vsync = true;
+# sw-opti = false;
+vsync = "opengl";
 dbe = false;
 
 # Fading
@@ -41,7 +44,7 @@ mark-wmwin-focused = true;	# Try to detect WM windows and mark them as active.
 mark-ovredir-focused = true;
 detect-rounded-corners = true;
 
-inactive-opacity = 0.7;
+# inactive-opacity = 0.7;
 # inactive-dim = 0.4;
 
 

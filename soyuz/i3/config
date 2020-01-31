@@ -319,9 +319,8 @@ exec --no-startup-id emacsclient -e "(set-up-i3)"
 # set wallpaper
 exec_always --no-startup-id hsetroot -solid "#404552"
 
-# exec --no-startup-id compton --config ~/.config/compton.conf
+# start the compositor
+exec --no-startup-id compton --config ~/.config/compton.conf
 
+# ensure that the keyboard is properly configured
 exec_always --no-startup-id ~/dotfiles/scripts/fix-keyboard.sh
-
-# Run xbindkeys to disable middle-click paste
-exec xbindkeys
