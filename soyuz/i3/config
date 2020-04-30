@@ -289,6 +289,24 @@ mode "$mode_monitor_toggle" {
     bindsym Return mode "default"
 }
 
+# set fast audio io switch
+# In order to expand the scripts, it is possible to list the sinks and sources
+# used in them using `pacmd list-{sources|sinks}`
+
+set $mode_audio_toggle Select audio setup: [l]aptop, [h]eadphones, [m]onitor
+
+bindsym $mod+Shift+a mode "$mode_audio_toggle"
+
+mode "$mode_audio_toggle" {
+     bindsym l exec --no-startup-id ~/dotfiles/scripts/set-laptop-audio.sh; mode "default"
+     bindsym h exec --no-startup-id ~/dotfiles/scripts/set-headphones-audio.sh; mode "default"
+     bindsym m exec --no-startup-id ~/dotfiles/scripts/set-home-audio.sh; mode "default"
+
+     bindsym Escape mode "default"
+     bindsym Return mode "default"
+}
+
+
 # move workspace to left and right monitors
 bindsym $mod+Shift+bracketleft move workspace to output up
 bindsym $mod+Shift+bracketright move workspace to output right
