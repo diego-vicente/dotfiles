@@ -26,9 +26,9 @@ font pango:Iosevka 10
 
 # use these keys for focus, movement, and resize directions when reaching for
 # the arrows is not convenient
-set $up i
-set $down k
-set $left j
+set $up k
+set $down j
+set $left h
 set $right l
 
 set $mod Mod4
@@ -276,17 +276,17 @@ mode "$mode_gaps_toggle" {
 
 # set multi monitor support
 
-set $mode_monitor_toggle Screen layout: [w]ork, [h]ome, [s]imple
+set $mode_screen_toggle Screen layout: [w]ork, [h]ome, [s]imple
 
-bindsym $mod+Shift+m mode "$mode_monitor_toggle"
+bindsym $mod+Shift+s mode "$mode_screen_toggle"
 
-mode "$mode_monitor_toggle" {
+mode "$mode_screen_toggle" {
      bindsym w exec --no-startup-id ~/dotfiles/scripts/set-work-monitor.sh
      bindsym h exec --no-startup-id ~/dotfiles/scripts/set-home-monitor.sh
      bindsym s exec --no-startup-id ~/dotfiles/scripts/set-single-monitor.sh
 
-    bindsym Escape mode "default"
-    bindsym Return mode "default"
+     bindsym Escape mode "default"
+     bindsym Return mode "default"
 }
 
 # set fast audio io switch
