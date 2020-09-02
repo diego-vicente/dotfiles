@@ -30,7 +30,7 @@ aqua = #8fbcbb
 orange = #d08770
 
 [bar/bar-laptop]
-monitor = ${env:LAPTOP_SCREEN}
+monitor = eDP-1
 width = 100%
 height = 35
 ;offset-x = 1%
@@ -71,7 +71,7 @@ modules-right = pulseaudio memory cpu wlan eth_home eth_work battery temperature
 ; tray-background = #fdf6e3
 
 ;wm-restack = bspwm
-wm-restack = i3
+;wm-restack = i3
 
 ;override-redirect = true
 
@@ -85,7 +85,7 @@ cursor-click = pointer
 cursor-scroll = ns-resize
 
 [bar/bar-hdmi]
-monitor = ${env:HDMI_SCREEN}
+monitor = HDMI-1
 width = 100%
 height = 35
 ;offset-x = 1%
@@ -126,7 +126,7 @@ modules-right = pulseaudio memory cpu wlan eth_home eth_work battery temperature
 ; tray-background = #fdf6e3
 
 ;wm-restack = bspwm
-wm-restack = i3
+;wm-restack = i3
 
 ;override-redirect = true
 
@@ -295,7 +295,7 @@ label = %percentage_used%%
 
 [module/wlan]
 type = internal/network
-interface = ${env:WLAN}
+interface = wlp2s0
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
@@ -321,7 +321,7 @@ ramp-signal-4-foreground = ${colors.green}
 
 [module/eth_home]
 type = internal/network
-interface = ${env:ETH_HOME}
+interface = enp62s0u1u2
 interval = 3.0
 
 format-connected-underline = ${colors.green}
@@ -466,7 +466,7 @@ ramp-capacity-foreground = ${colors.foreground-alt}
 [module/temperature]
 type = internal/temperature
 thermal-zone = 0
-hwmon-path = ${env:TEMP_SENSOR}
+hwmon-path = /sys/devices/platform/coretemp.0/hwmon/hwmon5/temp1_input
 warn-temperature = 80
 
 format = <ramp> <label>

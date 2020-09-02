@@ -26,9 +26,9 @@ font pango:Iosevka 10
 
 # use these keys for focus, movement, and resize directions when reaching for
 # the arrows is not convenient
-set $up i
-set $down k
-set $left j
+set $up k
+set $down j
+set $left h
 set $right l
 
 set $mod Mod4
@@ -38,7 +38,7 @@ set $mod Mod4
 floating_modifier $mod
 
 # start a emacsclient (and a server, if needed)
-bindsym $mod+Return exec emacsclient --socket-name=emacsd-dvicente -c
+bindsym $mod+Return exec emacsclient -c
 
 # kill focused window
 bindsym $mod+q kill
@@ -75,10 +75,10 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+h split h
+bindsym $mod+i split h
 
 # split in vertical orientation
-bindsym $mod+v split v
+bindsym $mod+o split v
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -217,9 +217,12 @@ exec_always --no-startup-id $HOME/dotfiles/scripts/start-polybar.sh
 bindsym XF86MonBrightnessDown exec xbacklight -5
 bindsym XF86MonBrightnessUp exec xbacklight +5
 
-bindsym XF86AudioRaiseVolume exec --no-startup-id pulsemixer --change-volume +5
-bindsym XF86AudioLowerVolume exec --no-startup-id pulsemixer --change-volume -5
-bindsym XF86AudioMute exec --no-startup-id pulsemixer --toggle-mute
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-volume 0 0%
+# bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 5%+
+# bindsym XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 5%-
+# bindsym XF86AudioMute exec --no-startup-id amixer -D pulse sset Master toggle
 
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
@@ -227,7 +230,7 @@ bindsym XF86AudioPrev exec playerctl previous
 
 bindsym $mod+Shift+Print exec maim -s --format=png /dev/stdout | xclip -selection clipboard -t image/png -i
 
-# exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "libinput Tapping Enabled" 1
+exec --no-startup-id xinput set-prop "SynPS/2 Synaptics TouchPad" "libinput Tapping Enabled" 1
 
 # YouTube Picture in Picture using floating windows and mpv
 
@@ -274,18 +277,36 @@ mode "$mode_gaps_toggle" {
 
 # set multi monitor support
 
-set $mode_monitor_toggle Screen layout: [w]ork, [h]ome, [s]imple
+set $mode_screen_toggle Screen layout: [w]ork, [h]ome, [s]imple
 
-bindsym $mod+Shift+m mode "$mode_monitor_toggle"
+bindsym $mod+Shift+s mode "$mode_screen_toggle"
 
-mode "$mode_monitor_toggle" {
+mode "$mode_screen_toggle" {
      bindsym w exec --no-startup-id ~/dotfiles/scripts/set-work-monitor.sh
      bindsym h exec --no-startup-id ~/dotfiles/scripts/set-home-monitor.sh
      bindsym s exec --no-startup-id ~/dotfiles/scripts/set-single-monitor.sh
 
-    bindsym Escape mode "default"
-    bindsym Return mode "default"
+     bindsym Escape mode "default"
+     bindsym Return mode "default"
 }
+
+# set fast audio io switch
+# In order to expand the scripts, it is possible to list the sinks and sources
+# used in them using `pacmd list-{sources|sinks}`
+
+set $mode_audio_toggle Select audio setup: [l]aptop, [h]eadphones, [m]onitor
+
+bindsym $mod+Shift+a mode "$mode_audio_toggle"
+
+mode "$mode_audio_toggle" {
+     bindsym l exec --no-startup-id ~/dotfiles/scripts/set-laptop-audio.sh; mode "default"
+     bindsym h exec --no-startup-id ~/dotfiles/scripts/set-headphones-audio.sh; mode "default"
+     bindsym m exec --no-startup-id ~/dotfiles/scripts/set-home-audio.sh; mode "default"
+
+     bindsym Escape mode "default"
+     bindsym Return mode "default"
+}
+
 
 # move workspace to left and right monitors
 bindsym $mod+Shift+bracketleft move workspace to output up
@@ -300,7 +321,7 @@ bindsym $mod+Shift+bracketright move workspace to output right
 bindsym $mod+Shift+x exec --no-startup-id ~/dotfiles/scripts/lock-and-blur.sh
 
 # open terminal
-bindsym $mod+t exec --no-startup-id emacsclient --socket-name=emacsd-dvicente -c -e "(vterm)"
+bindsym $mod+t exec --no-startup-id emacsclient -c -e "(vterm)"
 bindsym $mod+Shift+t exec --no-startup-id urxvt
 
 # open emacs anywhere
@@ -317,9 +338,11 @@ exec --no-startup-id emacsclient -e "(set-up-i3)"
 # set wallpaper
 exec_always --no-startup-id hsetroot -solid "#404552"
 
-# exec --no-startup-id compton --config ~/.config/compton.conf
+# start the compositor
+exec --no-startup-id compton --config ~/.config/compton.conf
 
+# ensure that the keyboard is properly configured
 exec_always --no-startup-id ~/dotfiles/scripts/fix-keyboard.sh
 
-# Run xbindkeys to disable middle-click paste
-exec xbindkeys
+# make sure that the polybar service is able to find the socket by restarting it
+exec_always --no-startup-id systemctl --user restart polybar
