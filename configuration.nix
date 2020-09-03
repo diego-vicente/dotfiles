@@ -58,6 +58,9 @@ in
   # Set your time zone.
   time.timeZone = "Europe/Madrid";
 
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   # Most of the packages are installed via home-manager to be used as well in
@@ -74,6 +77,8 @@ in
     # Filesystem and compression utilities
     ntfs3g
     unzip
+    # Scripting notifications utility
+    libnotify
   ];
 
   # Enable GnuPG. For now, it does not control the SSH identities.
@@ -137,142 +142,7 @@ in
   };
 
   # home-manager configuration
-  home-manager.users.dvicente = { pkgs, ... }: {
-    # home.sessionVariables = {
-    #   XDG_CONFIG_HOME = "$HOME/.config";
-    # };
-    xdg.enable = true;
-
-    # TODO: include the modern tools in the declaration
-    home.packages = with pkgs; [
-      git wget curl rofi rxvt-unicode firefox vim ripgrep ranger
-    ];
-
-    programs.bash.enable = true;
-
-    # TODO: investigate the configuration possibilities
-    programs.firefox = {
-      enable = true;
-    };
-
-    # Enable and configure the git user
-    programs.git = {
-      enable = true;
-      userName = "Diego Vicente";
-      userEmail = "mail@diego.codes";
-    };
-
-    # Emacs configuration
-    programs.emacs = {
-      enable = true;
-      extraPackages = epkgs: [ epkgs.emacs-libvterm ];
-    };
-
-    services.emacs = {
-      enable = true;
-    };
-
-    home.file.".doom.d" = {
-      source = /home/dvicente/etc/dvm-emacs;
-      recursive = true;
-      onChange = builtins.readFile /home/dvicente/etc/dvm-emacs/bin/reload;
-    };
-
-    # Configure notification using dunst
-    services.dunst = {
-      enable = true;
-      settings = {
-        global = {
-          follow = "mouse";
-          geometry = "300x5-30+20";
-          shrink = "no";
-          transparency = 0;
-          notification_height = 0;
-          separator_height = 2;
-          padding = 8;
-          horizontal_padding = 8;
-          frame_width = 3;
-          frame_color = "#aaaaaa";
-          separator_color = "frame";
-          sort = "yes";
-          idle_threshold = 120;
-          font = "Iosevka 11";
-          line_height = 0;
-          format = "<b>%s</b>\n%b";
-          alignment = "left";
-          show_age_threshold = 60;
-          stack_duplicates = true;
-          hide_duplicate_count = false;
-          show_indicators = "yes";
-          icon_position = "off";
-          sticky_history = "yes";
-          history_length = 20;
-        };
-        urgency_low = {
-          background = "#282828";
-          foreground = "#fdf4c1";
-          frame_color = "#fdf4c1";
-          timeout = 10;
-        };
-        urgency_normal = {
-          background = "#282828";
-          foreground = "#fdf4c1";
-          frame_color = "#fabd2f";
-          timeout = 10;
-        };
-        urgency_critical = {
-          background = "#282828";
-          foreground = "#fdf4c1";
-          frame_color = "#fb4934";
-          timeout = 0;
-        };
-      };
-    };
-
-    # Configure rofi as the main launcher
-    programs.rofi = {
-      enable = true;
-      theme = ./vostok/rofi/nord.rasi;
-      font = "Iosevka 11";
-      extraConfig = ''rofi.display-drun: Open'';
-    };
-
-    # Use Picom as compositor (mainly to prevent screen tearing)
-    services.picom = {
-      enable = true;
-      shadow = false;
-      vSync = true;
-      fade = true;
-      fadeDelta = 5;
-      fadeSteps = [ "0.1" "0.1" ];
-    };
-
-    # Use polybar in i3
-    services.polybar = {
-      enable = true;
-      package = with pkgs; polybar.override {
-        i3Support = true;
-      };
-      config = ./vostok/polybar/config;
-      script = ''
-        PATH=$PATH:${pkgs.i3} polybar bar-laptop &
-        PATH=$PATH:${pkgs.i3} polybar bar-hdmi &
-      '';
-    };
-
-    # Set up other configuration files
-    xdg.configFile = {
-      "i3/config".source = ./vostok/i3/config;
-      # "rofi/" = {
-      #   source = ./vostok/rofi;
-      #   recursive = true;
-      # };
-    };
-
-    home.file = {
-      ".Xresources".source = ./vostok/X/Xresources;
-    };
-  };
+  home-manager.users.dvicente = ./home.nix;
 
   fonts = {
     enableFontDir = true;

@@ -1,0 +1,9 @@
+.DS_Store
+.idea
+*.log
+tmp/
+
+
+# Ignore everything in the passwords directory but .gpg files
+passwords/*
+!passwords/*.asc

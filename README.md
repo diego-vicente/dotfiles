@@ -24,3 +24,16 @@ configuration locations.
 
 Apart from the configurations, each folder includes a basic `README` where some
 details from the machine and the setup are contained.
+
+## Storing secrets
+
+The `passwords` directory contains a set of GPG files that can be decrypted with
+my private key in order to get the secrets. The files are easy to create and
+read:
+
+```shell
+# To encode a password - use a throwaway file, do not pipe in the password!
+gpg --recipient mail@diego.codes --armor --encrypt passwords/service
+# To get the password from a encrypted file
+gpg --decrypt passwords/service.asc 2> /dev/null
+```
