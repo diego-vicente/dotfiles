@@ -53,7 +53,7 @@
         # TODO: check if the pkg explicit call and output redirection are needed
         password_cmd = "${pkgs.gnupg}/bin/gpg --decrypt ~/etc/dotfiles/passwords/spotify.asc 2> /dev/null";
         bitrate = "320";
-        device_name = "Spotify daemon in vostok";
+        device_name = "Spotifyd@vostok";
       };
     };
   };
@@ -159,6 +159,8 @@
     enable = true;
     package = with pkgs; polybar.override {
       i3Support = true;
+      alsaSupport = true;
+      pulseSupport = true;
     };
     config = ./vostok/polybar/config;
     script = ''

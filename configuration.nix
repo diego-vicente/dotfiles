@@ -113,7 +113,14 @@ in
     windowManager.i3 = {
       enable = true;
       package = pkgs.i3-gaps;
-      extraPackages = with pkgs; [ hsetroot ];
+      extraPackages = with pkgs; [
+        hsetroot
+        xorg.xbacklight
+        xclip
+        playerctl
+        maim
+        imagemagick
+      ];
     };
     # Set the keyboard to US international
     layout = "us";
