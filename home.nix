@@ -6,9 +6,9 @@
 # TODO: generalize the declaration for work/personal machines
 # TODO: move the i3 configuration here?
 {
-  home.sessionVariables = {
-    DOTFILES_DIR = "$HOME/etc/dotfiles";
-  };
+  # home.sessionVariables = {
+  #   DOTFILES_DIR = "$HOME/etc/dotfiles";
+  # };
   xdg.enable = true;
 
   # Allow unfree packages for the user
@@ -27,7 +27,7 @@
     wget
     curl
     ripgrep
-    # zoxide
+    # FIXME: zoxide
     ytop
     ranger
     bat
@@ -37,6 +37,48 @@
     hyperfine
     bandwhich
   ];
+
+
+  programs.mbsync.enable = true;
+  programs.msmtp.enable = true;
+  programs.notmuch = {
+    enable = true;
+    hooks = {
+      preNew = "mbsync --all";
+    };
+  };
+
+  accounts.email.maildirBasePath = "docs/maildir";
+  accounts.email.accounts.personal = {
+    # Identity settings
+    realName = "Diego Vicente";
+    address = "mail@diego.codes";
+    gpg = {
+      key = "05655462B962E44888EAA98627A4876C982E4518";
+      signByDefault = true;
+    };
+    # Configure the server connection details
+    primary = true;
+    userName = "mail@diego.codes";
+    passwordCommand = "${pkgs.gnupg}/bin/gpg --decrypt ~/etc/dotfiles/passwords/mail.asc 2> /dev/null";
+    imap = {
+      host = "imap.migadu.com";
+      port = 993;
+    };
+    smtp = {
+      host = "smtp.migadu.com";
+      port = 465;
+    };
+    # Enable the different services to take care of the mail
+    mbsync = {
+      enable = true;
+      create = "maildir";
+    };
+    msmtp.enable = true;
+    notmuch.enable = true;
+    # getmail.enable = true;
+    # imapnotify.enable = true;
+  };
 
   programs.zsh = {
     enable = true;
@@ -171,7 +213,10 @@
   # Emacs configuration
   programs.emacs = {
     enable = true;
-    extraPackages = epkgs: [ epkgs.emacs-libvterm ];
+    extraPackages = epkgs: [
+      epkgs.emacs-libvterm
+      epkgs.notmuch
+    ];
   };
 
   services.emacs = {
