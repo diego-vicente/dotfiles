@@ -7,3 +7,6 @@ tmp/
 # Ignore everything in the passwords directory but .gpg files
 passwords/*
 !passwords/*.asc
+
+# Ignore any possible files created by nix-rebuild test
+result

@@ -146,6 +146,7 @@ in
     isNormalUser = true;
     hashedPassword = "$6$MfPm2K7n0c$yMVhZX1pU8WS6bZS9PY5H8Ant6YltLnYn7jlOcyzeqHL3q8Gjwy4WeC1SI7EmGqzs15viBpIeJijBgTtUqVO3.";
     extraGroups = [ "wheel" "networkmanager" "input" "video" "audio" ]; # Enable ‘sudo’ for the user.
+    shell = pkgs.zsh;
   };
 
   # home-manager configuration

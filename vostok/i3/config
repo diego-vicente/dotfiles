@@ -174,8 +174,8 @@ bindsym $mod+Shift+bracketright move workspace to output right
 
 bindsym $mod+Shift+x exec --no-startup-id ~/etc/dotfiles/vostok/scripts/lock-and-blur.sh
 
-bindsym $mod+t exec --no-startup-id emacsclient -c -e "(vterm)"
-bindsym $mod+Shift+t exec --no-startup-id urxvt
+bindsym $mod+t exec --no-startup-id WINIT_X11_SCALE_FACTOR=1 alacritty
+bindsym $mod+Shift+t exec --no-startup-id emacsclient -c -e "(vterm)"
 
 exec_always --no-startup-id hsetroot -solid "#404552"
 exec_always --no-startup-id systemctl --user restart polybar
