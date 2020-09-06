@@ -36,17 +36,21 @@
     dust
     hyperfine
     bandwhich
+    # Mail utilities
+    isync
+    msmtp
+    mu
   ];
 
 
   programs.mbsync.enable = true;
-  programs.msmtp.enable = true;
-  programs.notmuch = {
-    enable = true;
-    hooks = {
-      preNew = "mbsync --all";
-    };
-  };
+  # programs.msmtp.enable = true;
+  # programs.notmuch = {
+  #   enable = true;
+  #   hooks = {
+  #     preNew = "mbsync --all";
+  #   };
+  # };
 
   accounts.email.maildirBasePath = "docs/maildir";
   accounts.email.accounts.personal = {
@@ -75,9 +79,47 @@
       create = "maildir";
     };
     msmtp.enable = true;
-    notmuch.enable = true;
+    # notmuch.enable = true;
     # getmail.enable = true;
     # imapnotify.enable = true;
+  };
+
+  systemd.user = {
+    # Define a new service to fetch the mail using systemd
+    services = {
+      mbsync = {
+        Unit = {
+          Description = "Mailbox syncronization";
+          Documentation = [ "man:mbsync(1)" ];
+        };
+        Service = {
+          Type = "oneshot";
+          # TODO: declare relative to accounts.email.maildirBasePath
+          ExecStart = "${pkgs.isync}/bin/mbsync -a && ${pkgs.mu}/bin/mu --maildir=~/docs/maildir/";
+        };
+        Install = {
+          Path = [ "${pkgs.gnupg}/bin" ];
+          After = [ "network-online.target" "gpg-agent.service" ];
+          WantedBy = [ "default.target" ];
+        };
+      };
+    };
+    # Invoke the service once every 2 minutes
+    timers = {
+      mbsync = {
+        Unit = {
+          Description = "Periodical mailbox syncronization";
+          Documentation = [ "man:mailbox(1)" ];
+        };
+        Timer = {
+          OnCalendar = "*:0/2";
+          Persistent = true;
+        };
+        Install = {
+          WantedBy = [ "timers.target" ];
+        };
+      };
+    };
   };
 
   programs.zsh = {
@@ -208,14 +250,11 @@
     userEmail = "mail@diego.codes";
   };
 
-  # TODO: configure accounts.email
-
   # Emacs configuration
   programs.emacs = {
     enable = true;
     extraPackages = epkgs: [
       epkgs.emacs-libvterm
-      epkgs.notmuch
     ];
   };
 
