@@ -66,6 +66,9 @@ in
   # Most of the packages are installed via home-manager to be used as well in
   # non-NixOS machines.
   environment.systemPackages = with pkgs; [
+    # Power management
+    powertop
+    # tlp
     # GPU/PCI utils
     pciutils
     nvidia-offload
@@ -101,6 +104,12 @@ in
   hardware.pulseaudio = {
     enable = true;
     package = pkgs.pulseaudioFull;
+  };
+
+  # Enable TLP for power management
+  services.tlp = {
+    enable = true;
+    # settings = {};
   };
 
   # Enable a basic i3 environment
