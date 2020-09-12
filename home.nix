@@ -5,7 +5,11 @@
 # TODO: split the file in several smaller files
 # TODO: generalize the declaration for work/personal machines
 # TODO: move the i3 configuration here?
-{
+let neuron = (
+    let neuronRev = "6f73e0b66ea78c343d0b0f856d176b74e25ce272"; # 0.6.6.2
+        neuronSrc = builtins.fetchTarball "https://github.com/srid/neuron/archive/${neuronRev}.tar.gz";
+     in import neuronSrc {});
+in {
   # home.sessionVariables = {
   #   DOTFILES_DIR = "$HOME/etc/dotfiles";
   # };
@@ -40,6 +44,8 @@
     isync
     msmtp
     mu
+    # neuron for note-taking
+    neuron
   ];
 
 
@@ -126,7 +132,7 @@
     enable = true;
     enableAutosuggestions = true;
     enableCompletion = true;
-    history.path = "${config.xdg.dataHome}/zsh/zsh_history";
+    history.path = ".zsh_history";
     initExtra = ''
                 eval "$(${pkgs.starship}/bin/starship init zsh)"
                 '';
@@ -301,21 +307,21 @@
         history_length = 20;
       };
       urgency_low = {
-        background = "#282828";
-        foreground = "#fdf4c1";
-        frame_color = "#fdf4c1";
+        background = "#2e3440";
+        foreground = "#eceff4";
+        frame_color = "#8fbcbb";
         timeout = 10;
       };
       urgency_normal = {
-        background = "#282828";
-        foreground = "#fdf4c1";
-        frame_color = "#fabd2f";
+        background = "#2e3440";
+        foreground = "#eceff4";
+        frame_color = "#8fbcbb";
         timeout = 10;
       };
       urgency_critical = {
-        background = "#282828";
-        foreground = "#fdf4c1";
-        frame_color = "#fb4934";
+        background = "#2e3440";
+        foreground = "#eceff4";
+        frame_color = "#bf616a";
         timeout = 0;
       };
     };
@@ -352,6 +358,16 @@
       PATH=$PATH:${pkgs.i3} polybar bar-laptop &
       PATH=$PATH:${pkgs.i3} polybar bar-hdmi &
     '';
+  };
+
+  systemd.user.services.neuron = let
+    zettelDir = "/home/dvicente/docs/neuron/zettelkasten";
+  in {
+    Unit.Description = "Neuron zettelkasten service";
+    Install.WantedBy = [ "graphical-session.target" ];
+    Service = {
+      ExecStart = "${neuron}/bin/neuron -d ${zettelDir} rib -wS";
+    };
   };
 
   # Set up other configuration files
