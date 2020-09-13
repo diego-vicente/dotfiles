@@ -5,10 +5,23 @@
 # TODO: split the file in several smaller files
 # TODO: generalize the declaration for work/personal machines
 # TODO: move the i3 configuration here?
-let neuron = (
-    let neuronRev = "6f73e0b66ea78c343d0b0f856d176b74e25ce272"; # 0.6.6.2
-        neuronSrc = builtins.fetchTarball "https://github.com/srid/neuron/archive/${neuronRev}.tar.gz";
-     in import neuronSrc {});
+let
+  neuron = (
+    let
+      rev = "6f73e0b66ea78c343d0b0f856d176b74e25ce272"; # 0.6.6.2
+      src = builtins.fetchTarball "https://github.com/srid/neuron/archive/${rev}.tar.gz";
+    in
+      import src {}
+  );
+  manix = (
+    let
+      rev = "1272c45ac2b4f07c74702e8bd9417d3bbfcab56b"; # 0.6.1
+      src = builtins.fetchTarball "https://github.com/mlvzk/manix/archive/${rev}.tar.gz";
+    in
+      import src {}
+  );
+
+
 in {
   # home.sessionVariables = {
   #   DOTFILES_DIR = "$HOME/etc/dotfiles";
@@ -44,6 +57,8 @@ in {
     isync
     msmtp
     mu
+    # Nix tooling
+    manix
     # neuron for note-taking
     neuron
   ];
