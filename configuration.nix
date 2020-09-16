@@ -116,22 +116,17 @@ in
   services.xserver = {
     enable = true;
     # videoDrivers = [ "nvidia" ];
-    # No display manager, only i3
-    displayManager.defaultSession = "none+i3";
-    # Set i3 to i3-gaps and include other useful packages
-    windowManager.i3 = {
-      enable = true;
-      package = pkgs.i3-gaps;
-      extraPackages = with pkgs; [
-        hsetroot
-        xorg.xbacklight
-        xclip
-        playerctl
-        maim
-        imagemagick
-      ];
-    };
-    # Set the keyboard to US international
+    # No display manager, only i3 (managed by home-manager)
+    desktopManager.session = [
+      {
+        name = "home-manager";
+        start = ''
+          ${pkgs.runtimeShell} $HOME/.hm-xsession &
+          waitPID=$!
+        '';
+      }
+    ];
+    # # Set the keyboard to US international
     layout = "us";
     xkbVariant = "intl";
     # Swap caps lock to control

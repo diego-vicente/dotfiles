@@ -31,11 +31,33 @@ in {
   # Allow unfree packages for the user
   nixpkgs.config.allowUnfree = true;
 
+  xsession = {
+    enable = true;
+    scriptPath = ".hm-xsession";
+    windowManager.i3 = {
+      enable = true;
+      package = pkgs.i3-gaps;
+      # TODO: migrate all config to nix
+      extraConfig = builtins.readFile ./vostok/i3/config;
+      config = {
+        bars = [];
+        terminal = "alacritty";
+      };
+    };
+  };
+
   home.packages = with pkgs; [
-    # GUI and basic configuration
+    # Basic configuration
     git
     rofi
     vim
+    # GUI and similar
+    hsetroot
+    xorg.xbacklight
+    xclip
+    playerctl
+    maim
+    imagemagick
     # Everyday packages and tools
     firefox
     spotify
@@ -399,11 +421,11 @@ in {
   };
 
   # Set up other configuration files
-  xdg.configFile = {
-    "i3/config".source = ./vostok/i3/config;
-  };
+  # xdg.configFile = {
+  #   "i3/config".source = ./vostok/i3/config;
+  # };
 
-  home.file = {
-    ".Xresources".source = ./vostok/X/Xresources;
-  };
+  # home.file = {
+  #   ".Xresources".source = ./vostok/X/Xresources;
+  # };
 }
