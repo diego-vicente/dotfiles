@@ -20,8 +20,7 @@ let
     in
       import src {}
   );
-
-
+  emacs = pkgs.emacs;
 in {
   # home.sessionVariables = {
   #   DOTFILES_DIR = "$HOME/etc/dotfiles";
@@ -138,7 +137,7 @@ in {
         Service = {
           Type = "oneshot";
           # TODO: declare relative to accounts.email.maildirBasePath
-          ExecStart = "${pkgs.isync}/bin/mbsync -a && ${pkgs.mu}/bin/mu --maildir=~/docs/maildir/";
+          ExecStart = ''${pkgs.isync}/bin/mbsync -a && ${emacs}/bin/emacsclient --eval "(mu4e-update-index)"'';
         };
         Install = {
           Path = [ "${pkgs.gnupg}/bin" ];
@@ -309,6 +308,7 @@ in {
   # Emacs configuration
   programs.emacs = {
     enable = true;
+    package = emacs;
     extraPackages = epkgs: [
       epkgs.emacs-libvterm
     ];
