@@ -1,29 +1,35 @@
 # `dotfiles` - Diego Vicente's config files
 
-This repository contains all the configuration files for the system's basic
-functionalities. The main thought after these configurations is to be symlinked
-in the places where the system is looking for them. The folders at root level
-identify the hostname of the machine they are supposed to configure:
+This repository contains my personal configuration. It is based on [Nix][1],
+[NixOS][2] and [`home-manager`][3] to allow for easier reproducibility and a
+more uniform configuration.
 
-- `vostok`: my personal laptop (Dell XPS 15 9560), which runs Void Linux.
-- `soyuz`: my work laptop (Dell XPS 15 9570), which runs Debian.
+In the past, I tried several configurations based on complicated scripts and
+symlinking that were unrealiable or hard to correctly reproduce. I also enjoy my
+super-customized and personal environment, which was a pain to correctly set up
+for the first time in a new machine or installation. For that reason, I decided
+to climb the steep learning curve of Nix, and port the configuration to it.
 
-Although the configuration currently aims for unified usability and
-look-and-feel, keeping both explicitly different allow me to easily diverge
-some aspects from to another. The first step for the configuration in my
-workflow is:
+
+## Setting up the machine
+
+**Note:** It is still on my to-do list to generalize this configuration to
+multiple machines. Currently, it only supports `vostok`, my daily driver.
+
+Assuming that the GPG key is already present in the directory, setting up the
+machine is as easy as running a rebuild:
 
 ```shell
-ln -s $HOME/utils/dotfiles/$HOSTNAME $HOME/dotfiles
+cd path/to/dotfiles
+# If the machine is new and has not been saved to the repository
+cat /etc/nixos/hardware-configuration.nix > ./hardware-configuration/$HOSTNAME.nix
+# Link the bootstrap file to the system
+sudo rm /etc/nixos/configuration.nix
+sudo ln -s ./configuration.nix /etc/nixos/configuration.nix
+# Let nixos-rebuild do the rest
+sudo nixos-rebuild switch
 ```
 
-That way, the folder `~/dotfiles` contains all the configuration files for that
-specific machine, and I can easily access them when needed. This is absolutely
-not necessary: you can symlink directly from the git repository to the
-configuration locations.
-
-Apart from the configurations, each folder includes a basic `README` where some
-details from the machine and the setup are contained.
 
 ## Storing secrets
 
@@ -37,3 +43,8 @@ gpg --recipient mail@diego.codes --armor --encrypt passwords/service
 # To get the password from a encrypted file
 gpg --decrypt passwords/service.asc 2> /dev/null
 ```
+
+
+[1]: https://nixos.wiki/wiki/Nix
+[2]: https://nixos.org/
+[3]: https://github.com/nix-community/home-manager
