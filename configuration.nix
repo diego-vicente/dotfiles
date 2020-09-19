@@ -12,7 +12,7 @@ in
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      ./hardware-configuration/vostok.nix
       # Include the home-manager channel
       <home-manager/nixos>
     ];
