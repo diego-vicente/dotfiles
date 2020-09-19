@@ -4,7 +4,15 @@ args@{ config, lib, pkgs, ... }:
 # work out:
 # TODO: generalize the declaration for work/personal machines
 let
-  additionalArgs = { emacsPkg = pkgs.emacs; };
+  additionalArgs = {
+    # Some configurations require unstable packages. The default variable, pkgs,
+    # is linked to the stable channel and this one is included only for those
+    # packages that require it
+    unstable = import <nixos-unstable> { config = config.nixpkgs.config; };
+    # Several configs depend on Emacs. This ensure all of them use the same
+    # package and are coupled together
+    emacsPkg = pkgs.emacs;
+  };
   extendArguments = module: import module ( args // additionalArgs );
 in {
   # Enable home-manager to manage the XDG standard

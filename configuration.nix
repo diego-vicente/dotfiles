@@ -26,6 +26,16 @@ in
 
   networking.hostName = "vostok"; # Define your hostname.
 
+  # Allow non-free packages and include the unstable channel
+  nixpkgs.config = {
+    allowUnfree = true;
+    packageOverrides = pkgs: {
+      unstable = import <nixos-unstable> {
+        config = config.nixpkgs.config;
+      };
+    };
+  };
+
   # TODO: NVIDIA PRIME support is to be included in 20.09
   # Enable both GPUs using NVIDIA PRIME (offload mode). It is important to set the
   # correct xserver.videoDrivers as well as using the nvidia-offload script
@@ -57,9 +67,6 @@ in
 
   # Set your time zone.
   time.timeZone = "Europe/Madrid";
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
