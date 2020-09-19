@@ -76,7 +76,8 @@ in
     # Power management
     powertop
     # tlp
-    # GPU/PCI utils
+    # USB/GPU/PCI utils
+    usbutils
     pciutils
     nvidia-offload
     # Thermal inforamtion

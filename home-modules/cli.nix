@@ -1,10 +1,19 @@
 { config, lib, pkgs, ... }:
 
 let
+  # manix is a package to query Nix options and packages from the command line
   manix = (
     let
       rev = "1272c45ac2b4f07c74702e8bd9417d3bbfcab56b"; # 0.6.1
       src = builtins.fetchTarball "https://github.com/mlvzk/manix/archive/${rev}.tar.gz";
+    in
+      import src {}
+  );
+  # comma is a tool to run commands that are not installed in your system
+  comma = (
+    let
+      rev = "4a62ec17e20ce0e738a8e5126b4298a73903b468";
+      src = builtins.fetchTarball "https://github.com/Shopify/comma/archive/${rev}.tar.gz";
     in
       import src {}
   );
@@ -27,6 +36,7 @@ in {
     hyperfine
     bandwhich
     manix
+    comma
   ];
 
   # Enable and configure the git user
