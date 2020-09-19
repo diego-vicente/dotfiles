@@ -19,9 +19,17 @@ in
 
   # Use the systemd-boot EFI boot loader.
   boot = {
-    loader.systemd-boot.enable = true;
+    # loader.systemd-boot.enable = true;
+
     loader.efi.canTouchEfiVariables = true;
-    kernelParams = [ "acpi_backlight=vendor" ];
+
+    loader.grub = {
+      enable = true;
+      device = "nodev";
+      efiSupport = true;
+      configurationLimit = 30;
+      useOSProber = true;
+    };
   };
 
   networking.hostName = "vostok"; # Define your hostname.
