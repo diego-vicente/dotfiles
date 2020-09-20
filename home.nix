@@ -1,10 +1,11 @@
-args@{ config, lib, pkgs, ... }:
+args@{ config, lib, pkgs, hostname, ... }:
 
 # The home-manager configuration for my user. There are still some things to
 # work out:
 # TODO: generalize the declaration for work/personal machines
-let
+with builtins; with lib; let
   additionalArgs = rec {
+    inherit hostname;
     # Some configurations require unstable packages. The default variable, pkgs,
     # is linked to the stable channel and this one is included only for those
     # packages that require it
@@ -13,7 +14,64 @@ let
     # package and are coupled together
     emacsPkg = unstable.emacs;
   };
-  extendArguments = module: import module ( args // additionalArgs );
+  # A list of attribute sets containing the path of each module and a list of
+  # machines it should apply to. This way I can ensure that some modules remain
+  # common to all machines and others are specific to each one, while being all
+  # included in the same configuration.
+  allModules = [
+    {
+      # A general set of CLI tools and settings I use on an everyday basis
+      path = ./home-modules/cli.nix;
+      machines = [ "vostok" ];
+    }
+    {
+      # My GUI desktop configuration: i3 + polybar + rofi (and more)
+      path = ./home-modules/gui.nix;
+      machines = [ "vostok" ];
+    }
+    {
+      # My Emacs (doom-emacs) personal configuration
+      path = ./home-modules/emacs.nix;
+      machines = [ "vostok" ];
+    }
+    {
+      # A basic keyboard layout and variant configuration
+      path = ./home-modules/keyboard.nix;
+      machines = [ "vostok" ];
+    }
+    {
+      # My custom Firefox workflow and aesthetic settings
+      path = ./home-modules/firefox.nix;
+      machines = [ "vostok" ];
+    }
+    {
+      # Neuron is a plaintext note-taking app and server
+      path = ./home-modules/neuron.nix;
+      machines = [ "vostok" ];
+    }
+    {
+      # Different desktop applications that I need from time to time
+      path = ./home-modules/desktop.nix;
+      machines = [ "vostok" ];
+    }
+    {
+      # My personal mail configuration (mbsync + mu)
+      path = ./home-modules/mail.nix;
+      machines = [ "vostok" ];
+    }
+    {
+      # My Spotify (official + spotifyd) setup
+      path = ./home-modules/spotify.nix;
+      machines = [ "vostok" ];
+    }
+    {
+      # Some of the music producing apps and packages
+      path = ./home-modules/music.nix;
+      machines = [ "vostok" ];
+    }
+  ];
+  currentModules = filter (module: elem hostname module.machines) allModules;
+  extendArguments = module: import module.path ( args // additionalArgs );
 in {
   # Enable home-manager to manage the XDG standard
   xdg.enable = true;
@@ -21,21 +79,6 @@ in {
   # Allow unfree packages for the user
   nixpkgs.config.allowUnfree = true;
 
-  # Import all the different modules
-  imports = let
-    modules = [
-      ./home-modules/gui.nix
-      ./home-modules/cli.nix
-      ./home-modules/emacs.nix
-      ./home-modules/keyboard.nix
-      ./home-modules/desktop.nix
-      ./home-modules/mail.nix
-      ./home-modules/firefox.nix
-      ./home-modules/neuron.nix
-      ./home-modules/spotify.nix
-      # TODO: ./home-modules/music.nix
-    ];
-    # Invoke all the modules above with the extended set of arguments to
-    # coordinate them if needed.
-    in map extendArguments modules;
+  # Import the modules that are needed for this machine
+  imports = map extendArguments currentModules;
 }

@@ -36,6 +36,9 @@ in {
     hyperfine
     bandwhich
     manix
+    niv
+    lorri
+    direnv
     comma
   ];
 
@@ -69,4 +72,13 @@ in {
     enableZshIntegration = true;
     # settings = TODO
   };
+
+  # Lorri, direnv and niv are used to generate, activate and pin development
+  # environments.
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
+  services.lorri.enable = true;
 }

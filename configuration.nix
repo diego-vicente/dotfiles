@@ -1,6 +1,8 @@
-{ config, lib, pkgs, ... }:
+args@{ config, lib, pkgs, ... }:
 
 let
+  # TODO: make the hostname be passed from bootstrap
+  hostname = "vostok";
   nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
     export __NV_PRIME_RENDER_OFFLOAD=1
     export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
@@ -30,9 +32,7 @@ in
       configurationLimit = 30;
       useOSProber = true;
     };
-  };
 
-  networking.hostName = "vostok"; # Define your hostname.
 
   # Allow non-free packages and include the unstable channel
   nixpkgs.config = {
@@ -52,6 +52,9 @@ in
   #   intelBusId = "PCI:0:2:0";
   #   nvidiaBusId = "PCI:1:0:0";
   # };
+
+  # Define your hostname.
+  networking.hostName = hostname;
 
   # Networking is managed by NetworkManager
   networking.networkmanager.enable = true;
@@ -170,7 +173,7 @@ in
   };
 
   # home-manager configuration
-  home-manager.users.dvicente = ./home.nix;
+  home-manager.users.dvicente = import ./home.nix (args // { inherit hostname; });
 
   fonts = {
     enableFontDir = true;
