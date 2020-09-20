@@ -25,11 +25,18 @@ cd path/to/dotfiles
 cat /etc/nixos/hardware-configuration.nix > ./hardware-configuration/$HOSTNAME.nix
 # Link the bootstrap file to the system
 sudo rm /etc/nixos/configuration.nix
-sudo ln -s ./configuration.nix /etc/nixos/configuration.nix
-# Let nixos-rebuild do the rest
+sudo ln -s ./boostrap/$HOSTNAME.nix /etc/nixos/configuration.nix
+# Let Nix do the heavy lifting
 sudo nixos-rebuild switch
 ```
 
+On the other hand, if the system is different Unix and the user is managed by
+`home-manager`:
+
+``` shell
+ln -s ./boostrap/$HOSTNAME.nix ~/.config/nixpks/home.nix
+home-manager switch
+```
 
 ## Storing secrets
 
