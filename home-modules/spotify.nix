@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, hostname, ... }:
 
 {
   # Install both the regular, non-free app and the TUI client.
@@ -13,11 +13,9 @@
     settings = {
       global = {
         username = "diegovicente";
-        # TODO: check if the pkg explicit call and output redirection are needed
-        password_cmd = "${pkgs.gnupg}/bin/gpg --decrypt ~/etc/dotfiles/passwords/spotify.asc 2> /dev/null";
+        password_cmd = "${pkgs.gnupg}/bin/gpg --decrypt ${../passwords/spotify.asc}";
         bitrate = "320";
-        # TODO: generalize to use the machine hostname
-        device_name = "Spotifyd@vostok";
+        device_name = "Spotifyd@${hostname}";
       };
     };
   };

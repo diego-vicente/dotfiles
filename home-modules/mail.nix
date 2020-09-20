@@ -21,7 +21,7 @@
     # Configure the server connection details
     primary = true;
     userName = "mail@diego.codes";
-    passwordCommand = "${pkgs.gnupg}/bin/gpg --decrypt ~/etc/dotfiles/passwords/mail.asc 2> /dev/null";
+    passwordCommand = "${pkgs.gnupg}/bin/gpg --decrypt ${../passwords/mail.asc}";
     imap = {
       host = "imap.migadu.com";
       port = 993;
@@ -50,7 +50,6 @@
         };
         Service = {
           Type = "oneshot";
-          # TODO: declare relative to accounts.email.maildirBasePath
           ExecStart = ''${pkgs.isync}/bin/mbsync -a && ${emacsPkg}/bin/emacsclient --eval "(mu4e-update-index)"'';
         };
         Install = {

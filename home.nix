@@ -5,7 +5,6 @@ args@{ config, lib, pkgs, hostname, ... }:
 # TODO: generalize the declaration for work/personal machines
 with builtins; with lib; let
   additionalArgs = rec {
-    inherit hostname;
     # Some configurations require unstable packages. The default variable, pkgs,
     # is linked to the stable channel and this one is included only for those
     # packages that require it

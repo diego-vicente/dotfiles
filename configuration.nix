@@ -31,6 +31,7 @@ in
       useOSProber = true;
     };
 
+  };
 
   # Allow non-free packages and include the unstable channel
   nixpkgs.config = {
