@@ -353,7 +353,7 @@
         ramp-signal-3-foreground = colors.green;
         ramp-signal-4-foreground = colors.green;
       };
-      "module/eth_home" = {
+      "module/eth" = {
         type = "internal/network";
         interface = "enp62s0u1u2";
         interval = 3;
