@@ -232,8 +232,253 @@
       alsaSupport = true;
       pulseSupport = true;
     };
-    # TODO: migrate the polybar configuration to nix
-    config = ../assets/polybar.conf;
+    config = let
+      colors = {
+        foreground-alt = "#d8dee9";
+        foreground = "#eceff4";
+        background-alt = "#4c566a";
+        background = "#2e3440";
+        green = "#a3be8c";
+        red = "#bf616a";
+        yellow = "#ebcb8b";
+        blue = "#88c0d0";
+        purple = "#b48ead";
+        aqua = "#8fbcbb";
+        orange = "#d08770";
+      };
+      bar = {
+        width = "100%";
+        height = 35;
+        fixed-center = false;
+        background = colors.background;
+        foreground = colors.foreground;
+        line-size = 3;
+        line-color = colors.red;
+        padding-left = 5;
+        padding-right = 5;
+        module-margin-left = 1;
+        module-margin-right = 2;
+        font-0 = "Iosevka:pixelsize=11;1";
+        font-1 = "unifont:fontformat=truetype:size=8:antialias=false;0";
+        font-2 = "Font Awesome 5 Free:style=Regular:pixelsize=10;1";
+        font-3 = "Font Awesome 5 Free:style=Solid:pixelsize=10;1";
+        font-4 = "Font Awesome 5 Brands:pixelsize=10;1";
+        font-5 = "Wuncon Siji:size=10; 1";
+        modules-left = [ "i3" ];
+        modules-center = [];
+        modules-right = [
+          "pulseaudio"
+          "memory"
+          "cpu"
+          "wlan"
+          "eth"
+          "battery"
+          "temperature"
+          "date"
+          "powermenu"
+        ];
+        cursor-click = "pointer";
+        cursor-scroll = "ns-resize";
+      };
+    in {
+      "bar/bar-laptop" = bar // { monitor = "eDP-1"; };
+      "bar/bar-hdmi" = bar // { monitor = "HDMI-1"; };
+      "module/i3" = {
+        type = "internal/i3";
+        format = "<label-state> <label-mode>";
+        ws-icon-0 = "1: ;";
+        ws-icon-1 = "2: ;";
+        ws-icon-2 = "3: ;";
+        ws-icon-3 = "4: ;";
+        ws-icon-4 = "5: ;";
+        ws-icon-5 = "6: ;";
+        ws-icon-6 = "7: ;";
+        ws-icon-7 = "8: ;";
+        ws-icon-8 = "9: ;";
+        ws-icon-9 = "10: ;";
+        index-sort = true;
+        wrapping-scroll = false;
+        pin-workspaces = true;
+        label-mode-padding = 2;
+        label-mode-foreground = colors.background;
+        label-mode-background = colors.blue;
+        label-focused = "%index%: %icon%";
+        label-focused-background = colors.background-alt;
+        label-focused-underline = colors.blue;
+        label-focused-padding = 2;
+        label-unfocused = "%index%: %icon%";
+        label-unfocused-padding = 2;
+        label-visible = "%index%: %icon%";
+        label-visible-background = colors.background-alt;
+        label-visible-underline = colors.blue;
+        label-visible-padding = 2;
+        label-urgent = "%index%: %icon%";
+        label-urgent-background = colors.red;
+        label-urgent-padding = 2;
+      };
+      "module/cpu" = {
+        type = "internal/cpu";
+        interval = 2;
+        format-prefix = " ";
+        format-prefix-foreground = colors.foreground-alt;
+        format-underline = colors.aqua;
+        label = "%percentage:2%%";
+      };
+      "module/memory" = {
+        type = "internal/memory";
+        interval = 2;
+        format-prefix = " ";
+        format-prefix-foreground = colors.foreground-alt;
+        format-underline = colors.purple;
+        label = "%percentage_used%%";
+      };
+      "module/wlan" = {
+        type = "internal/network";
+        interface = "wlp2s0";
+        interval = 3;
+        format-connected = "<ramp-signal> <label-connected>";
+        format-connected-underline = colors.green;
+        label-connected = "%essid%";
+        format-disconnected = "";
+        ramp-signal-0 = "";
+        ramp-signal-1 = "";
+        ramp-signal-2 = "";
+        ramp-signal-3 = "";
+        ramp-signal-4 = "";
+        ramp-signal-0-foreground = colors.red;
+        ramp-signal-1-foreground = colors.yellow;
+        ramp-signal-2-foreground = colors.yellow;
+        ramp-signal-3-foreground = colors.green;
+        ramp-signal-4-foreground = colors.green;
+      };
+      "module/eth_home" = {
+        type = "internal/network";
+        interface = "enp62s0u1u2";
+        interval = 3;
+        format-connected-underline = colors.green;
+        format-connected-prefix = " ";
+        format-connected-prefix-foreground = colors.foreground-alt;
+        label-connected = "%local_ip%";
+        format-disconnected = "";
+        accumulate-stats = true;
+      };
+      "module/date" = {
+        type = "internal/date";
+        interval = 5;
+        date = "";
+        date-alt = " %Y-%m-%d";
+        time = "%H:%M";
+        time-alt = "%H:%M:%S";
+        format-prefix = "";
+        format-prefix-foreground = colors.foreground-alt;
+        format-underline = colors.blue;
+        label = "%date% %time%";
+      };
+      "module/pulseaudio" = {
+        type = "internal/pulseaudio";
+        format-volume = "<label-volume> <bar-volume>";
+        label-volume = " %percentage%%";
+        label-volume-foreground = colors.foreground;
+        label-muted = " muted";
+        label-muted-foreground = "#666";
+        bar-volume-width = 10;
+        bar-volume-foreground-0 = colors.green;
+        bar-volume-foreground-1 = colors.green;
+        bar-volume-foreground-2 = colors.green;
+        bar-volume-foreground-3 = colors.green;
+        bar-volume-foreground-4 = colors.green;
+        bar-volume-foreground-5 = colors.orange;
+        bar-volume-foreground-6 = colors.red;
+        bar-volume-gradient = false;
+        bar-volume-indicator = "|";
+        bar-volume-indicator-font = 2;
+        bar-volume-fill = "▊";
+        bar-volume-fill-font = 2;
+        bar-volume-empty = "─";
+        bar-volume-empty-font = 2;
+        bar-volume-empty-foreground = colors.foreground-alt;
+      };
+      "module/battery" = {
+        type = "internal/battery";
+        battery = "BAT0";
+        adapter = "AC";
+        full-at = 98;
+        format-charging = "<label-charging>";
+        format-charging-foreground = colors.foreground-alt;
+        format-charging-underline = colors.yellow;
+        format-charging-prefix = " ";
+        format-charging-prefix-foreground = colors.foreground-alt;
+        format-discharging = "<ramp-capacity> <label-discharging>";
+        format-discharging-underline = colors.yellow;
+        format-full-prefix = " ";
+        format-full-prefix-foreground = colors.foreground-alt;
+        format-full-underline = colors.yellow;
+        ramp-capacity-0 = "";
+        ramp-capacity-1 = "";
+        ramp-capacity-2 = "";
+        ramp-capacity-3 = "";
+        ramp-capacity-4 = "";
+        ramp-capacity-foreground = colors.foreground-alt;
+      };
+      "module/temperature" = {
+        type = "internal/temperature";
+        thermal-zone = 0;
+        hwmon-path = "/sys/devices/platform/coretemp.0/hwmon/hwmon5/temp1_input";
+        warn-temperature = 80;
+        format = "<ramp> <label>";
+        format-underline = colors.red;
+        format-warn = "<ramp> <label-warn>";
+        format-warn-underline = colors.red;
+        label = "%temperature-c%";
+        label-warn = "%temperature-c%";
+        label-warn-foreground = colors.red;
+        ramp-0 = "";
+        ramp-1 = "";
+        ramp-2 = "";
+        ramp-3 = "";
+        ramp-4 = "";
+        ramp-5 = "";
+        ramp-6 = "";
+        ramp-7 = "";
+        ramp-foreground = colors.foreground-alt;
+      };
+      "module/powermenu" = {
+        type = "custom/menu";
+        expand-right = true;
+        format-spacing = 1;
+        label-open = "";
+        label-open-foreground = colors.red;
+        label-close = " cancel";
+        label-close-foreground = colors.red;
+        label-separator = "|";
+        label-separator-foreground = colors.foreground-alt;
+        menu-0-0 = "reboot";
+        menu-0-0-exec = "menu-open-1";
+        menu-0-1 = "power off";
+        menu-0-1-exec = "menu-open-2";
+        menu-0-2 = "suspend";
+        menu-0-2-exec = "menu-open-3";
+        menu-1-0 = "cancel";
+        menu-1-0-exec = "menu-open-0";
+        menu-1-1 = "reboot";
+        menu-1-1-exec = "reboot";
+        menu-2-0 = "power off";
+        menu-2-0-exec = "poweroff";
+        menu-2-1 = "cancel";
+        menu-2-1-exec = "menu-open-0";
+        menu-3-0 = "suspend";
+        menu-3-0-exec = "${../bin/lock-and-blur.sh} && systemctl suspend";
+        menu-3-1 = "cancel";
+        menu-3-1-exec = "menu-open-0";
+      };
+      "settings" = {
+        screenchange-reload = true;
+      };
+      "global/wm" = {
+        margin-top = 5;
+        margin-bottom = 5;
+      };
+    };
     script = ''
       PATH=$PATH:${pkgs.i3} polybar bar-laptop &
       PATH=$PATH:${pkgs.i3} polybar bar-hdmi &
