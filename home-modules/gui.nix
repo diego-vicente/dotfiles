@@ -141,6 +141,8 @@
             "${mod}+Shift+8" = "move container to workspace ${ws8}";
             "${mod}+Shift+9" = "move container to workspace ${ws9}";
             "${mod}+Shift+0" = "move container to workspace ${ws0}";
+            "${mod}+Shift+bracketleft" = "move workspace to output up";
+            "${mod}+Shift+bracketright" = "move workspace to output right";
             "${mod}+Shift+r" = "restart";
             "XF86MonBrightnessDown" = "exec ${pkgs.xorg.xbacklight}/bin/xbacklight -5";
             "XF86MonBrightnessUp" = "exec ${pkgs.xorg.xbacklight}/bin/xbacklight +5";
