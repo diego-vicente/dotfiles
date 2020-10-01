@@ -1,6 +1,40 @@
-{ config, lib, pkgs, emacsPkg, ... }:
+{ config, lib, pkgs, emacsPkg, hostSpecific, ... }:
 
-{
+let
+  # audioSettings is a set of attributes with some scripts designed to change
+  # the audio to some predefined setups (laptop, HDMI, headphones) using the
+  # pactl sink and port interfaces. These names are host specific.
+  audioSettings = let
+    generateScript = name: setting:
+      pkgs.writeShellScriptBin name ''
+        pactl set-card-profile 0 output:${setting.output.profile}+input:${setting.input.profile}
+        pactl set-sink-port alsa_output.pci-0000_00_1f.3.${setting.output.profile} ${setting.output.port}
+        pactl set-source-port alsa_input.pci-0000_00_1f.3.${setting.input.profile} ${setting.input.port}
+      '';
+  in {
+    home = generateScript "set-home-audio" hostSpecific.audio.hdmi;
+    laptop = generateScript "set-laptop-audio" hostSpecific.audio.laptop;
+    headphones = generateScript "set-headphones-audio" hostSpecific.audio.headphones;
+  };
+  # videoSettings is a set of attribute containing some scripts designed to
+  # change the video output of the system. Most of the output names and
+  # arguments are host specific. It also depends on the audioSettings set to
+  # change the audio accordingly
+  videoSettings = with hostSpecific.video; {
+    home = pkgs.writeShellScriptBin "set-home-video" ''
+      xrandr --output ${hdmi.output} --primary ${hdmi.xrandrArgs} --pos 0x0 \
+             --output ${laptop.output} ${laptop.xrandrArgs} --pos 2560x576
+      ${audioSettings.home}/bin/set-home-audio
+      i3-msg restart
+    '';
+    laptop = pkgs.writeShellScriptBin "set-laptop-video" ''
+      xrandr --output ${laptop.output} --primary ${laptop.xrandrArgs}
+      xrandr --output ${hdmi.output} --off
+      ${audioSettings.laptop}/bin/set-laptop-audio
+      i3-msg restart
+    '';
+  };
+in {
   # Install all GUI related packages
   home.packages = with pkgs; [
     # GUI and similar
@@ -11,7 +45,10 @@
     playerctl
     maim
     imagemagick
-  ];
+  ]
+  # Video and audio scripts
+  ++ lib.attrValues videoSettings
+  ++ lib.attrValues audioSettings;
 
   # Define the X session to use i3 and the defined configuration in the
   # repository. This session is saved in a custom script that allows to invoke
@@ -68,21 +105,20 @@
               };
             };
             toggleScreen = {
-              message = "Screen layout: single [1], home [2], work [3]";
+              message = "Screen layout: single [1], home [2]";
               definition = {
-                "1" = "exec --no-startup-id ${../bin/set-single-monitor.sh}";
-                "2" = "exec --no-startup-id ${../bin/set-home-monitor.sh}";
-                "3" = "exec --no-startup-id ${../bin/set-work-monitor.sh}";
+                "1" = "exec --no-startup-id ${videoSettings.laptop}/bin/set-laptop-video";
+                "2" = "exec --no-startup-id ${videoSettings.home}/bin/set-home-video";
                 "Return" = "mode default";
                 "Escape" = "mode default";
               };
             };
             toggleAudio = {
               message = "Audio output: laptop [1], HDMI [2], headphones [3]";
-              definition = {
-                "1" = "exec --no-startup-id ${../bin/set-laptop-audio.sh}";
-                "2" = "exec --no-startup-id ${../bin/set-home-audio.sh}";
-                "3" = "exec --no-startup-id ${../bin/set-headphones-audio.sh}";
+              definition = with hostSpecific.audio; {
+                "1" = "exec --no-startup-id ${audioSettings.laptop}/bin/set-laptop-audio";
+                "2" = "exec --no-startup-id ${audioSettings.home}/bin/set-home-audio";
+                "3" = "exec --no-startup-id ${audioSettings.headphones}/bin/set-headphones-audio";
                 "Return" = "mode default";
                 "Escape" = "mode default";
               };
@@ -283,8 +319,8 @@
         cursor-scroll = "ns-resize";
       };
     in {
-      "bar/bar-laptop" = bar // { monitor = "eDP-1"; };
-      "bar/bar-hdmi" = bar // { monitor = "HDMI-1"; };
+      "bar/bar-laptop" = bar // { monitor = hostSpecific.video.laptop.output; };
+      "bar/bar-hdmi" = bar // { monitor = hostSpecific.video.hdmi.output; };
       "module/i3" = {
         type = "internal/i3";
         format = "<label-state> <label-mode>";
@@ -336,7 +372,7 @@
       };
       "module/wlan" = {
         type = "internal/network";
-        interface = "wlp2s0";
+        interface = hostSpecific.network.wireless;
         interval = 3;
         format-connected = "<ramp-signal> <label-connected>";
         format-connected-underline = colors.green;
@@ -355,7 +391,7 @@
       };
       "module/eth" = {
         type = "internal/network";
-        interface = "enp62s0u1u2";
+        interface = hostSpecific.network.ethernet;
         interval = 3;
         format-connected-underline = colors.green;
         format-connected-prefix = " ";
@@ -425,7 +461,7 @@
       "module/temperature" = {
         type = "internal/temperature";
         thermal-zone = 0;
-        hwmon-path = "/sys/devices/platform/coretemp.0/hwmon/hwmon5/temp1_input";
+        hwmon-path = hostSpecific.temperature.package;
         warn-temperature = 80;
         format = "<ramp> <label>";
         format-underline = colors.red;
