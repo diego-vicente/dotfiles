@@ -21,4 +21,6 @@ in {
       ExecStart = "${neuron}/bin/neuron -d ${zettelDir} rib -wS";
     };
   };
+
+  home.packages = [ neuron ];
 }
