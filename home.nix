@@ -21,32 +21,32 @@ with builtins; with lib; let
     {
       # A general set of CLI tools and settings I use on an everyday basis
       path = ./home-modules/cli.nix;
-      machines = [ "vostok" ];
+      machines = [ "vostok" "soyuz" ];
     }
     {
       # My GUI desktop configuration: i3 + polybar + rofi (and more)
       path = ./home-modules/gui.nix;
-      machines = [ "vostok" ];
+      machines = [ "vostok" "soyuz" ];
     }
     {
       # My Emacs (doom-emacs) personal configuration
       path = ./home-modules/emacs.nix;
-      machines = [ "vostok" ];
+      machines = [ "vostok" "soyuz" ];
     }
     {
       # A basic keyboard layout and variant configuration
       path = ./home-modules/keyboard.nix;
-      machines = [ "vostok" ];
+      machines = [ "vostok" "soyuz" ];
     }
     {
       # My custom Firefox workflow and aesthetic settings
       path = ./home-modules/firefox.nix;
-      machines = [ "vostok" ];
+      machines = [ "vostok" "soyuz" ];
     }
     {
       # Neuron is a plaintext note-taking app and server
       path = ./home-modules/neuron.nix;
-      machines = [ "vostok" ];
+      machines = [ "vostok" "soyuz" ];
     }
     {
       # Different desktop applications that I need from time to time
@@ -61,7 +61,7 @@ with builtins; with lib; let
     {
       # My Spotify (official + spotifyd) setup
       path = ./home-modules/spotify.nix;
-      machines = [ "vostok" ];
+      machines = [ "vostok" "soyuz" ];
     }
     {
       # Some of the music producing apps and packages
