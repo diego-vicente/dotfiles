@@ -6,7 +6,7 @@
     enable = true;
     package = emacsPkg;
     extraPackages = epkgs: [
-      epkgs.emacs-libvterm
+      epkgs.vterm
     ];
   };
 

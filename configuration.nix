@@ -31,26 +31,48 @@ in
       useOSProber = true;
     };
 
+    # FIXME: None of these flags work properly yet
+    kernelParams = [
+      # Configure the kernel to use the ACPI controls (Dell XPS 15 9560
+      # specific)
+      "pcie_port_pm=off"
+      "acpi_backlight=vendor"
+      "acpi_osi=Linux"
+      "acpi_osi=!"
+      ''acpi_osi="Windows 2009"''
+      # Enable the DZ60RGB ANSI v2 PCB to be used during boot. Without this flag
+      # the keyboard works fine but there cannot be used to select the boot
+      # method. This fix is not general, but this is the way to infer it:
+      #   1. `0x445a:0x1221` is the vendor and device ID. This will tell which
+      #      device gets affected by the flag. This information is given by the
+      #      `lsusb` command - just remember to add the 0x prefixes!
+      #   2. `0x20000408` is a stack of flags. This is general and probably
+      #      fixes similar problems, searching for it on the internet returns
+      #      plenty examples. The actual flags are:
+      #        #define HID_QUIRK_NOGET 0x00000008
+      #        #define HID_QUIRK_ALWAYS_POLL 0x00000400
+      #        #define HID_QUIRK_NO_INIT_REPORTS 0x20000000
+      "usbhid.quirks=0x445a:0x1221:0x20000408"
+    ];
   };
 
   # Allow non-free packages and include the unstable channel
   nixpkgs.config = {
     allowUnfree = true;
     packageOverrides = pkgs: {
-      unstable = import <nixos-unstable> {
+      unstable = import <nixpkgs-unstable> {
         config = config.nixpkgs.config;
       };
     };
   };
 
-  # TODO: NVIDIA PRIME support is to be included in 20.09
   # Enable both GPUs using NVIDIA PRIME (offload mode). It is important to set the
   # correct xserver.videoDrivers as well as using the nvidia-offload script
-  # hardware.nvidia.prime = {
-  #   offload.enable = true;
-  #   intelBusId = "PCI:0:2:0";
-  #   nvidiaBusId = "PCI:1:0:0";
-  # };
+  hardware.nvidia.prime = {
+    offload.enable = true;
+    intelBusId = "PCI:0:2:0";
+    nvidiaBusId = "PCI:1:0:0";
+  };
 
   # Define your hostname.
   networking.hostName = hostname;
@@ -133,7 +155,7 @@ in
   # Enable a basic i3 environment
   services.xserver = {
     enable = true;
-    # videoDrivers = [ "nvidia" ];
+    videoDrivers = [ "nvidia" ];
     # No display manager, only i3 (managed by home-manager)
     desktopManager.session = [
       {
@@ -190,5 +212,5 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "20.03"; # Did you read the comment?
+  system.stateVersion = "20.09"; # Did you read the comment?
 }
