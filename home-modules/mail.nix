@@ -43,14 +43,14 @@
   systemd.user = {
     # Define a new service to fetch the mail using systemd
     services = {
-      mbsync = {
+      mailsync = {
         Unit = {
-          Description = "Mailbox syncronization";
-          Documentation = [ "man:mbsync(1)" ];
+          Description = "Mail synchronization";
+          Documentation = [ "man:mbsync(1)" "man:mu(1)" "man:emacsclient(1)" ];
         };
         Service = {
           Type = "oneshot";
-          ExecStart = ''${pkgs.isync}/bin/mbsync -a && ${emacsPkg}/bin/emacsclient --eval "(mu4e-update-index)"'';
+          ExecStart = ''${emacsPkg}/bin/emacsclient --eval "(mu4e-update-mail-and-index t)"'';
         };
         Install = {
           Path = [ "${pkgs.gnupg}/bin" ];
@@ -61,10 +61,10 @@
     };
     # Invoke the service once every 2 minutes
     timers = {
-      mbsync = {
+      mailsync = {
         Unit = {
-          Description = "Periodical mailbox syncronization";
-          Documentation = [ "man:mailbox(1)" ];
+          Description = "Periodical mail syncronization";
+          Documentation = [ "man:mbsync(1)" "man:mu(1)" "man:emacsclient(1)" ];
         };
         Timer = {
           OnCalendar = "*:0/2";
