@@ -171,10 +171,11 @@ in
     xkbVariant = "intl";
     # Swap caps lock to control
     xkbOptions = "ctrl:nocaps";
-    # Enable natural scrolling in X
+    # Enable natural scrolling in X (only for touchpads)
     libinput = {
       enable = true;
       naturalScrolling = true;
+      additionalOptions = ''MatchIsTouchpad "on"'';
     };
   };
 
