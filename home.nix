@@ -1,8 +1,6 @@
 args@{ config, lib, pkgs, hostname, ... }:
 
-# The home-manager configuration for my user. There are still some things to
-# work out:
-# TODO: generalize the declaration for work/personal machines
+
 with builtins; with lib; let
   additionalArgs = rec {
     # Some configurations require unstable packages. The default variable, pkgs,
