@@ -14,6 +14,7 @@
         "browswer.download.folderList" = 2;
         "browser.aboutConfig.showWarning" = false;
         "sidebar.position_start" = false;
+        "ui.systemUsesDarkTheme" = 1;
         # Recommended by Tree Style Tab settings
         "svg.context-properties.content.enabled" = true;
       };
