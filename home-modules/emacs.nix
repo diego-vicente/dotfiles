@@ -19,4 +19,12 @@
     recursive = true;
     onChange = builtins.readFile /home/dvicente/etc/dvm-emacs/bin/reload;
   };
+
+  # Required for IRC in doom-emacs
+  home.packages = with pkgs; [
+    gnutls
+    aspell
+    aspellDicts.en
+    aspellDicts.es
+  ];
 }
