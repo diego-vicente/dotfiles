@@ -26,7 +26,8 @@ in {
     wget
     curl
     ripgrep
-    # FIXME: zoxide
+    fzf
+    zoxide
     ytop
     ranger
     bat
@@ -58,6 +59,7 @@ in {
     history.path = ".zsh_history";
     initExtra = ''
                 eval "$(${pkgs.starship}/bin/starship init zsh)"
+                eval "$(${pkgs.zoxide}/bin/zoxide init zsh)"
                 '';
     oh-my-zsh = {
       enable = true;
