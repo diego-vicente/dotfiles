@@ -1,8 +1,7 @@
 { config, lib, pkgs, hostname, ... }:
 
 {
-  # FIXME: make hostname-dependant import
-  imports = [ ../hardware-configuration/vostok.nix ];
+  imports = [ (../hardware-configuration + "/${hostname}.nix" ) ];
 
   environment.systemPackages = with pkgs; [
     # USB devices information

@@ -2,7 +2,7 @@
 # set that is passed to the configuration.nix file as well as all the hostname
 # specific options to take into account.
 # Expected use:
-#   $ ln -s ./bootstrap/soyuz.nix ~/.config/nixpkgs/home.nix
+#   $ sudo ln -s ./bootstrap/soyuz.nix /etc/nixos/configuration.nix
 args@{ config, lib, pkgs, ... }:
 
 let
@@ -18,6 +18,10 @@ let
         hdmi = {
           output = "HDMI1";
           xrandrArgs = ''--mode 2560x1440 --rotate normal --set "Broadcast RGB" "Full"'';
+        };
+        pci = {
+          intelBusId = "PCI:0:2:0";
+          nvidiaBusId = "PCI:1:0:0";
         };
       };
       # Network interfaces names
@@ -63,4 +67,4 @@ let
   };
   extendedArgs = args // additionalArgs;
 in
-  import ../home.nix extendedArgs
+  import ../configuration.nix extendedArgs

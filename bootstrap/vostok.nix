@@ -19,6 +19,10 @@ let
           output = "HDMI-1";
           xrandrArgs = ''--mode 2560x1440 --rotate normal --set "Broadcast RGB" "Full"'';
         };
+        pci = {
+          intelBusId = "PCI:0:2:0";
+          nvidiaBusId = "PCI:1:0:0";
+        };
       };
       # Network interfaces names
       network = {

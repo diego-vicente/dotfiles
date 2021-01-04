@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, hostSpecific, ... }:
 
 let
   nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
@@ -14,10 +14,10 @@ in
   services.xserver.videoDrivers = [ "nvidia" ];
 
   # Enable both GPUs using NVIDIA PRIME (offload mode)
-  hardware.nvidia.prime = {
+  hardware.nvidia.prime = with hostSpecific.video.pci; {
     offload.enable = true;
-    intelBusId = "PCI:0:2:0";
-    nvidiaBusId = "PCI:1:0:0";
+    intelBusId = intelBusId;
+    nvidiaBusId = nvidiaBusId;
   };
 
   # Add the drivers and additional tools

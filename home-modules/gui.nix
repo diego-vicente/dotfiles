@@ -254,9 +254,27 @@ in {
           bars = [];  # bars are handled by services.polybar
           terminal = "alacritty";
           startup = [
-            { command = "i3-msg 'workspace ${ws1}'"; always = false; notification = false; }
-            { command = "systemctl --user restart polybar"; always = true; notification = false; }
-            { command = "hsetroot -solid \"#404552\""; always = true; notification = false; }
+            {
+              # Set main workspace
+              command = "i3-msg 'workspace ${ws1}'";
+              always = false;
+              notification = false; }
+            {
+              # Restart polybar service to ensure proper socket connection
+              command = "systemctl --user restart polybar";
+              always = true;
+              notification = false; }
+            {
+              # Set background as a solid color
+              command = "hsetroot -solid \"#404552\"";
+              always = true;
+              notification = false; }
+            # {
+            #   # Make a sensible default video output
+            #   command = ''xrandr | grep "${hostSpecific.video.hdmi.output} connected" && set-home-video'';
+            #   always = false;
+            #   notification = false;
+            # }
           ];
         };
     };
