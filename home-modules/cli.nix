@@ -72,7 +72,12 @@ in {
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
-    # settings = TODO
+    settings = {
+      git_status = {
+        # FIXME: disabled due to poor performance in very large repos
+        disabled = true;
+      };
+    };
   };
 
   # Lorri, direnv and niv are used to generate, activate and pin development

@@ -12,11 +12,11 @@ let
       # The video output names and its xrandr arguments
       video = {
         laptop = {
-          output = "eDP1";
+          output = "eDP-1";
           xrandrArgs = "--mode 1920x1080 --rotate normal";
         };
         hdmi = {
-          output = "HDMI1";
+          output = "HDMI-1";
           xrandrArgs = ''--mode 2560x1440 --rotate normal --set "Broadcast RGB" "Full"'';
         };
         pci = {
@@ -26,8 +26,8 @@ let
       };
       # Network interfaces names
       network = {
-        wireless = "wlp2s0";
-        ethernet = "enp62s0u1u2";
+        wireless = "wlp59s0";
+        ethernet = "enp58s0u1u2";
       };
       # Temperature sensors to be used with lm-sensors
       temperature = {

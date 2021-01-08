@@ -8,6 +8,7 @@
     usbutils
     # Filesystem and compression utilities
     ntfs3g
+    zip
     unzip
   ];
 }

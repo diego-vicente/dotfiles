@@ -1,6 +1,14 @@
 { config, lib, pkgs, hostname, hostSpecific, ... }:
 
 {
+  # Add the necessary networking utilities
+  environment.systemPackages = with pkgs; [
+    openvpn
+    networkmanager-openvpn
+    # TODO: find a way to add VPNs and drop this dependency
+    gnome3.networkmanager-openvpn
+  ];
+
   networking = {
     hostName = hostname;
 

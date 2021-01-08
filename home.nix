@@ -66,6 +66,11 @@ with builtins; with lib; let
       path = ./home-modules/music.nix;
       machines = [ "vostok" ];
     }
+    {
+      # Some work-related specific settings
+      path = ./home-modules/work.nix;
+      machines = [ "soyuz" ];
+    }
   ];
   currentModules = filter (module: elem hostname module.machines) allModules;
   extendArguments = module: import module.path ( args // additionalArgs );
