@@ -14,6 +14,19 @@ This configuration currently manages the following machines:
 - `vostok`, my personal laptop, a Dell XPS 15 9560.
 - `soyuz`, my work laptop, a Dell XPS 15 9570.
 
+## Expected channels
+
+For this configuration to properly work, there are several channels expected to
+be present in the package manager. Make sure they exist in the system using
+`sudo nix-channels --list` or add them using:
+
+``` shell
+sudo nix-channel --add https://nixos.org/channels/nixos-20.09 nixos
+sudo nix-channel --add https://nixos.org/channels/nixpkgs-unstable nixpkgs-unstable
+sudo nix-channel --add https://github.com/nix-community/home-manager/archive/release-20.09.tar.gz home-manager
+sudo nix-channel --update
+```
+
 ## Setting up the machine
 
 I tend to perform a basic install using the default command to generate a
