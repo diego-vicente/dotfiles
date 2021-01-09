@@ -1,4 +1,4 @@
-# `dotfiles` - Diego Vicente's config files
+# `dotfiles`: Diego Vicente's config files
 
 This repository contains my personal configuration. It is based on [Nix][1],
 [NixOS][2] and [`home-manager`][3] to allow for easier reproducibility and a
@@ -10,11 +10,18 @@ super-customized and personal environment, which was a pain to correctly set up
 for the first time in a new machine or installation. For that reason, I decided
 to climb the steep learning curve of Nix, and port the configuration to it.
 
+This configuration currently manages the following machines:
+- `vostok`, my personal laptop, a Dell XPS 15 9560.
+- `soyuz`, my work laptop, a Dell XPS 15 9570.
 
 ## Setting up the machine
 
-**Note:** It is still on my to-do list to generalize this configuration to
-multiple machines. Currently, it only supports `vostok`, my daily driver.
+I tend to perform a basic install using the default command to generate a
+configuration when installing. Before installing it, I like to disable any
+desktop manager - since my configuration does not use any, switching from one
+another may result in the system crashing. The only step needed when installing
+the system in a new machine is to write a new bootstrap file including the
+relevant hardware information.
 
 Assuming that the GPG key is already present in the directory, setting up the
 machine is as easy as running a rebuild:
