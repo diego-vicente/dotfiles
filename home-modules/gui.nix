@@ -518,9 +518,9 @@ in {
         menu-1-0 = "cancel";
         menu-1-0-exec = "menu-open-0";
         menu-1-1 = "reboot";
-        menu-1-1-exec = "reboot";
+        menu-1-1-exec = "${pkgs.systemd}/bin/reboot";
         menu-2-0 = "power off";
-        menu-2-0-exec = "poweroff";
+        menu-2-0-exec = "${pkgs.systemd}/bin/poweroff";
         menu-2-1 = "cancel";
         menu-2-1-exec = "menu-open-0";
         menu-3-0 = "suspend";
