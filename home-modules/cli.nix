@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, hostSpecific, ... }:
 
 let
   # manix is a package to query Nix options and packages from the command line
@@ -44,10 +44,10 @@ in {
   ];
 
   # Enable and configure the git user
-  programs.git = {
+  programs.git = with hostSpecific.info; {
     enable = true;
-    userName = "Diego Vicente";
-    userEmail = "mail@diego.codes";
+    userName = userName;
+    userEmail = userEmail;
   };
 
   # Define ZSH as the default shell and configure some basic options like the

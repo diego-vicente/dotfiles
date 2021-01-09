@@ -10,6 +10,10 @@ let
     hostname = "soyuz";
     hostSpecific = {
       # The video output names and its xrandr arguments
+      info = {
+        userName = "Diego Vicente";
+        userEmail = "diego.vicente@decidesoluciones.es";
+      };
       video = {
         laptop = {
           output = "eDP-1";
