@@ -189,7 +189,7 @@ in {
             "XF86AudioPlay" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
             "XF86AudioNext" = "exec ${pkgs.playerctl}/bin/playerctl next";
             "XF86AudioPrev" = "exec ${pkgs.playerctl}/bin/playerctl previous";
-            "${mod}+Shift+Print" = let
+            "${mod}+Shift+s" = let
               takeScreenshot = "${pkgs.maim}/bin/maim -s --format=png /dev/stdout";
               saveToClipboard = "${pkgs.xclip}/bin/xclip -selection clipboard -t image/png -i";
             in "exec ${takeScreenshot} | ${saveToClipboard}";
@@ -199,7 +199,7 @@ in {
             # Mode binding
             "${mod}+r" = ''mode "${modes.resize.message}"'';
             "${mod}+Shift+g" = ''mode "${modes.toggleGaps.message}"'';
-            "${mod}+Shift+s" = ''mode "${modes.toggleScreen.message}"'';
+            "${mod}+Shift+x" = ''mode "${modes.toggleScreen.message}"'';
             "${mod}+Shift+a" = ''mode "${modes.toggleAudio.message}"'';
           };
           colors = {
