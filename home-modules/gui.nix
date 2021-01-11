@@ -10,6 +10,7 @@ let
         pactl set-card-profile 0 output:${setting.output.profile}+input:${setting.input.profile}
         pactl set-sink-port alsa_output.pci-0000_00_1f.3.${setting.output.profile} ${setting.output.port}
         pactl set-source-port alsa_input.pci-0000_00_1f.3.${setting.input.profile} ${setting.input.port}
+        i3-msg mode default
       '';
   in {
     home = generateScript "set-home-audio" hostSpecific.audio.hdmi;
