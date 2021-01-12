@@ -16,6 +16,8 @@ let
         # default in git commits across the system.
         userName = "Diego Vicente";
         userEmail = "diego.vicente@decidesoluciones.es";
+        # The BorgBase repo is only needed if nixos-modules/backup.nix is active
+        borgbaseRepo = "k6vw052b@k6vw052b.repo.borgbase.com:repo";
       };
       video = {
         # --- Video outputs ---

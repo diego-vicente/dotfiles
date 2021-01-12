@@ -37,12 +37,11 @@ with builtins; with lib; let
       path = ./nixos-modules/users.nix;
       machines = [ "vostok" "soyuz" ];
     }
-    # FIXME: "called without required argument 'utils'"
-    # {
-    #   # home-manager's official channel
-    #   path = <home-manager/nixos>;
-    #   machines = [ "vostok" ];
-    # }
+    {
+      # Backup mechanisms for the given hosts
+      path = ./nixos-modules/backup.nix;
+      machines = [ "soyuz" ];
+    }
     {
       # X server configuration and related utilities
       path = ./nixos-modules/xserver.nix;
