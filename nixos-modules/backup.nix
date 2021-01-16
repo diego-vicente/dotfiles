@@ -28,6 +28,6 @@
     };
     environment.BORG_RSH = "ssh -i /root/borgbackup/ssh_key";
     compression = "auto,lzma";
-    startAt = "daily";
+    startAt = hostSpecific.info.backupSchedule;
   };
 }
