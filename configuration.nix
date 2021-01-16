@@ -5,7 +5,7 @@ with builtins; with lib; let
     {
       # The general hardware configuration
       path = ./nixos-modules/hardware.nix;
-      machines = [ "vostok" "soyuz" ];
+      machines = [ "korolev" "vostok" "soyuz" ];
     }
     {
       # Power consumption and monitoring utilities
@@ -15,12 +15,12 @@ with builtins; with lib; let
     {
       # Boot configuration and other kernel flags
       path = ./nixos-modules/boot.nix;
-      machines = [ "vostok" "soyuz" ];
+      machines = [ "korolev" "vostok" "soyuz" ];
     }
     {
       # Networking configuration
       path = ./nixos-modules/networking.nix;
-      machines = [ "vostok" "soyuz" ];
+      machines = [ "korolev" "vostok" "soyuz" ];
     }
     {
       # GPG service setup
@@ -30,12 +30,12 @@ with builtins; with lib; let
     {
       # SSH service configuration
       path = ./nixos-modules/ssh.nix;
-      machines = [ "vostok" "soyuz" ];
+      machines = [ "korolev" "vostok" "soyuz" ];
     }
     {
       # User configuration for the system
       path = ./nixos-modules/users.nix;
-      machines = [ "vostok" "soyuz" ];
+      machines = [ "korolev" "vostok" "soyuz" ];
     }
     {
       # Backup mechanisms for the given hosts
@@ -50,12 +50,17 @@ with builtins; with lib; let
     {
       # The font configuration for the system
       path = ./nixos-modules/fonts.nix;
-      machines = [ "vostok" "soyuz" ];
+      machines = [ "korolev" "vostok" "soyuz" ];
     }
     {
       # Configuration for the Optimus nvidia setup
       path = ./nixos-modules/nvidia.nix;
       machines = [ "vostok" "soyuz" ];
+    }
+    {
+      # Configuration for AMD GPUs
+      path = ./nixos-modules/amd.nix;
+      machines = [ "korolev" ];
     }
   ];
   currentModules = filter (module: elem hostname module.machines) allModules;

@@ -19,7 +19,7 @@ with builtins; with lib; let
     {
       # A general set of CLI tools and settings I use on an everyday basis
       path = ./home-modules/cli.nix;
-      machines = [ "vostok" "soyuz" ];
+      machines = [ "korolev" "vostok" "soyuz" ];
     }
     {
       # My GUI desktop configuration: i3 + polybar + rofi (and more)
@@ -34,7 +34,7 @@ with builtins; with lib; let
     {
       # A basic keyboard layout and variant configuration
       path = ./home-modules/keyboard.nix;
-      machines = [ "vostok" "soyuz" ];
+      machines = [ "korolev" "vostok" "soyuz" ];
     }
     {
       # My custom Firefox workflow and aesthetic settings
@@ -49,7 +49,7 @@ with builtins; with lib; let
     {
       # Different desktop applications that I need from time to time
       path = ./home-modules/desktop.nix;
-      machines = [ "vostok" ];
+      machines = [ "korolev" "vostok" ];
     }
     {
       # My personal mail configuration (mbsync + mu)
@@ -59,12 +59,12 @@ with builtins; with lib; let
     {
       # My Spotify (official + spotifyd) setup
       path = ./home-modules/spotify.nix;
-      machines = [ "vostok" "soyuz" ];
+      machines = [ "korolev" "vostok" "soyuz" ];
     }
     {
       # Some of the music producing apps and packages
       path = ./home-modules/music.nix;
-      machines = [ "vostok" ];
+      machines = [ "korolev" "vostok" ];
     }
     {
       # Some work-related specific settings
