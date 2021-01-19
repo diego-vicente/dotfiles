@@ -62,6 +62,11 @@ with builtins; with lib; let
       path = ./nixos-modules/amd.nix;
       machines = [ "korolev" ];
     }
+    {
+      # Enable virtualization via Docker
+      path = ./nixos-modules/docker.nix;
+      machines = [ "soyuz" ];
+    }
   ];
   currentModules = filter (module: elem hostname module.machines) allModules;
   extendArguments = module: import module.path args;
