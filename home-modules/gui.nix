@@ -244,7 +244,21 @@ in {
             inner = 20;
             outer = 7;
           };
-          window.border = 4;
+          window = {
+            border = 4;
+            commands = [
+              {
+                # Make Microsoft Teams notifications floating
+                criteria = { class = "microsoft temas - preview"; };
+                command = "floating enable";
+              }
+              {
+                # Make Firefox Picture-In-Picture floating in all workspaces
+                criteria = { window_role = "PictureInPicture"; };
+                command = "sticky enable";
+              }
+            ];
+          };
           modes = {
             ${modes.resize.message} = modes.resize.definition;
             ${modes.toggleGaps.message} = modes.toggleGaps.definition;
