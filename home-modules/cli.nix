@@ -67,6 +67,14 @@ in {
     };
   };
 
+  # fzf enables fuzzy completion utilities for different shell shortcuts.
+  programs.fzf = rec {
+    enable = true;
+    enableZshIntegration = true;
+    defaultCommand = "rg --files --no-ignore --hidden --follow --glob '!.git/*'";
+    defaultOptions = [ "--height 40%" "--reverse" ];
+  };
+
   # Configure starship as the prompt for the shell and enable the basic ZSH
   # integration
   programs.starship = {
