@@ -53,7 +53,7 @@ let
         # them using:
         #   $ ifconfig -a
         wireless = "wlp59s0";
-        ethernet = "enp58s0u1u2";
+        ethernet = "ens20u1u2";
       };
       temperature = {
         # --- Temperature sensors ---
