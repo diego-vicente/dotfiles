@@ -1,4 +1,4 @@
-# Bootstrap for the vostok host - it adds the correct hostname to the argument
+# Bootstrap for the soyuz host - it adds the correct hostname to the argument
 # set that is passed to the configuration.nix file as well as all the hostname
 # specific options to take into account.
 # Expected use:
