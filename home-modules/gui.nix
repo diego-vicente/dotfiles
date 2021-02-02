@@ -249,7 +249,7 @@ in {
             commands = [
               {
                 # Make Microsoft Teams notifications floating
-                criteria = { class = "microsoft teams - preview"; };
+                criteria = { title = "Microsoft Teams Notification"; };
                 command = "floating enable";
               }
               {
