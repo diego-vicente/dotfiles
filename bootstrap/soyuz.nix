@@ -27,6 +27,7 @@ let
         #   $ xrandr
         # If the setup is the same, the same `xrandrArgs` should be valid from
         # one system to another.
+        strategy = "nvidia-only";
         laptop = {
           output = "eDP-1-1";
           xrandrArgs = "--mode 1920x1080 --rotate normal";
