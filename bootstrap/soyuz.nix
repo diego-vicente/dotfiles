@@ -28,11 +28,11 @@ let
         # If the setup is the same, the same `xrandrArgs` should be valid from
         # one system to another.
         laptop = {
-          output = "eDP-1";
+          output = "eDP-1-1";
           xrandrArgs = "--mode 1920x1080 --rotate normal";
         };
         hdmi = {
-          output = "DP-3";
+          output = "DP-1-3";
           xrandrArgs = ''--mode 2560x1440 --rotate normal --set "Broadcast RGB" "Full"'';
         };
         # --- PCI addresses ---

@@ -625,7 +625,7 @@ in {
   services.picom = {
     enable = true;
     shadow = false;
-    vSync = true;
+    vSync = false;
     fade = true;
     fadeDelta = 5;
     fadeSteps = [ "0.1" "0.1" ];
