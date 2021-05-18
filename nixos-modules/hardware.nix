@@ -10,5 +10,6 @@
     ntfs3g
     zip
     unzip
+    unrar
   ];
 }
