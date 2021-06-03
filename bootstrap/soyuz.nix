@@ -1,4 +1,4 @@
-# Bootstrap for the vostok host - it adds the correct hostname to the argument
+# Bootstrap for the soyuz host - it adds the correct hostname to the argument
 # set that is passed to the configuration.nix file as well as all the hostname
 # specific options to take into account.
 # Expected use:
@@ -18,7 +18,7 @@ let
         userEmail = "diego.vicente@decidesoluciones.es";
         # The BorgBase repo is only needed if nixos-modules/backup.nix is active
         borgbaseRepo = "k6vw052b@k6vw052b.repo.borgbase.com:repo";
-        backupSchedule = "14:00";
+        backupSchedule = "14:30";
       };
       video = {
         # --- Video outputs ---
@@ -27,12 +27,13 @@ let
         #   $ xrandr
         # If the setup is the same, the same `xrandrArgs` should be valid from
         # one system to another.
+        strategy = "nvidia-only";
         laptop = {
-          output = "eDP-1";
+          output = "eDP-1-1";
           xrandrArgs = "--mode 1920x1080 --rotate normal";
         };
         hdmi = {
-          output = "DP-3";
+          output = "DP-1-3";
           xrandrArgs = ''--mode 2560x1440 --rotate normal --set "Broadcast RGB" "Full"'';
         };
         # --- PCI addresses ---
@@ -53,7 +54,7 @@ let
         # them using:
         #   $ ifconfig -a
         wireless = "wlp59s0";
-        ethernet = "enp58s0u1u2";
+        ethernet = "ens20u1u2";
       };
       temperature = {
         # --- Temperature sensors ---

@@ -11,7 +11,7 @@
         "browser.fullscreen.autohide" = false;
         "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
         "browser.download.dir" = "~/docs/downloads";
-        "browswer.download.folderList" = 2;
+        "browser.download.folderList" = 2;
         "browser.aboutConfig.showWarning" = false;
         "sidebar.position_start" = false;
         "ui.systemUsesDarkTheme" = 1;

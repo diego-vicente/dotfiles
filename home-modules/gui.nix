@@ -189,6 +189,10 @@ in {
             "XF86AudioPlay" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
             "XF86AudioNext" = "exec ${pkgs.playerctl}/bin/playerctl next";
             "XF86AudioPrev" = "exec ${pkgs.playerctl}/bin/playerctl previous";
+            # Open the selected text or clipboard contents in a Chromium window
+            "${mod}+c" = "exec ${../bin/open-in-chromium.sh} $(${pkgs.xclip}/bin/xclip -o)";
+            "${mod}+Shift+c" = "exec ${../bin/open-in-chromium.sh} $(${pkgs.xclip}/bin/xclip -o -s clipboard)";
+            # Take screenshot and save it to the clipboard
             "${mod}+Shift+s" = let
               takeScreenshot = "${pkgs.maim}/bin/maim -s --format=png /dev/stdout";
               saveToClipboard = "${pkgs.xclip}/bin/xclip -selection clipboard -t image/png -i";
@@ -244,7 +248,21 @@ in {
             inner = 20;
             outer = 7;
           };
-          window.border = 4;
+          window = {
+            border = 4;
+            commands = [
+              {
+                # Make Microsoft Teams notifications floating
+                criteria = { title = "Microsoft Teams Notification"; };
+                command = "floating enable";
+              }
+              {
+                # Make Firefox Picture-In-Picture floating in all workspaces
+                criteria = { window_role = "PictureInPicture"; };
+                command = "sticky enable";
+              }
+            ];
+          };
           modes = {
             ${modes.resize.message} = modes.resize.definition;
             ${modes.toggleGaps.message} = modes.toggleGaps.definition;
@@ -616,7 +634,7 @@ in {
   services.picom = {
     enable = true;
     shadow = false;
-    vSync = true;
+    vSync = false;
     fade = true;
     fadeDelta = 5;
     fadeSteps = [ "0.1" "0.1" ];

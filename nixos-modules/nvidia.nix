@@ -13,9 +13,16 @@ in
   # Set the X drivers
   services.xserver.videoDrivers = [ "nvidia" ];
 
+  # The DPI calculation results in smaller fonts than expected
+  services.xserver.dpi = 96;
+
+  # Enable prime if the strategy is to use the discrete GPU only
+  hardware.nvidia.modesetting.enable = hostSpecific.video.strategy == "nvidia-only";
+
   # Enable both GPUs using NVIDIA PRIME (offload mode)
   hardware.nvidia.prime = with hostSpecific.video.pci; {
-    offload.enable = true;
+    offload.enable = hostSpecific.video.strategy == "nvidia-offload";
+    sync.enable = hostSpecific.video.strategy == "nvidia-only";
     intelBusId = intelBusId;
     nvidiaBusId = nvidiaBusId;
   };

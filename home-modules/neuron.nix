@@ -3,7 +3,7 @@
 let
   neuron = (
     let
-      rev = "6f73e0b66ea78c343d0b0f856d176b74e25ce272"; # 0.6.6.2
+      rev = "595f040293d746fc7e036cc872b7e48c1f45c7f1"; # 1.0.1.0
       src = builtins.fetchTarball "https://github.com/srid/neuron/archive/${rev}.tar.gz";
     in
       import src {}
