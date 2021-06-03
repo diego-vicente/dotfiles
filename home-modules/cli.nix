@@ -28,7 +28,7 @@ in {
     ripgrep
     fzf
     zoxide
-    ytop
+    bottom
     ranger
     bat
     exa
@@ -36,7 +36,8 @@ in {
     dust
     hyperfine
     bandwhich
-    manix
+    # FIXME: cannot be built
+    # manix
     niv
     lorri
     direnv

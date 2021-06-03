@@ -15,7 +15,7 @@
         '';
       }
     ];
-    # # Set the keyboard to US international
+    # Set the keyboard to US international
     layout = "us";
     xkbVariant = "intl";
     # Swap caps lock to control
@@ -23,8 +23,10 @@
     # Enable natural scrolling in X (only for touchpads)
     libinput = {
       enable = true;
-      naturalScrolling = true;
-      additionalOptions = ''MatchIsTouchpad "on"'';
+      touchpad = {
+        naturalScrolling = true;
+        tapping = true;
+      };
     };
   };
 

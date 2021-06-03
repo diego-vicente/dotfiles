@@ -25,7 +25,7 @@ with builtins; with lib; let
     {
       # GPG service setup
       path = ./nixos-modules/gpg.nix;
-      machines = [ "vostok" "soyuz" ];
+      machines = [ "korolev" "vostok" "soyuz" ];
     }
     {
       # SSH service configuration
@@ -45,7 +45,7 @@ with builtins; with lib; let
     {
       # X server configuration and related utilities
       path = ./nixos-modules/xserver.nix;
-      machines = [ "vostok" "soyuz" ];
+      machines = [ "korolev" "vostok" "soyuz" ];
     }
     {
       # The font configuration for the system
@@ -56,11 +56,6 @@ with builtins; with lib; let
       # Configuration for the Optimus nvidia setup
       path = ./nixos-modules/nvidia.nix;
       machines = [ "vostok" "soyuz" ];
-    }
-    {
-      # Configuration for AMD GPUs
-      path = ./nixos-modules/amd.nix;
-      machines = [ "korolev" ];
     }
   ];
   currentModules = filter (module: elem hostname module.machines) allModules;
@@ -91,5 +86,5 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "20.09"; # Did you read the comment?
+  system.stateVersion = "21.05"; # Did you read the comment?
 }

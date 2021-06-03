@@ -24,7 +24,7 @@ with builtins; with lib; let
     {
       # My GUI desktop configuration: i3 + polybar + rofi (and more)
       path = ./home-modules/gui.nix;
-      machines = [ "vostok" "soyuz" ];
+      machines = [ "korolev" "vostok" "soyuz" ];
     }
     {
       # My Emacs (doom-emacs) personal configuration
@@ -39,7 +39,7 @@ with builtins; with lib; let
     {
       # My custom Firefox workflow and aesthetic settings
       path = ./home-modules/firefox.nix;
-      machines = [ "vostok" "soyuz" ];
+      machines = [ "korolev" "vostok" "soyuz" ];
     }
     {
       # Neuron is a plaintext note-taking app and server
@@ -64,7 +64,7 @@ with builtins; with lib; let
     {
       # Some of the music producing apps and packages
       path = ./home-modules/music.nix;
-      machines = [ "korolev" "vostok" ];
+      machines = [ "vostok" ];
     }
     {
       # Some work-related specific settings

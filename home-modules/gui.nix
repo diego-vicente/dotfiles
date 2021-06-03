@@ -251,7 +251,10 @@ in {
             ${modes.toggleScreen.message} = modes.toggleScreen.definition;
             ${modes.toggleAudio.message} = modes.toggleAudio.definition;
           };
-          fonts = [ "Iosevka 10" ];
+          fonts = {
+            names = [ "Iosevka" ];
+            size = 10.0;
+          };
           bars = [];  # bars are handled by services.polybar
           terminal = "alacritty";
           startup = [
@@ -549,7 +552,9 @@ in {
     enable = true;
     theme = ../assets/nord.rasi;
     font = "Iosevka 11";
-    extraConfig = ''rofi.display-drun: Open'';
+    extraConfig = {
+      display-drun = "Open";
+    };
   };
 
   # The notifications service is configured to use dunst. Most of the following

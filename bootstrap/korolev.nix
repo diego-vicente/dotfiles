@@ -27,6 +27,10 @@ let
         #   $ xrandr
         # If the setup is the same, the same `xrandrArgs` should be valid from
         # one system to another.
+        laptop = {
+          output = "HDMI-A-0";
+          xrandrArgs = ''--mode 2560x1440 --rotate normal --set "Broadcast RGB" "Full"'';
+        };
         hdmi = {
           output = "DP-3";
           xrandrArgs = ''--mode 2560x1440 --rotate normal --set "Broadcast RGB" "Full"'';
