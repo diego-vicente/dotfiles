@@ -189,6 +189,10 @@ in {
             "XF86AudioPlay" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
             "XF86AudioNext" = "exec ${pkgs.playerctl}/bin/playerctl next";
             "XF86AudioPrev" = "exec ${pkgs.playerctl}/bin/playerctl previous";
+            # Open the selected text or clipboard contents in a Chromium window
+            "${mod}+c" = "exec ${../bin/open-in-chromium.sh} $(${pkgs.xclip}/bin/xclip -o)";
+            "${mod}+Shift+c" = "exec ${../bin/open-in-chromium.sh} $(${pkgs.xclip}/bin/xclip -o -s clipboard)";
+            # Take screenshot and save it to the clipboard
             "${mod}+Shift+s" = let
               takeScreenshot = "${pkgs.maim}/bin/maim -s --format=png /dev/stdout";
               saveToClipboard = "${pkgs.xclip}/bin/xclip -selection clipboard -t image/png -i";
