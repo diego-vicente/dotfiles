@@ -27,8 +27,13 @@ with builtins; with lib; let
       machines = [ "korolev" "vostok" "soyuz" ];
     }
     {
-      # My Emacs (doom-emacs) personal configuration
+      # My bare-bones Emacs experimental configuration
       path = ./home-modules/emacs.nix;
+      machines = [ "korolev" ];
+    }
+    {
+      # My Emacs (doom-emacs) personal configuration
+      path = ./home-modules/doom-emacs.nix;
       machines = [ "vostok" "soyuz" ];
     }
     {

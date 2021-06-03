@@ -14,10 +14,11 @@
     enable = true;
   };
 
-  # home.file.".emacs.d" = {
-  #   source =
-  #   recursive = true;
-  # };
+  home.file.".doom.d" = {
+    source = /home/dvicente/etc/dvm-emacs;
+    recursive = true;
+    onChange = builtins.readFile /home/dvicente/etc/dvm-emacs/bin/reload;
+  };
 
   # Required for IRC in doom-emacs
   home.packages = with pkgs; [
