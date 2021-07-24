@@ -73,6 +73,11 @@ with builtins; with lib; let
     }
     {
       # Some work-related specific settings
+      path = ./home-modules/photography.nix;
+      machines = [ "korolev" ];
+    }
+    {
+      # Some work-related specific settings
       path = ./home-modules/work.nix;
       machines = [ "soyuz" ];
     }
