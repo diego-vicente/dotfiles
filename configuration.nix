@@ -87,6 +87,14 @@ in
     [ <home-manager/nixos> ]
     ++ map extendArguments currentModules;
 
+  # Configure flakes system-wide (it is unstable, but it is the future)
+  nix = {
+    package = pkgs.nixUnstable;
+    extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
+  };
+
   # home-manager configuration
   home-manager.users.dvicente = import ./home.nix args;
 
