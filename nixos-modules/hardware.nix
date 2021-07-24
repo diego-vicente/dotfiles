@@ -3,6 +3,8 @@
 {
   imports = [ (../hardware-configuration + "/${hostname}.nix" ) ];
 
+  time.timeZone = "Europe/Madrid";
+
   environment.systemPackages = with pkgs; [
     # USB devices information
     usbutils
