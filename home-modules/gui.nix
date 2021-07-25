@@ -270,7 +270,7 @@ in {
             ${modes.toggleAudio.message} = modes.toggleAudio.definition;
           };
           fonts = {
-            names = [ "Iosevka" ];
+            names = [ "JetBrains Mono" ];
             size = 10.0;
           };
           bars = [];  # bars are handled by services.polybar
@@ -337,7 +337,7 @@ in {
         padding-right = 5;
         module-margin-left = 1;
         module-margin-right = 2;
-        font-0 = "Iosevka:pixelsize=11;1";
+        font-0 = "JetBrains Mono Medium:size=10;1";
         font-1 = "unifont:fontformat=truetype:size=8:antialias=false;0";
         font-2 = "Font Awesome 5 Free:style=Regular:pixelsize=10;1";
         font-3 = "Font Awesome 5 Free:style=Solid:pixelsize=10;1";
@@ -569,7 +569,7 @@ in {
   programs.rofi = {
     enable = true;
     theme = ../assets/nord.rasi;
-    font = "Iosevka 11";
+    font = "JetBrains Mono 11";
     extraConfig = {
       display-drun = "Open";
     };
@@ -594,7 +594,7 @@ in {
         separator_color = "frame";
         sort = "yes";
         idle_threshold = 120;
-        font = "Iosevka 11";
+        font = "JetBrains Mono Medium 10";
         line_height = 0;
         markup = "full";
         format = "<b>%s</b>\n%b";
@@ -646,10 +646,10 @@ in {
     enable = true;
     settings = {
       font = {
-        normal.family = "Iosevka";
-        bold.family = "Iosevka";
-        italic.family = "Iosevka";
-        size = 12;
+        normal.family = "JetBrains Mono Medium";
+        bold.family = "JetBrains Mono Medium";
+        italic.family = "JetBrains Mono Medium";
+        size = 11;
       };
       colors = {
         primary = {
@@ -722,6 +722,7 @@ in {
           action = "Copy";
         }
       ];
+      dynamic_padding = true;
     };
   };
 }
