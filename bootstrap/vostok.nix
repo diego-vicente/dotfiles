@@ -20,6 +20,7 @@ let
         borgbaseRepo = "vd67iwa5@vd67iwa5.repo.borgbase.com:repo";
         backupSchedule = "12:00";
       };
+      fileSystems = {};
       video = {
         # --- Video outputs ---
         # The output names differ from one system to another and can be checked

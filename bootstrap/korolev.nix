@@ -19,6 +19,13 @@ let
         # The BorgBase repo is only needed if nixos-modules/backup.nix is active
         borgbaseRepo = "mz2by24z@mz2by24z.repo.borgbase.com:repo";
         backupSchedule = "21:00";
+      fileSystems = {
+        # Add the media NVME mounted in /mnt/media
+        "/mnt/media" = {
+          device = "/dev/nvme1n1p2";
+          fsType = "ntfs";
+          # options = [ "data=journal" ];
+        };
       };
       video = {
         # --- Video outputs ---
