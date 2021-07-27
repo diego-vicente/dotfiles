@@ -17,8 +17,8 @@ let
         userName = "Diego Vicente";
         userEmail = "mail@diego.codes";
         # The BorgBase repo is only needed if nixos-modules/backup.nix is active
-        # borgbaseRepo = "k6vw052b@k6vw052b.repo.borgbase.com:repo";
-        # backupSchedule = "14:00";
+        borgbaseRepo = "mz2by24z@mz2by24z.repo.borgbase.com:repo";
+        backupSchedule = "21:00";
       };
       video = {
         # --- Video outputs ---

@@ -40,7 +40,7 @@ with builtins; with lib; let
     {
       # Backup mechanisms for the given hosts
       path = ./nixos-modules/backup.nix;
-      machines = [ "vostok" "soyuz" ];
+      machines = [ "korolev" "vostok" "soyuz" ];
     }
     {
       # X server configuration and related utilities
