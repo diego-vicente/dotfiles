@@ -1,8 +1,8 @@
 { config, lib, pkgs, ... }:
 
 {
-  # This user configuration is designed to be static, therefore commands like
-  # `passwd` will not work.
+  # GOTCHA: This user configuration is designed to be mutable, therefore the
+  # first step out of the box should be to run `sudo passwd $USER`.
   users.mutableUsers = true;
 
   users.users.dvicente = {
