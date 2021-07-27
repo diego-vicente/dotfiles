@@ -28,11 +28,13 @@ let
         # If the setup is the same, the same `xrandrArgs` should be valid from
         # one system to another.
         strategy = "nvidia-offload";
-        laptop = {
+        main = {
+          name = "laptop";
           output = "eDP-1";
           xrandrArgs = "--mode 1920x1080 --rotate normal";
         };
-        hdmi = {
+        aux = {
+          name = "HDMI";
           output = "HDMI-1";
           xrandrArgs = ''--mode 2560x1440 --rotate normal --set "Broadcast RGB" "Full"'';
         };
@@ -71,7 +73,8 @@ let
         # the proper profile and port name using `grep` and some elbow grease on
         # its output:
         #   $ pacmd list
-        laptop = {
+        main = {
+          name = "laptop";
           output = {
             profile = "analog-stereo";
             port = "analog-output-speaker";
@@ -81,14 +84,16 @@ let
             port = "analog-input-internal-mic";
           };
         };
-        hdmi = {
+        aux = {
+          name = "HDMI";
           output = {
             profile = "hdmi-stereo";
             port = "hdmi-output";
           };
-          input = laptop.input;
+          input = main.input;
         };
         headphones = {
+          name = "headphones";
           output = {
             profile = "analog-stereo";
             port = "analog-output-headphones";

@@ -1,5 +1,8 @@
 { config, lib, pkgs, emacsPkg, hostSpecific, ... }:
 
+# TODO: the conditional i3 modes generation is a bunch of spaghetti code that
+# should be refactored ASAP.
+
 let
   # audioSettings is a set of attributes with some scripts designed to change
   # the audio to some predefined setups (laptop, HDMI, headphones) using the
@@ -13,25 +16,34 @@ let
         i3-msg mode default
       '';
   in {
-    home = generateScript "set-home-audio" hostSpecific.audio.hdmi;
-    laptop = generateScript "set-laptop-audio" hostSpecific.audio.laptop;
+    main = generateScript "set-main-audio" hostSpecific.audio.main;
     headphones = generateScript "set-headphones-audio" hostSpecific.audio.headphones;
+    aux = if isNull hostSpecific.audio.aux
+          then pkgs.writeShellScriptBin "set-aux-audio" ""
+          else generateScript "set-aux-audio" hostSpecific.audio.aux;
   };
   # videoSettings is a set of attribute containing some scripts designed to
   # change the video output of the system. Most of the output names and
   # arguments are host specific. It also depends on the audioSettings set to
   # change the audio accordingly
-  videoSettings = with hostSpecific.video; {
-    home = pkgs.writeShellScriptBin "set-home-video" ''
-      xrandr --output ${hdmi.output} --primary ${hdmi.xrandrArgs} --pos 0x0 \
-             --output ${laptop.output} ${laptop.xrandrArgs} --pos 2560x576
-      ${audioSettings.home}/bin/set-home-audio
-      i3-msg restart
-    '';
-    laptop = pkgs.writeShellScriptBin "set-laptop-video" ''
-      xrandr --output ${laptop.output} --primary ${laptop.xrandrArgs}
-      xrandr --output ${hdmi.output} --off
-      ${audioSettings.laptop}/bin/set-laptop-audio
+  videoSettings = with hostSpecific; {
+    aux = let
+      scriptBody = if isNull video.aux then ""
+                   else ''
+            xrandr --output ${video.aux.output} --primary ${video.aux.xrandrArgs} --pos 0x0 \
+                   --output ${video.main.output} ${video.main.xrandrArgs} --pos 2560x576
+            ${audioSettings.aux}/bin/set-aux-audio
+            i3-msg restart
+          '';
+    in pkgs.writeShellScriptBin "set-aux-video" scriptBody;
+    main = let
+      # Whether or not any aux output has to be switched off
+      auxOff = if isNull video.aux then ""
+               else "xrandr --output ${video.aux.output} --off";
+    in pkgs.writeShellScriptBin "set-main-video" ''
+      xrandr --output ${video.main.output} --primary ${video.main.xrandrArgs}
+      ${auxOff}
+      ${audioSettings.main}/bin/set-main-audio
       i3-msg restart
     '';
   };
@@ -105,24 +117,39 @@ in {
                 "Escape" = "mode default";
               };
             };
-            toggleScreen = {
-              message = "Screen layout: single [1], home [2]";
+            # If there is an auxiliar video output, define a script to change to it.
+            toggleScreen = if isNull hostSpecific.video.aux then null else {
+              message = let
+                main = hostSpecific.video.main.name;
+                aux = hostSpecific.video.aux.name;
+              in "Screen layout: ${main} [1], ${aux} [2]";
               definition = {
-                "1" = "exec --no-startup-id ${videoSettings.laptop}/bin/set-laptop-video";
-                "2" = "exec --no-startup-id ${videoSettings.home}/bin/set-home-video";
+                "1" = "exec --no-startup-id ${videoSettings.main}/bin/set-main-video";
+                "2" = "exec --no-startup-id ${videoSettings.aux}/bin/set-aux-video";
                 "Return" = "mode default";
                 "Escape" = "mode default";
               };
             };
+            # Define a script to toggle audio input and output.
             toggleAudio = {
-              message = "Audio output: laptop [1], HDMI [2], headphones [3]";
-              definition = with hostSpecific.audio; {
-                "1" = "exec --no-startup-id ${audioSettings.laptop}/bin/set-laptop-audio";
-                "2" = "exec --no-startup-id ${audioSettings.home}/bin/set-home-audio";
-                "3" = "exec --no-startup-id ${audioSettings.headphones}/bin/set-headphones-audio";
+              message = with hostSpecific; let
+                main = audio.main.name;
+                headphones = audio.headphones.name;
+                aux = if isNull audio.aux then "" else audio.aux.name;
+              in if isNull audio.aux
+                 then "Audio output: ${main} [1], ${headphones} [2]"
+                 else "Audio output: ${main} [1], ${headphones} [2], ${aux} [3]";
+              definition = with hostSpecific.audio; let
+                # aux toggle is an optional button and the syntax is clunky
+                auxToggle = if isNull aux then {} else {
+                  "3" = "exec --no-startup-id ${audioSettings.aux}/bin/set-aux-audio";
+                };
+              in {
+                "1" = "exec --no-startup-id ${audioSettings.main}/bin/set-main-audio";
+                "2" = "exec --no-startup-id ${audioSettings.headphones}/bin/set-headphones-audio";
                 "Return" = "mode default";
                 "Escape" = "mode default";
-              };
+              } // auxToggle;
             };
           };
         in {
@@ -203,8 +230,9 @@ in {
             # Mode binding
             "${mod}+r" = ''mode "${modes.resize.message}"'';
             "${mod}+Shift+g" = ''mode "${modes.toggleGaps.message}"'';
-            "${mod}+Shift+x" = ''mode "${modes.toggleScreen.message}"'';
             "${mod}+Shift+a" = ''mode "${modes.toggleAudio.message}"'';
+            "${mod}+Shift+x" = if isNull modes.toggleScreen then null
+                               else ''mode "${modes.toggleScreen.message}"'';
           };
           colors = {
             background = "2e3440";
@@ -263,12 +291,16 @@ in {
               }
             ];
           };
-          modes = {
+          modes = let
+            # Screen toggle is an optional mode and the syntax is clunky
+            screenToggle = if isNull modes.toggleScreen then {} else {
+              ${modes.toggleScreen.message} = modes.toggleScreen.definition;
+            };
+          in {
             ${modes.resize.message} = modes.resize.definition;
             ${modes.toggleGaps.message} = modes.toggleGaps.definition;
-            ${modes.toggleScreen.message} = modes.toggleScreen.definition;
             ${modes.toggleAudio.message} = modes.toggleAudio.definition;
-          };
+          } // screenToggle;
           fonts = {
             names = [ "JetBrains Mono" ];
             size = 10.0;
@@ -359,9 +391,12 @@ in {
         cursor-click = "pointer";
         cursor-scroll = "ns-resize";
       };
+      # The bar in the aux output is condition and the syntax is clunky
+      auxBar = if isNull hostSpecific.video.aux then {} else {
+        "bar/bar-aux" = bar // { monitor = hostSpecific.video.aux.output; };
+      };
     in {
-      "bar/bar-laptop" = bar // { monitor = hostSpecific.video.laptop.output; };
-      "bar/bar-hdmi" = bar // { monitor = hostSpecific.video.hdmi.output; };
+      "bar/bar-main" = bar // { monitor = hostSpecific.video.main.output; };
       "module/i3" = {
         type = "internal/i3";
         format = "<label-state> <label-mode>";
@@ -557,10 +592,10 @@ in {
         margin-top = 5;
         margin-bottom = 5;
       };
-    };
+    } // auxBar;
     script = ''
-      PATH=$PATH:${pkgs.i3} polybar bar-laptop &
-      PATH=$PATH:${pkgs.i3} polybar bar-hdmi &
+      PATH=$PATH:${pkgs.i3} polybar bar-main &
+      PATH=$PATH:${pkgs.i3} polybar bar-aux &
     '';
   };
 

@@ -27,14 +27,12 @@ let
         #   $ xrandr
         # If the setup is the same, the same `xrandrArgs` should be valid from
         # one system to another.
-        laptop = {
+        main = {
+          name = "screen";
           output = "HDMI-A-0";
           xrandrArgs = ''--mode 2560x1440 --rotate normal --set "Broadcast RGB" "Full"'';
         };
-        hdmi = {
-          output = "DP-3";
-          xrandrArgs = ''--mode 2560x1440 --rotate normal --set "Broadcast RGB" "Full"'';
-        };
+        aux = null;
       };
       network = {
         # --- Network interfaces ---
@@ -59,7 +57,8 @@ let
         # the proper profile and port name using `grep` and some elbow grease on
         # its output:
         #   $ pacmd list
-        laptop = {
+        main = {
+          name = "screen";
           output = {
             profile = "analog-stereo";
             port = "analog-output-speaker";
@@ -69,14 +68,8 @@ let
             port = "analog-input-internal-mic";
           };
         };
-        hdmi = {
-          output = {
-            profile = "hdmi-stereo-extra2";
-            port = "hdmi-output-2";
-          };
-          input = laptop.input;
-        };
         headphones = {
+          name = "headphones";
           output = {
             profile = "analog-stereo";
             port = "analog-output-headphones";
@@ -86,6 +79,7 @@ let
             port = "analog-input-headset-mic";
           };
         };
+        aux = null;
       };
     };
   };
