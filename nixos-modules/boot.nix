@@ -3,15 +3,14 @@
 {
   # Use the systemd-boot EFI boot loader.
   boot = {
-    # loader.systemd-boot.enable = true;
-
     loader.efi.canTouchEfiVariables = true;
 
     loader.grub = {
       enable = true;
       device = "nodev";
       efiSupport = true;
-      configurationLimit = 2;
+      # GOTCHA: check the available boot space using `df -h /boot`
+      configurationLimit = 10;
       useOSProber = true;
     };
 
