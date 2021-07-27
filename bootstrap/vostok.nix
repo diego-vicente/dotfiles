@@ -16,9 +16,14 @@ let
         # default in git commits across the system.
         userName = "Diego Vicente";
         userEmail = "mail@diego.codes";
-        # The BorgBase repo is only needed if nixos-modules/backup.nix is active
+      };
+      backup = {
+        # Please check nixos-modules/backup.nix for specific instructions on
+        # how to initialize a new repository in a new host!
+        paths = [ "/home" ];
+        exclude = [ "/home/*/usb" ];
         borgbaseRepo = "vd67iwa5@vd67iwa5.repo.borgbase.com:repo";
-        backupSchedule = "12:00";
+        schedule = "12:00";
       };
       fileSystems = {};
       video = {

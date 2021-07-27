@@ -16,18 +16,15 @@
   #
   # [1]: https://christine.website/blog/borg-backup-2021-01-09
   services.borgbackup.jobs."borgbase" = {
-    paths = [ "/home" ];
-    exclude = [
-      "/home/*/usb"
-      "/home/*/media/games"
-    ];
-    repo = hostSpecific.info.borgbaseRepo;
+    paths = hostSpecific.backup.paths;
+    exclude = hostSpecific.backup.exclude;
+    repo = hostSpecific.backup.borgbaseRepo;
     encryption = {
       mode = "repokey-blake2";
       passCommand = "cat /root/borgbackup/passcode";
     };
     environment.BORG_RSH = "ssh -i /root/borgbackup/ssh_key";
     compression = "auto,lzma";
-    startAt = hostSpecific.info.backupSchedule;
+    startAt = hostSpecific.backup.schedule;
   };
 }
