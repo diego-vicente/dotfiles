@@ -31,6 +31,7 @@ let
         ];
         exclude = [
           "/home/*/usb"
+          "/home/*/lib"
           "/mnt/media/games"
         ];
         borgbaseRepo = "mz2by24z@mz2by24z.repo.borgbase.com:repo";

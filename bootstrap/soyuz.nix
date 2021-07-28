@@ -26,7 +26,10 @@ let
         # Please check nixos-modules/backup.nix for specific instructions on
         # how to initialize a new repository in a new host!
         paths = [ "/home" ];
-        exclude = [ "/home/*/usb" ];
+        exclude = [
+          "/home/*/usb"
+          "/home/*/lib"
+        ];
         borgbaseRepo = "k6vw052b@k6vw052b.repo.borgbase.com:repo";
         schedule = "14:00";
       };
