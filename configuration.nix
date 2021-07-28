@@ -18,6 +18,11 @@ with builtins; with lib; let
       machines = [ "korolev" "vostok" "soyuz" ];
     }
     {
+      # Settings and housekeeping tasks related to the OS
+      path = ./nixos-modules/os.nix;
+      machines = [ "korolev" "vostok" "soyuz" ];
+    }
+    {
       # Networking configuration
       path = ./nixos-modules/networking.nix;
       machines = [ "korolev" "vostok" "soyuz" ];

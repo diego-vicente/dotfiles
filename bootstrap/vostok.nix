@@ -17,6 +17,11 @@ let
         userName = "Diego Vicente";
         userEmail = "mail@diego.codes";
       };
+      updates = {
+        # Define the autoupdate settings for this host.
+        enable = true;
+        date = "*-*-* 13:00:00";
+      };
       backup = {
         # Please check nixos-modules/backup.nix for specific instructions on
         # how to initialize a new repository in a new host!
