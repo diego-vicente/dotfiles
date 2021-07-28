@@ -11,6 +11,9 @@
     allowReboot = false;
   };
 
+  # Optimize the nix store by default for new derivations
+  nix.autoOptimiseStore = true;
+
   # Enable regular garbage collection from the nix-store
   nix.gc = {
     automatic = true;
