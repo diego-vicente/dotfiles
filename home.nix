@@ -29,12 +29,12 @@ with builtins; with lib; let
     {
       # My bare-bones Emacs experimental configuration
       path = ./home-modules/emacs.nix;
-      machines = [ "korolev" ];
+      machines = [ "korolev" "soyuz" ];
     }
     {
       # My Emacs (doom-emacs) personal configuration
       path = ./home-modules/doom-emacs.nix;
-      machines = [ "vostok" "soyuz" ];
+      machines = [ "vostok" ];
     }
     {
       # A basic keyboard layout and variant configuration
