@@ -52,6 +52,11 @@ with builtins; with lib; let
       machines = [ "vostok" "soyuz" ];
     }
     {
+      # Webcam configuration and settings
+      path = ./home-modules/webcam.nix;
+      machines = [ "korolev" ];
+    }
+    {
       # Different desktop applications that I need from time to time
       path = ./home-modules/desktop.nix;
       machines = [ "korolev" "vostok" ];
