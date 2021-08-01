@@ -7,7 +7,6 @@
     dbeaver
     postman
     gimp
-    chromium
     xfce.thunar
     xfce.thunar-volman
     xfce.thunar-archive-plugin

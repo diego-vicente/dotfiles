@@ -59,7 +59,7 @@ with builtins; with lib; let
     {
       # Different desktop applications that I need from time to time
       path = ./home-modules/desktop.nix;
-      machines = [ "korolev" "vostok" ];
+      machines = [ "korolev" "soyuz" "vostok" ];
     }
     {
       # My personal mail configuration (mbsync + mu)
