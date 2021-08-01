@@ -35,7 +35,7 @@ let
           "/mnt/media/games"
         ];
         borgbaseRepo = "mz2by24z@mz2by24z.repo.borgbase.com:repo";
-        schedule = "21:00";
+        schedule = "20:30";
       };
       fileSystems = {
         # Add the media NVME mounted in /mnt/media
