@@ -604,7 +604,7 @@ in {
   programs.rofi = {
     enable = true;
     theme = ../assets/nord.rasi;
-    font = "JetBrains Mono 11";
+    font = "JetBrains Mono Medium 11";
     extraConfig = {
       display-drun = "Open";
     };
@@ -684,7 +684,7 @@ in {
         normal.family = "JetBrains Mono Medium";
         bold.family = "JetBrains Mono Medium";
         italic.family = "JetBrains Mono Medium";
-        size = 11;
+        size = 12;
       };
       colors = {
         primary = {
