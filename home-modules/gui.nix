@@ -286,7 +286,7 @@ in {
               }
               {
                 # Make Firefox Picture-In-Picture floating in all workspaces
-                criteria = { window_role = "PictureInPicture"; };
+                criteria = { window_role = "Toplevel"; };
                 command = "sticky enable";
               }
             ];
