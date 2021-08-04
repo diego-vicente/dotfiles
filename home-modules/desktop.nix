@@ -5,5 +5,8 @@
   home.packages = with pkgs; [
     chromium
     calibre
+    xfce.thunar
+    xfce.thunar-volman
+    xfce.thunar-archive-plugin
   ];
 }

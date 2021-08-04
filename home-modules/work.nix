@@ -7,8 +7,5 @@
     dbeaver
     postman
     gimp
-    xfce.thunar
-    xfce.thunar-volman
-    xfce.thunar-archive-plugin
   ];
 }
