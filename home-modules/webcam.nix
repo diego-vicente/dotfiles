@@ -18,11 +18,10 @@ in {
     Service = {
       ExecStart = ''
         ${v4l}/bin/v4l2-ctl \
-          --set-ctrl=white_balance_temperature_auto=0
-        ${v4l}/bin/v4l2-ctl \
-          --set-ctrl=contrast=100 \
+          --set-ctrl=white_balance_temperature_auto=0 \
+          --set-ctrl=contrast=85 \
           --set-ctrl=saturation=140 \
-          --set-ctrl=white_balance_temperature=2900 \
+          --set-ctrl=white_balance_temperature=2850 \
           --set-ctrl=sharpness=100
         '';
     };
