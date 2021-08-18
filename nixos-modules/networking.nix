@@ -17,7 +17,7 @@
 
     # Set the firewall to allow ICMP traffic
     firewall = {
-      enable = true;
+      enable = false;  # FIXME: allow ports from home-modules/chrome.nix
       allowPing = true;
       # allowedTCPPorts = [ ... ];
       # allowedUDPPorts = [ ... ];
