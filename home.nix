@@ -47,6 +47,11 @@ with builtins; with lib; let
       machines = [ "korolev" "vostok" "soyuz" ];
     }
     {
+      # Google Chrome basic configuration
+      path = ./home-modules/chrome.nix;
+      machines = [ "korolev" "soyuz" ];
+    }
+    {
       # Neuron is a plaintext note-taking app and server
       path = ./home-modules/neuron.nix;
       machines = [ "vostok" "soyuz" ];
