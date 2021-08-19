@@ -1,5 +1,10 @@
 { config, lib, pkgs, emacsPkg ? pkgs.emacs, ... }:
 
+# GOTCHA: first time around, you should run this commands after activating the
+# module:
+#  $ mu init --maildir=~/docs/maildir --my-address=mail@diego.codes
+#  $ mbsync -a
+
 {
   # These three packages are the ones in charge of fetching and indexing all the
   # mail from in my machine
@@ -21,7 +26,7 @@
     # Configure the server connection details
     primary = true;
     userName = "mail@diego.codes";
-    passwordCommand = "${pkgs.gnupg}/bin/gpg --decrypt ${../passwords/mail.asc}";
+    passwordCommand = "${pkgs.gnupg}/bin/gpg --decrypt ${../passwords/mail.asc} 2> /dev/null";
     imap = {
       host = "imap.migadu.com";
       port = 993;

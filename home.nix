@@ -69,7 +69,7 @@ with builtins; with lib; let
     {
       # My personal mail configuration (mbsync + mu)
       path = ./home-modules/mail.nix;
-      machines = [ "vostok" ];
+      machines = [ "korolev" "vostok" ];
     }
     {
       # My Spotify (official + spotifyd) setup
