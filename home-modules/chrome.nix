@@ -7,6 +7,9 @@
     # TODO: include extensions declaratively?
   };
 
+  # Set as the default browser
+  home.sessionVariables.BROWSER = "google-chrome-stable";
+
   # Add a dekstop entry for Chrome that uses dark mode
   home.file.".local/share/applications/GoogleChrome.desktop".text = ''
     [Desktop Entry]
