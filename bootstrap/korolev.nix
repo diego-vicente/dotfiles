@@ -20,7 +20,7 @@ let
       updates = {
         # Define the autoupdate settings for this host.
         enable = true;
-        date = "Sat,Sun *-*-* 21:00:00";
+        date = "Sun *-*-* 14:30:00";
       };
       backup = {
         # Please check nixos-modules/backup.nix for specific instructions on
@@ -35,7 +35,7 @@ let
           "/mnt/media/games"
         ];
         borgbaseRepo = "mz2by24z@mz2by24z.repo.borgbase.com:repo";
-        schedule = "20:30";
+        schedule = "14:15";
       };
       fileSystems = {
         # Add the media NVME mounted in /mnt/media
