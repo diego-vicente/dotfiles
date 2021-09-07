@@ -56,7 +56,7 @@ in {
     xorg.xbacklight
     xclip
     playerctl
-    maim
+    flameshot
     imagemagick
   ]
   # Video and audio scripts
@@ -220,10 +220,7 @@ in {
             "${mod}+c" = "exec ${../bin/open-in-chromium.sh} $(${pkgs.xclip}/bin/xclip -o)";
             "${mod}+Shift+c" = "exec ${../bin/open-in-chromium.sh} $(${pkgs.xclip}/bin/xclip -o -s clipboard)";
             # Take screenshot and save it to the clipboard
-            "${mod}+Shift+s" = let
-              takeScreenshot = "${pkgs.maim}/bin/maim -s --format=png /dev/stdout";
-              saveToClipboard = "${pkgs.xclip}/bin/xclip -selection clipboard -t image/png -i";
-            in "exec ${takeScreenshot} | ${saveToClipboard}";
+            "${mod}+Shift+s" = "exec ${pkgs.flameshot}/bin/flameshot gui";
             # TODO: include binding for lock-and-blur.sh
             "${mod}+t" = "exec --no-startup-id WINIT_X11_SCALE_FACTOR=1 ${pkgs.alacritty}/bin/alacritty";
             "${mod}+Shift+t" = "exec --no-startup-id ${emacsPkg}/bin/emacsclient -c -e '(vterm)'";
