@@ -19,7 +19,7 @@ let
       };
       updates = {
         # Define the autoupdate settings for this host.
-        enable = true;
+        enable = false;  # FIXME: restarts display-manager and can be dangerous
         date = "Mon,Wed *-*-* 14:45:00";
       };
       backup = {
