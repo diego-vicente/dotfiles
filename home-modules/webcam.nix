@@ -1,7 +1,8 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, hostname, ... }:
 
 let
   v4l = pkgs.v4l-utils;
+  device = if hostname == "soyuz" then "/dev/video2" else "/dev/video0";
 in {
   # Install video4linux utilites
   home.packages = [ v4l ];
@@ -18,6 +19,7 @@ in {
     Service = {
       ExecStart = ''
         ${v4l}/bin/v4l2-ctl \
+          --device=${device} \
           --set-ctrl=white_balance_temperature_auto=0 \
           --set-ctrl=contrast=85 \
           --set-ctrl=saturation=140 \
