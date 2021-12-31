@@ -59,7 +59,7 @@ with builtins; with lib; let
     {
       # Webcam configuration and settings
       path = ./home-modules/webcam.nix;
-      machines = [ "korolev" ];
+      machines = [ "korolev" "soyuz" ];
     }
     {
       # Different desktop applications that I need from time to time
