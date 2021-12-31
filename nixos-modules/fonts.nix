@@ -9,6 +9,7 @@
       jetbrains-mono
       font-awesome
       emacs-all-the-icons-fonts
+      (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
     ];
 
     fontconfig = {
@@ -16,7 +17,7 @@
       defaultFonts = {
         sansSerif = [ "Noto Sans" ];
         serif = [ "Noto Serif" ];
-        monospace = [ "JetBrains Mono" ];
+        monospace = [ "JetBrainsMonoMedium Nerd Font" ];
         emoji = [ "Noto Color Emoji" ];
       };
     };

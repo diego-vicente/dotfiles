@@ -299,7 +299,7 @@ in {
             ${modes.toggleAudio.message} = modes.toggleAudio.definition;
           } // screenToggle;
           fonts = {
-            names = [ "JetBrains Mono" ];
+            names = [ "JetBrainsMonoMedium Nerd Font" ];
             size = 10.0;
           };
           bars = [];  # bars are handled by services.polybar
@@ -366,7 +366,7 @@ in {
         padding-right = 5;
         module-margin-left = 1;
         module-margin-right = 2;
-        font-0 = "JetBrains Mono Medium:size=10;1";
+        font-0 = "JetBrainsMonoMedium Nerd Font:size=10;1";
         font-1 = "unifont:fontformat=truetype:size=8:antialias=false;0";
         font-2 = "Font Awesome 5 Free:style=Regular:pixelsize=10;1";
         font-3 = "Font Awesome 5 Free:style=Solid:pixelsize=10;1";
@@ -601,7 +601,7 @@ in {
   programs.rofi = {
     enable = true;
     theme = ../assets/nord.rasi;
-    font = "JetBrains Mono Medium 11";
+    font = "JetBrainsMonoMedium Nerd Font 11";
     extraConfig = {
       display-drun = "Open";
     };
@@ -626,7 +626,7 @@ in {
         separator_color = "frame";
         sort = "yes";
         idle_threshold = 120;
-        font = "JetBrains Mono Medium 10";
+        font = "JetBrainsMonoMedium Nerd Font 10";
         line_height = 0;
         markup = "full";
         format = "<b>%s</b>\n%b";
@@ -678,9 +678,9 @@ in {
     enable = true;
     settings = {
       font = {
-        normal.family = "JetBrains Mono Medium";
-        bold.family = "JetBrains Mono Medium";
-        italic.family = "JetBrains Mono Medium";
+        normal.family = "JetBrainsMonoMedium Nerd Font";
+        bold.family = "JetBrainsMonoMedium Nerd Font";
+        italic.family = "JetBrainsMonoMedium Nerd Font";
         size = 12;
       };
       colors = {
