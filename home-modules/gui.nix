@@ -366,7 +366,7 @@ in {
         padding-right = 5;
         module-margin-left = 1;
         module-margin-right = 2;
-        font-0 = "JetBrainsMonoMedium Nerd Font:size=10;1";
+        font-0 = "JetBrains Mono:size=10;1";
         font-1 = "unifont:fontformat=truetype:size=8:antialias=false;0";
         font-2 = "Font Awesome 5 Free:style=Regular:pixelsize=10;1";
         font-3 = "Font Awesome 5 Free:style=Solid:pixelsize=10;1";
