@@ -183,8 +183,8 @@ in {
             "${mod}+s" = "focus child";
             "${mod}+minus" = "move scratchpad";
             "${mod}+equal" = "scratchpad show";
-            "${mod}+Shift+space" = "floating toggle";
-            "${mod}+space" = "focus mode_toggle";
+            "${mod}+space" = "floating toggle";
+            "${mod}+Shift+space" = "sticky toggle";
             "${mod}+1" = "workspace ${ws1}";
             "${mod}+2" = "workspace ${ws2}";
             "${mod}+3" = "workspace ${ws3}";
