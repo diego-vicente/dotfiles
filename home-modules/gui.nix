@@ -757,4 +757,7 @@ in {
       dynamic_padding = true;
     };
   };
+
+  # Set the nord theme across the X server
+  home.file.".Xresources".source = ../assets/nord-xresources;
 }
