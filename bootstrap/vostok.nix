@@ -30,6 +30,9 @@ let
         borgbaseRepo = "vd67iwa5@vd67iwa5.repo.borgbase.com:repo";
         schedule = "12:00";
       };
+      boot = {
+        maxGenerations = 10;
+      };
       fileSystems = {};
       video = {
         # --- Video outputs ---

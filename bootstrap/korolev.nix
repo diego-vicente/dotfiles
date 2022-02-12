@@ -37,6 +37,9 @@ let
         borgbaseRepo = "mz2by24z@mz2by24z.repo.borgbase.com:repo";
         schedule = "14:15";
       };
+      boot = {
+        maxGenerations = 2;
+      };
       fileSystems = {
         # Add the media NVME mounted in /mnt/media
         "/mnt/media" = {

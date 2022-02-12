@@ -34,6 +34,9 @@ let
         schedule = "14:00";
       };
       fileSystems = {};
+      boot = {
+        maxGenerations = 10;
+      };
       video = {
         # --- Video outputs ---
         # The output names differ from one system to another and can be checked
