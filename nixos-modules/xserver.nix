@@ -5,16 +5,9 @@
   # i3 or polybar to the home-manager (and therefore, per-user) configuration
   services.xserver = {
     enable = true;
-    # Delegate the session on the home-manager script
-    desktopManager.session = [
-      {
-        name = "home-manager";
-        start = ''
-          ${pkgs.runtimeShell} $HOME/.hm-xsession &
-          waitPID=$!
-        '';
-      }
-    ];
+    displayManager.gdm.enable = true;
+    displayManager.gdm.wayland = false;
+    desktopManager.gnome.enable = true;
     # Set the keyboard to US international
     layout = "us";
     xkbVariant = "intl";
@@ -29,6 +22,10 @@
       };
     };
   };
+
+  # Enable proper Gnome configuration via Nix/home-manager
+  services.dbus.packages = with pkgs; [ gnome.dconf ];
+  services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
 
   # Sound is enabled for systems with X
   sound.enable = true;
