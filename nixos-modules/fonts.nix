@@ -13,7 +13,6 @@
     ];
 
     fontconfig = {
-      dpi = 96;
       defaultFonts = {
         sansSerif = [ "Noto Sans" ];
         serif = [ "Noto Serif" ];

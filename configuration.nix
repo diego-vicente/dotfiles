@@ -10,7 +10,7 @@ with builtins; with lib; let
     {
       # Power consumption and monitoring utilities
       path = ./nixos-modules/power.nix;
-      machines = [ "vostok" "soyuz" ];
+      machines = [ "vostok" ];
     }
     {
       # Boot configuration and other kernel flags
@@ -109,5 +109,5 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "21.05"; # Did you read the comment?
+  system.stateVersion = "21.11"; # Did you read the comment?
 }
