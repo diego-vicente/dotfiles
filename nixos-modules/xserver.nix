@@ -5,11 +5,9 @@
   # i3 or polybar to the home-manager (and therefore, per-user) configuration
   services.xserver = {
     enable = true;
-    displayManager.gdm.wayland = false;
+    displayManager.gdm.enable = true;
+    displayManager.gdm.wayland = true;  # can be disabled in nvidia.nix
     desktopManager.gnome.enable = true;
-    # Disable GDM if it is going to be used with NVidia
-    displayManager.gdm.enable = hostSpecific.video.strategy == "amdgpu";
-    displayManager.lightdm.enable = hostSpecific.video.strategy != "amdgpu";
     # Set the keyboard to US international
     layout = "us";
     xkbVariant = "intl";
