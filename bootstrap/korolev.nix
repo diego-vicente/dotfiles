@@ -55,6 +55,7 @@ let
         #   $ xrandr
         # If the setup is the same, the same `xrandrArgs` should be valid from
         # one system to another.
+        strategy = "amdgpu";
         main = {
           name = "screen";
           output = "HDMI-A-0";

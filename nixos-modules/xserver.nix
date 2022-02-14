@@ -1,13 +1,15 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, hostSpecific, ... }:
 
 {
   # This X configuration is designed to delegate all the session specifics like
   # i3 or polybar to the home-manager (and therefore, per-user) configuration
   services.xserver = {
     enable = true;
-    displayManager.gdm.enable = true;
     displayManager.gdm.wayland = false;
     desktopManager.gnome.enable = true;
+    # Disable GDM if it is going to be used with NVidia
+    displayManager.gdm.enable = hostSpecific.video.strategy == "amdgpu";
+    displayManager.lightdm.enable = hostSpecific.video.strategy != "amdgpu";
     # Set the keyboard to US international
     layout = "us";
     xkbVariant = "intl";
