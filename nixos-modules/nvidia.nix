@@ -20,7 +20,7 @@
   
   services.xserver = {
     # Wayland is not compatible with this setup
-    displayManager.gdm.wayland = lib.mkForce false;
+    # displayManager.gdm.wayland = lib.mkForce false;
     # Load both intel and NVidia drivers
     videoDrivers = [ 
       "intel"
