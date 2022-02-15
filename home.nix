@@ -22,7 +22,7 @@ with builtins; with lib; let
       machines = [ "korolev" "vostok" "soyuz" ];
     }
     {
-      # My GUI desktop configuration: i3 + polybar + rofi (and more)
+      # My GUI desktop configuration using Gnome
       path = ./home-modules/gui.nix;
       machines = [ "korolev" "vostok" "soyuz" ];
     }
@@ -42,16 +42,6 @@ with builtins; with lib; let
       machines = [ "korolev" "vostok" "soyuz" ];
     }
     {
-      # My custom Firefox workflow and aesthetic settings
-      path = ./home-modules/firefox.nix;
-      machines = [ "korolev" "vostok" "soyuz" ];
-    }
-    {
-      # Google Chrome basic configuration
-      path = ./home-modules/chrome.nix;
-      machines = [ "korolev" "soyuz" ];
-    }
-    {
       # Neuron is a plaintext note-taking app and server
       path = ./home-modules/neuron.nix;
       machines = [ "vostok" "soyuz" ];
@@ -60,11 +50,6 @@ with builtins; with lib; let
       # Webcam configuration and settings
       path = ./home-modules/webcam.nix;
       machines = [ "korolev" "soyuz" ];
-    }
-    {
-      # Different desktop applications that I need from time to time
-      path = ./home-modules/desktop.nix;
-      machines = [ "korolev" "soyuz" "vostok" ];
     }
     {
       # My personal mail configuration (mbsync + mu)
@@ -99,7 +84,10 @@ in {
   xdg.enable = true;
 
   # Allow unfree packages for the user
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs = {
+    config.allowUnfree = true;
+    overlays = import ./home-modules/overlays.nix;
+  };
 
   # Import the modules that are needed for this machine
   imports = map extendArguments currentModules;

@@ -77,12 +77,16 @@ with builtins; with lib; let
   extendArguments = module: import module.path args;
 in
 {
-  # Allow non-free packages and include the unstable channel
-  nixpkgs.config = {
-    allowUnfree = true;
-    packageOverrides = pkgs: {
-      unstable = import <nixpkgs-unstable> {
-        config = config.nixpkgs.config;
+  nixpkgs = {
+    # Add all package overlays
+    overlays = import ./nixos-modules/overlays.nix;
+    # Allow non-free packages and include the unstable channel
+    config = {
+      allowUnfree = true;
+      packageOverrides = pkgs: {
+        unstable = import <nixpkgs-unstable> {
+          config = config.nixpkgs.config;
+        };
       };
     };
   };
