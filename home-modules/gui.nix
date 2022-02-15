@@ -1,75 +1,32 @@
 { config, lib, pkgs, emacsPkg, hostSpecific, ... }:
 
-# TODO: the conditional i3 modes generation is a bunch of spaghetti code that
-# should be refactored ASAP.
-
-let
-  # audioSettings is a set of attributes with some scripts designed to change
-  # the audio to some predefined setups (laptop, HDMI, headphones) using the
-  # pactl sink and port interfaces. These names are host specific.
-  audioSettings = let
-    generateScript = name: setting:
-      pkgs.writeShellScriptBin name ''
-        pactl set-card-profile 0 output:${setting.output.profile}+input:${setting.input.profile}
-        pactl set-sink-port alsa_output.pci-0000_00_1f.3.${setting.output.profile} ${setting.output.port}
-        pactl set-source-port alsa_input.pci-0000_00_1f.3.${setting.input.profile} ${setting.input.port}
-        i3-msg mode default
-      '';
-  in {
-    main = generateScript "set-main-audio" hostSpecific.audio.main;
-    headphones = generateScript "set-headphones-audio" hostSpecific.audio.headphones;
-    aux = if isNull hostSpecific.audio.aux
-          then pkgs.writeShellScriptBin "set-aux-audio" ""
-          else generateScript "set-aux-audio" hostSpecific.audio.aux;
-  };
-  # videoSettings is a set of attribute containing some scripts designed to
-  # change the video output of the system. Most of the output names and
-  # arguments are host specific. It also depends on the audioSettings set to
-  # change the audio accordingly
-  videoSettings = with hostSpecific; {
-    aux = let
-      scriptBody = if isNull video.aux then ""
-                   else ''
-            xrandr --output ${video.aux.output} --primary ${video.aux.xrandrArgs} --pos 0x0 \
-                   --output ${video.main.output} ${video.main.xrandrArgs} --pos 2560x576
-            ${audioSettings.aux}/bin/set-aux-audio
-            i3-msg restart
-          '';
-    in pkgs.writeShellScriptBin "set-aux-video" scriptBody;
-    main = let
-      # Whether or not any aux output has to be switched off
-      auxOff = if isNull video.aux then ""
-               else "xrandr --output ${video.aux.output} --off";
-    in pkgs.writeShellScriptBin "set-main-video" ''
-      xrandr --output ${video.main.output} --primary ${video.main.xrandrArgs}
-      ${auxOff}
-      ${audioSettings.main}/bin/set-main-audio
-      i3-msg restart
-    '';
-  };
-in {
+{
   # Install all GUI related packages
   home.packages = with pkgs; [
-    # GUI and similar
-    rofi
-    hsetroot
-    xorg.xbacklight
-    xclip
-    playerctl
+    # Gnome apps
+    gnome.eog
+    gnome.rygel
+    gnome.mutter
+    gnome.gpaste
+    gnome.cheese
+    gnome.nautilus
+    gnome.sushi
+    gnome.file-roller
+    gnome.gnome-music
+    gnome.gnome-tweaks
+    gnome.gnome-calendar
+    gnome.dconf-editor
+    gnomeExtensions.user-themes
+    gnomeExtensions.paperwm 
+    # Other apps
+    google-chrome  # GOTCHA: modified via nix-modules/overlays.nix
+    calibre
+    insomnia
     flameshot
-    imagemagick
-  ]
-  # Video and audio scripts
-  ++ lib.attrValues videoSettings
-  ++ lib.attrValues audioSettings;
-
-  # Define the X session to use i3 and the defined configuration in the
-  # repository. This session is saved in a custom script that allows to invoke
-  # it from a NixOS configuration or another xinit script.
-  # xsession = {
-  #   enable = true;
-  #   scriptPath = ".hm-xsession";
-  # };
+    # Rolling release apps
+    unstable.rmview
+    unstable.vscode
+  ];
 
   dconf.settings = {
     "org/gnome/desktop/background" = {
@@ -99,12 +56,86 @@ in {
     "org/gnome/shell/overrides" = {
       dynamic-workspaces = true;
       # These settings are not supported by PaperWM
-      edge-tiling = true;
-      workspaces-only-on-primary = true;
-      attach-modal-dialogs = true;
+      edge-tiling = false;
+      workspaces-only-on-primary = false;
+      attach-modal-dialogs = false;
     };
     "org/gnome/shell/extensions/user-theme" = {
       name = "Nordic";  # nordic should be installed
+    };
+    "org/gnome/desktop/wm/keybindings" = {
+      switch-to-workspace-1 = ["<Super>1"];
+      switch-to-workspace-2 = ["<Super>2"];
+      switch-to-workspace-3 = ["<Super>3"];
+      switch-to-workspace-4 = ["<Super>4"];
+      switch-to-workspace-5 = ["<Super>5"];
+      switch-to-workspace-6 = ["<Super>6"];
+      switch-to-workspace-7 = ["<Super>7"];
+      switch-to-workspace-8 = ["<Super>8"];
+      switch-to-workspace-9 = ["<Super>9"];
+      switch-to-workspace-10 = ["<Super>0"];
+      switch-to-workspace-right = ["<Super>Right"];
+      switch-to-workspace-left = ["<Super>Left"];
+      move-to-workspace-1 = ["<Super><Shift>1"];
+      move-to-workspace-2 = ["<Super><Shift>2"];
+      move-to-workspace-3 = ["<Super><Shift>3"];
+      move-to-workspace-4 = ["<Super><Shift>4"];
+      move-to-workspace-5 = ["<Super><Shift>5"];
+      move-to-workspace-6 = ["<Super><Shift>6"];
+      move-to-workspace-7 = ["<Super><Shift>7"];
+      move-to-workspace-8 = ["<Super><Shift>8"];
+      move-to-workspace-9 = ["<Super><Shift>9"];
+      move-to-workspace-10 = ["<Super><Shift>0"];
+      toggle-on-all-workspaces = ["<Super><Shift>a"];
+      toggle-fullscreen = ["<Super>f"];
+      always-on-top = ["<Super><Shift>z"];
+      cycle-windows = ["<Super>o"];
+      close = ["<Alt>F4" "<Super>q"];
+      # TODO: unbinding for now to free the ~/` in my keyboard
+      switch-group = [];
+      switch-group-backward = [];
+    };
+    "org/gnome/mutter/keybindings" = {
+      toggle-tiled-left = ["<Super><Shift>h"];
+      toggle-tiled-right = ["<Super><Shift>l"];
+    };
+    "org/gnome/shell/keybindings" = {
+      switch-to-application-1 = [];
+      switch-to-application-2 = [];
+      switch-to-application-3 = [];
+      switch-to-application-4 = [];
+      switch-to-application-5 = [];
+      switch-to-application-6 = [];
+      switch-to-application-7 = [];
+      switch-to-application-8 = [];
+      switch-to-application-9 = [];
+      focus-active-notification = ["<Super>."];
+      toggle-message-tray = ["<Super>n"];
+      toggle-overview = ["<Super>d"];
+    };
+    
+    # Define arbitrary commands as custom key bindings
+    "org/gnome/settings-daemon/plugins/media-keys" = {
+      custom-keybindings = [
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/flameshot/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/gterminal/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/browser/"
+      ];
+    };
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/flameshot" = {
+      name = "Screenshot (using Flameshot)";
+      binding = "<Super><Shift>s";
+      command = "${pkgs.flameshot}/bin/flameshot gui";
+    };
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/gterminal" = {
+      name = "Terminal (new window)";
+      binding = "<Super>t";
+      command = "gnome-terminal";
+    };
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/browser" = {
+      name = "Web browser (Google Chrome)";
+      binding = "<Super>b";
+      command = "${pkgs.google-chrome}/bin/google-chrome-stable";
     };
   };
 
@@ -116,11 +147,6 @@ in {
       package = pkgs.nordic;
     };
   };
-
-  # qt = {
-  #   enable = true;
-  #   platformTheme = "gnome";
-  # };
 
   programs.alacritty = {
     enable = true;
