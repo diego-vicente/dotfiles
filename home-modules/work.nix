@@ -5,7 +5,6 @@
     teams
     libreoffice
     dbeaver
-    postman
-    gimp
+    gnome.networkmanager-openvpn
   ];
 }
