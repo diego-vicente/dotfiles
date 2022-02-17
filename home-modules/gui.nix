@@ -168,8 +168,7 @@
   programs.gnome-terminal = {
     enable = true;
     profile = {
-      # "5ddfe964-7ee6-4131-b449-26bdd97518f7" = {  # ... for instance
-      "gnome-terminal-nord-profile" = {  # ... for instance
+      "5ddfe964-7ee6-4131-b449-26bdd97518f7" = {  # ... for instance
         default = true;
         visibleName = "Nord";
         cursorShape = "block";
