@@ -164,90 +164,32 @@
     };
   };
 
-  programs.alacritty = {
+  # Set the Gnome Terminal to use the Nord profile
+  programs.gnome-terminal = {
     enable = true;
-    settings = {
-      font = {
-        normal.family = "JetBrainsMonoMedium Nerd Font";
-        bold.family = "JetBrainsMonoMedium Nerd Font";
-        italic.family = "JetBrainsMonoMedium Nerd Font";
-        size = 12;
-      };
-      colors = {
-        primary = {
-          background = "#2e3440";
-          foreground = "#d8dee9";
-          dim_foreground = "#a5abb6";
-        };
-        cursor = {
-          text = "#2e3440";
-          cursor = "#d8dee9";
-        };
-        vi_mode_cursor = {
-          text = "#2e3440";
-          cursor = "#d8dee9";
-        };
-        selection = {
-          # text = "CellForeground";
-          background = "#4c566a";
-        };
-        search = {
-          matches = {
-            # foreground = "CellBackground";
-            background = "#88c0d0";
-          };
-          bar = {
-            background = "#434c5e";
-            foreground = "#d8dee9";
-          };
-        };
-        normal = {
-          black = "#3b4252";
-          red = "#bf616a";
-          green = "#a3be8c";
-          yellow = "#ebcb8b";
-          blue = "#81a1c1";
-          magenta = "#b48ead";
-          cyan = "#88c0d0";
-          white = "#e5e9f0";
-        };
-        bright = {
-          black = "#4c566a";
-          red = "#bf616a";
-          green = "#a3be8c";
-          yellow = "#ebcb8b";
-          blue = "#81a1c1";
-          magenta = "#b48ead";
-          cyan = "#8fbcbb";
-          white = "#eceff4";
-        };
-        dim = {
-          black = "#373e4d";
-          red = "#94545d";
-          green = "#809575";
-          yellow = "#b29e75";
-          blue = "#68809a";
-          magenta = "#8c738c";
-          cyan = "#6d96a5";
-          white = "#aeb3bb";
+    profile = {
+      # "5ddfe964-7ee6-4131-b449-26bdd97518f7" = {  # ... for instance
+      "gnome-terminal-nord-profile" = {  # ... for instance
+        default = true;
+        visibleName = "Nord";
+        cursorShape = "block";
+        font = "JetBrains Mono NL 12";
+        showScrollbar = false;
+        colors = {
+          foregroundColor = "#D8DEE9";
+          backgroundColor = "#2E3440";
+          boldColor = "#D9DEE9";
+          palette = [
+            "#3B4252" "#BF616A" "#A3BE8C" "#EBCB8B"
+            "#81A1C1" "#B48EAD" "#88C0D0" "#E5E9F0"
+            "#4C566A" "#BF616A" "#A3BE8C" "#EBCB8B"
+            "#81A1C1" "#B48EAD" "#8FBCBB" "#ECEFF4"
+          ];
         };
       };
-      key_bindings = [
-        {
-          key = "V";
-          mods = "Control|Shift";
-          action = "Paste";
-        }
-        {
-          key = "C";
-          mods = "Control|Shift";
-          action = "Copy";
-        }
-      ];
-      dynamic_padding = true;
     };
   };
 
   # Set the nord theme across the X server
-  # home.file.".Xresources".source = ../assets/nord-xresources;
+  home.file.".Xresources".source = ../assets/nord-xresources;
 }
