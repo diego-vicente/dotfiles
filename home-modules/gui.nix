@@ -64,6 +64,10 @@
       name = "Nordic";  # nordic should be installed
     };
     "org/gnome/desktop/wm/keybindings" = {
+      # Actions
+      cycle-windows = ["<Super>o"];
+      close = ["<Alt>F4" "<Super>q"];
+      # Workspace management
       switch-to-workspace-1 = ["<Super>1"];
       switch-to-workspace-2 = ["<Super>2"];
       switch-to-workspace-3 = ["<Super>3"];
@@ -86,11 +90,17 @@
       move-to-workspace-8 = ["<Super><Shift>8"];
       move-to-workspace-9 = ["<Super><Shift>9"];
       move-to-workspace-10 = ["<Super><Shift>0"];
-      toggle-on-all-workspaces = ["<Super><Shift>a"];
+      move-to-monitor-left = ["<Super><Shift>["];
+      move-to-monitor-right = ["<Super><Shift>]"];
+      # Window sizes
       toggle-fullscreen = ["<Super>f"];
+      toggle-maximize = ["<Super>m"];
+      maximize = [];
+      unmaximize = [];
+      minimize = ["<Super><Shift>m"];
+      # Other positions
       always-on-top = ["<Super><Shift>z"];
-      cycle-windows = ["<Super>o"];
-      close = ["<Alt>F4" "<Super>q"];
+      toggle-on-all-workspaces = ["<Super><Shift>a"];
       # TODO: unbinding for now to free the ~/` in my keyboard
       switch-group = [];
       switch-group-backward = [];
@@ -120,6 +130,7 @@
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/flameshot/"
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/gterminal/"
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/browser/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/editor/"
       ];
     };
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/flameshot" = {
@@ -136,6 +147,11 @@
       name = "Web browser (Google Chrome)";
       binding = "<Super>b";
       command = "${pkgs.google-chrome}/bin/google-chrome-stable";
+    };
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/editor" = {
+      name = "Visual Studio Code";
+      binding = "<Super>Return";
+      command = "code";
     };
   };
 
