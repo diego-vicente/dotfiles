@@ -30,6 +30,13 @@
     enable = true;
     userName = userName;
     userEmail = userEmail;
+    extraConfig = {
+      # Only fast-forward by default. That way, git will push only if there are
+      # no issues; otherwise we need to use one of:
+      #   $ git pull --rebase    # to rebase when pulling
+      #   $ git pull --ff        # to create a merge commit
+      pull.ff = "only";
+    };
   };
 
   # Define ZSH as the default shell and configure some basic options like the
