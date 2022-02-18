@@ -37,6 +37,11 @@ with builtins; with lib; let
       machines = [ "vostok" ];
     }
     {
+      # My bare-bones Emacs experimental configuration
+      path = ./home-modules/vscode.nix;
+      machines = [ "korolev" "soyuz" "vostok" ];
+    }
+    {
       # A basic keyboard layout and variant configuration
       path = ./home-modules/keyboard.nix;
       machines = [ "korolev" "vostok" "soyuz" ];

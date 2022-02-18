@@ -25,7 +25,6 @@
     flameshot
     # Rolling release apps
     unstable.rmview
-    unstable.vscode
   ];
 
   dconf.settings = {
