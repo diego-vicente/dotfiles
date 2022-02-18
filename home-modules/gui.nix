@@ -41,6 +41,7 @@
       document-font-name = "Noto Serif 11";
     };
     "org/gnome/shell" = {
+      disable-user-extensions = false;
       enabled-extensions = [
         "GPaste@gnome-shell-extensions.gnome.org"
         "workspace-indicator@gnome-shell-extensions.gcampax.github.com"
