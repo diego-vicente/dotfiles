@@ -1,6 +1,12 @@
 { config, lib, pkgs, hostSpecific, ... }:
 
 {
+  # Ensure that the TTY has the same layout as the X server
+  console.useXkbConfig = true;
+  i18n.defaultLocale = "en_US.UTF-8";
+
+  # Set your time zone.
+  time.timeZone = "Europe/Madrid";
   # TODO: review if using flakes this could be done in a CI/CD environment to
   # be tested and stored.
 

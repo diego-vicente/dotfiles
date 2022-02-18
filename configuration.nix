@@ -10,7 +10,7 @@ with builtins; with lib; let
     {
       # Power consumption and monitoring utilities
       path = ./nixos-modules/power.nix;
-      machines = [ "vostok" ];
+      machines = [ "vostok" ];  # TODO: check if soyuz with Gnome's and TLP
     }
     {
       # Boot configuration and other kernel flags
