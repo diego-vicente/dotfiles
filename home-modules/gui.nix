@@ -18,6 +18,9 @@
     gnome.dconf-editor
     gnomeExtensions.user-themes
     gnomeExtensions.paperwm 
+    # Trackpad gestures
+    gnomeExtensions.x11-gestures
+    touchegg
     # Other apps
     google-chrome  # GOTCHA: modified via nix-modules/overlays.nix
     calibre
@@ -45,6 +48,7 @@
         "GPaste@gnome-shell-extensions.gnome.org"
         "workspace-indicator@gnome-shell-extensions.gcampax.github.com"
         "user-theme@gnome-shell-extensions.gcampax.github.com"
+        "x11gestures@joseexposito.github.io"
         # FIXME: tiling window manager is still not compatible with Gnome 40
         # "paperwm@hedning:matrix.org"
       ];
@@ -187,6 +191,20 @@
           ];
         };
       };
+    };
+  };
+
+  # Set up the Touchegg daemon for trackpad gestures
+  systemd.user.services.touchegg = {
+    Unit.Description = "Touchegg daemon";
+    Install.WantedBy = [ "default.target" ];
+    Service = {
+      # It is not defined here because it fails when spawning for GROUP, but the
+      # user should be a member of the input group.
+      Type = "simple";
+      Restart = "on-failure";
+      RestartSec = "5s";
+      ExecStart = "${pkgs.touchegg}/bin/touchegg --daemon";
     };
   };
 
