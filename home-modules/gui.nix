@@ -208,6 +208,18 @@
     };
   };
 
+  # Set up the GPaste daemon for clipboard management
+  systemd.user.services.gpaste = {
+    Unit.Description = "GPaste daemon";
+    Install.WantedBy = [ "default.target" ];
+    Service = {
+      Type = "simple";
+      Restart = "on-failure";
+      RestartSec = "5s";
+      ExecStart = "${pkgs.gnome.gpaste}/libexec/gpaste/gpaste-daemon";
+    };
+  };
+
   # Set the nord theme across the X server
   home.file.".Xresources".source = ../assets/nord-xresources;
 }
