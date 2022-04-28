@@ -79,6 +79,9 @@
         # FIXME: disabled due to poor performance in very large repos
         disabled = true;
       };
+      nix_shell = {
+        format = "via [$symbol]($style)";
+      };
     };
   };
 
