@@ -17,6 +17,7 @@
     gnome.gnome-calendar
     gnome.dconf-editor
     gnomeExtensions.user-themes
+    gnomeExtensions.espresso
     gnomeExtensions.paperwm 
     # Trackpad gestures
     gnomeExtensions.x11-gestures
@@ -49,6 +50,7 @@
         "workspace-indicator@gnome-shell-extensions.gcampax.github.com"
         "user-theme@gnome-shell-extensions.gcampax.github.com"
         "x11gestures@joseexposito.github.io"
+        "espresso@coadmunkee.github.com"
         # FIXME: tiling window manager is still not compatible with Gnome 40
         # "paperwm@hedning:matrix.org"
       ];
