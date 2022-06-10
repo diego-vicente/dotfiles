@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ pkgs, options }:
 
 {
   # Enable GnuPG. For now, it does not control the SSH identities.

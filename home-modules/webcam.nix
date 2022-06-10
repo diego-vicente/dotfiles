@@ -1,8 +1,9 @@
-{ config, lib, pkgs, hostname, ... }:
+{ pkgs, options }:
 
 let
   v4l = pkgs.v4l-utils;
-  device = if hostname == "soyuz" then "/dev/video2" else "/dev/video0";
+  # if hostname == "soyuz" then  else "/dev/video0";
+  device = options.device;
 in {
   # Install video4linux utilites
   home.packages = [ v4l ];

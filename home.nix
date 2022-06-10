@@ -47,11 +47,6 @@ with builtins; with lib; let
       machines = [ "korolev" "vostok" "soyuz" ];
     }
     {
-      # Neuron is a plaintext note-taking app and server
-      path = ./home-modules/neuron.nix;
-      machines = [ "vostok" "soyuz" ];
-    }
-    {
       # Webcam configuration and settings
       path = ./home-modules/webcam.nix;
       machines = [ "korolev" "soyuz" ];

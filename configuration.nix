@@ -98,9 +98,11 @@ in
 
   # Configure flakes system-wide (it is unstable, but it is the future)
   nix = {
-    package = pkgs.nixUnstable;
+    # package = pkgs.nixFlakes;
     extraOptions = ''
       experimental-features = nix-command flakes
+      keep-outputs = true
+      keep-derivations = true
     '';
   };
 

@@ -1,4 +1,4 @@
-{ config, lib, pkgs, hostSpecific, ... }:
+{ pkgs, options }:
 
 {
   # Use the systemd-boot EFI boot loader.
@@ -10,7 +10,7 @@
       device = "nodev";
       efiSupport = true;
       # GOTCHA: check the available boot space using `df -h /boot`
-      configurationLimit = hostSpecific.boot.maxGenerations;
+      configurationLimit = options.maxGenerations;
       useOSProber = true;
     };
 

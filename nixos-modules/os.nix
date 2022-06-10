@@ -1,4 +1,4 @@
-{ config, lib, pkgs, hostSpecific, ... }:
+{ pkgs, options }:
 
 {
   # Ensure that the TTY has the same layout as the X server
@@ -7,13 +7,12 @@
 
   # Set your time zone.
   time.timeZone = "Europe/Madrid";
-  # TODO: review if using flakes this could be done in a CI/CD environment to
-  # be tested and stored.
 
   # Enable automatic updates of the system
   system.autoUpgrade = {
-    enable = hostSpecific.updates.enable;
-    dates = hostSpecific.updates.date;
+    persistent = true;
+    enable = options.updates.enable;
+    dates = options.updates.date;
     allowReboot = false;
   };
 

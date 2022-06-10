@@ -1,5 +1,4 @@
-
-{ config, lib, pkgs, emacsPkg, hostSpecific, ... }:
+{ pkgs, options }:
 
 {
   home.packages = with pkgs; [
@@ -7,8 +6,9 @@
     unstable.vscode
     # Other dependencies for the editor
     rnix-lsp
+    nixpkgs-fmt
   ];
-  
+
   # The settings for the editor itself are soft-linked and not included in the
   # home-manager derivation, to be able to use the settings menu included.
 }

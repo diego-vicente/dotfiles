@@ -1,4 +1,4 @@
-{ config, lib, pkgs, hostSpecific, ... }:
+{ pkgs, options }:
 
 {
   # Install all the important CLI tools for everyday use. These are available
@@ -16,7 +16,6 @@
     bat
     exa
     procs
-    dust
     hyperfine
     bandwhich
     niv
@@ -26,7 +25,7 @@
   ];
 
   # Enable and configure the git user
-  programs.git = with hostSpecific.info; {
+  programs.git = with options.info; {
     enable = true;
     userName = userName;
     userEmail = userEmail;
@@ -90,7 +89,6 @@
   programs.direnv = {
     enable = true;
     enableZshIntegration = true;
+    nix-direnv.enable = true;
   };
-
-  services.lorri.enable = true;
 }

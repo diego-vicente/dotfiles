@@ -1,10 +1,9 @@
-{ config, lib, pkgs, emacsPkg ? pkgs.emacs, ... }:
+{ pkgs, options }:
 
 {
   # Emacs configuration
   programs.emacs = {
     enable = true;
-    package = emacsPkg;
     extraPackages = epkgs: [
       epkgs.vterm
       epkgs.emacsql-sqlite

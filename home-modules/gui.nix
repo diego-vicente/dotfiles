@@ -1,4 +1,4 @@
-{ config, lib, pkgs, emacsPkg, hostSpecific, ... }:
+{ pkgs, options }:
 
 {
   # Install all GUI related packages

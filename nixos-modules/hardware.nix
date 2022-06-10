@@ -1,12 +1,10 @@
-{ config, lib, pkgs, hostname, hostSpecific, ... }:
+{ pkgs, options, ... }:
 
 {
-  imports = [ (../hardware-configuration + "/${hostname}.nix" ) ];
-
   time.timeZone = "Europe/Madrid";
 
   # Add any additional mount points per host
-  fileSystems = hostSpecific.fileSystems;
+  fileSystems = options.fileSystems;
 
   environment.systemPackages = with pkgs; [
     # USB devices information

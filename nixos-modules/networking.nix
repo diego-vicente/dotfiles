@@ -1,4 +1,4 @@
-{ config, lib, pkgs, hostname, hostSpecific, ... }:
+{ pkgs, options, ... }:
 
 {
   # Add the necessary networking utilities
@@ -10,7 +10,7 @@
   ];
 
   networking = {
-    hostName = hostname;
+    hostName = options.hostname;
 
     # Delegate networking to HostManager
     networkmanager.enable = true;
@@ -26,9 +26,15 @@
     # DHCP flag is soon to be deprecated, so it is set to false to emulate the
     # future default behavior. DHCP must be activated per interface.
     useDHCP = false;
-    interfaces.${hostSpecific.network.wireless}.useDHCP = true;
+    interfaces.${options.wireless}.useDHCP = true;
 
     # Disable IPv6 for now due to some router hiccups
     enableIPv6 = false;
+  };
+
+  # Enable the ClamAV service and keep the database up to date
+  services.clamav = {
+    daemon.enable = true;
+    updater.enable = true;
   };
 }

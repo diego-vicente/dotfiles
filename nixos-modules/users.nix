@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ pkgs, options }:
 
 {
   # GOTCHA: This user configuration is designed to be mutable, therefore the

@@ -1,4 +1,4 @@
-{ config, lib, pkgs, hostSpecific, ... }:
+{ pkgs, options, }:
 
 {
   # There is some manual requirements to perform before activating this module.
@@ -16,15 +16,15 @@
   #
   # [1]: https://christine.website/blog/borg-backup-2021-01-09
   services.borgbackup.jobs."borgbase" = {
-    paths = hostSpecific.backup.paths;
-    exclude = hostSpecific.backup.exclude;
-    repo = hostSpecific.backup.borgbaseRepo;
+    paths = options.paths;
+    exclude = options.exclude;
+    repo = options.borgbaseRepo;
     encryption = {
       mode = "repokey-blake2";
       passCommand = "cat /root/borgbackup/passcode";
     };
     environment.BORG_RSH = "ssh -i /root/borgbackup/ssh_key";
     compression = "auto,lzma";
-    startAt = hostSpecific.backup.schedule;
+    startAt = options.schedule;
   };
 }

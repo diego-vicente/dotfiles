@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ pkgs, options }:
 
 {
   # Enable the Docker service

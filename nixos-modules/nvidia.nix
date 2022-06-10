@@ -1,4 +1,4 @@
-{ config, lib, pkgs, hostSpecific, ... }:
+{ pkgs, options }:
 
 {
   boot = {
@@ -30,17 +30,17 @@
 
   # Again, load all drivers even if they are not used
   hardware.opengl.extraPackages  = [
-    pkgs.libGL_driver
+    pkgs.mesa.drivers
     pkgs.linuxPackages.nvidia_x11.out
   ];
 
   # Configure the NVidia bus identification
-  hardware.nvidia = with hostSpecific.video.pci; {
+  hardware.nvidia = {
     modesetting.enable = true;
     prime = {
       # sync.enable = true;
-      intelBusId = intelBusId;
-      nvidiaBusId = nvidiaBusId;
+      intelBusId = options.intelBusId;
+      nvidiaBusId = options.nvidiaBusId;
     };
   };
 

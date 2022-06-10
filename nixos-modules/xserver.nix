@@ -1,4 +1,4 @@
-{ config, lib, pkgs, hostSpecific, ... }:
+{ pkgs, options }:
 
 {
   # This X configuration is designed to delegate all the session specifics like
@@ -24,7 +24,7 @@
   };
 
   # Enable proper Gnome configuration via Nix/home-manager
-  services.dbus.packages = with pkgs; [ gnome.dconf ];
+  services.dbus.packages = with pkgs; [ pkgs.dconf ];
   services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
 
   # Sound is enabled for systems with X
