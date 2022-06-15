@@ -39,10 +39,12 @@
 
       lib = nixpkgs.lib;
 
+      options = import ./options.nix;
+
       ### Custom NixOS Builder ###
-      buildCustomNixOSConfig = { system, pkgs, hostname, nixosOptions, homeOptions }:
+      buildCustomNixOSConfig = { system, pkgs, hostname, options }:
         let
-          activeModules = lib.filterAttrs (name: set: builtins.isAttrs set) nixosOptions.${hostname};
+          activeModules = lib.filterAttrs (name: set: builtins.isAttrs set) options.${hostname}.nixos;
           importModule = name: _: ./nixos-modules/${name}.nix;
           # Move hardware imports to allow for development only environments
           hardwareImports = [ ./hardware-configuration/${hostname}.nix ];
@@ -54,170 +56,47 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.users.dvicente = import ./home.nix;
-              home-manager.extraSpecialArgs = { homeOptions = homeOptions.${hostname}; };
+              home-manager.extraSpecialArgs = { homeOptions = options.${hostname}.homeManager; };
             }
           ]; 
         in lib.nixosSystem {
           inherit system pkgs;
           modules = hardwareImports ++ moduleImports ++ homeConfig;
-          specialArgs = { nixosOptions = nixosOptions.${hostname}; };
+          specialArgs = { nixosOptions = options.${hostname}.nixos; };
         };
 
-      homeOptions = {
-        soyuz = {
-          cli = { 
-            info = {
-              userName = "diego vicente";
-              userEmail = "diego.vicente@decidesoluciones.es";
-            };
-          };
-          gui = { };
-          webcam = { device = "/dev/video2"; };
-          keyboard = { };
-          # emacs = { };
-          vscode = { };
-          work = { };
+      buildCustomHomeConfig = { system, hostname, options }:
+        home-manager.lib.homeManagerConfiguration {
+          inherit system;
+          username = "dvicente";
+          configuration = import ./home.nix;
+          homeDirectory = "/home/dvicente";
+          extraSpecialArgs = options.${hostname}.homeManager;
         };
-
-        korolev = {
-          cli = { 
-            info = {
-              userName = "Diego Vicente";
-              userEmail = "mail@diego.codes";
-            };
-          };
-          gui = { };
-          webcam = { device = "/dev/video0"; };
-          keyboard = { };
-          emacs = { };
-          vscode = { };
-          photography = { };
-        };
-      };
-
-      nixosOptions = {
-        soyuz = {
-          configuration.stateVersion = "21.11";
-          hardware = {
-            fileSystems = { };
-          };
-          boot = {
-            maxGenerations = 10;
-          };
-          os = {
-            updates = {
-              # TODO: convert it to flakes properly
-              enable = false;
-              date = "Fri *-*-* 16:00:00";
-            };
-          };
-          networking = {
-            hostname = "soyuz";
-            wireless = "wlp59s0";
-          };
-          gpg = { };
-          ssh = { };
-          users = { };
-          backup = {
-            paths = [ "/home" ];
-            exclude = [
-              "/home/*/usb"
-              "/home/*/lib"
-            ];
-            borgbaseRepo = "k6vw052b@k6vw052b.repo.borgbase.com:repo";
-            schedule = "14:00";
-          };
-          xserver = { };
-          fonts = { };
-          nvidia = {
-            pci = {
-              intelBusId = "PCI:0:2:0";
-              nvidiaBusId = "PCI:1:0:0";
-            };
-          };
-          docker = { };
-        };
-
-        korolev = {
-          configuration.stateVersion = "21.11";
-          hardware = {
-            fileSystems = { 
-              # Add the media NVME mounted in /mnt/media
-              "/mnt/media" = {
-                device = "/dev/nvme1n1p2";
-                fsType = "ntfs";
-                # options = [ "data=journal" ];
-              };
-            };
-          };
-          boot = {
-            maxGenerations = 2;  # Due to a small /boot partition
-          };
-          os = {
-            updates = {
-              # TODO: convert it to flakes properly
-              enable = false;
-              date = "Sun *-*-* 14:30:00";
-            };
-          };
-          networking = {
-            hostname = "korolev";
-            wireless = "wlp6s0";
-            ethernet = "enp7s0";
-          };
-          gpg = { };
-          ssh = { };
-          users = { };
-          backup = {
-            paths = [
-              "/home"
-              "/mnt/media"
-            ];
-            exclude = [
-              "/home/*/usb"
-              "/home/*/lib"
-              "/mnt/media/games"
-            ];
-            borgbaseRepo = "mz2by24z@mz2by24z.repo.borgbase.com:repo";
-            schedule = "14:15";
-          };
-          xserver = { };
-          fonts = { };
-          amd = { };
-        };
-      };
 
     in
     rec {
       nixosConfigurations = {
         soyuz = buildCustomNixOSConfig { 
-          inherit system pkgs homeOptions nixosOptions;
+          inherit system pkgs options;
           hostname = "soyuz";
         };
 
         korolev = buildCustomNixOSConfig { 
-          inherit system pkgs homeOptions nixosOptions;
+          inherit system pkgs options;
           hostname = "korolev";
         };
       };
 
       homeConfigurations = {
-        "dvicente@soyuz" = home-manager.lib.homeManagerConfiguration {
-          # Specify the path to your home configuration here
-          inherit system;
-          username = "dvicente";
-          configuration = import ./home.nix;
-          homeDirectory = "/home/dvicente";
-          extraSpecialArgs = homeOptions.soyuz;
+        "dvicente@soyuz" = buildCustomHomeConfig {
+          inherit system options;
+          hostname = "soyuz";
         };
 
-        "dvicente@korolev" = home-manager.lib.homeManagerConfiguration {
-          # Specify the path to your home configuration here
-          inherit system;
-          username = "dvicente";
-          configuration = import ./home.nix;
-          homeDirectory = "/home/dvicente";
-          extraSpecialArgs = homeOptions.korolev;
+        "dvicente@korolev" = buildCustomHomeConfig {
+          inherit system options;
+          hostname = "korolev";
         };
       };
     };
