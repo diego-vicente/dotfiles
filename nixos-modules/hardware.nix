@@ -1,10 +1,10 @@
-{ pkgs, options, ... }:
+{ pkgs, nixosOptions, ... }:
 
 {
   time.timeZone = "Europe/Madrid";
 
   # Add any additional mount points per host
-  fileSystems = options.fileSystems;
+  fileSystems = nixosOptions.hardware.fileSystems;
 
   environment.systemPackages = with pkgs; [
     # USB devices information

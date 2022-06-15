@@ -1,4 +1,4 @@
-{ pkgs, options }:
+{ pkgs, nixosOptions, ... }:
 
 {
   # This X configuration is designed to delegate all the session specifics like

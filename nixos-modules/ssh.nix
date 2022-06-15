@@ -1,4 +1,4 @@
-{ pkgs, options }:
+{ pkgs, ... }:
 
 {
   # Enable the SSH agent.

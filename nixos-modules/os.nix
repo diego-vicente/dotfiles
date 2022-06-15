@@ -1,4 +1,4 @@
-{ pkgs, options }:
+{ pkgs, nixosOptions, ... }:
 
 {
   # Ensure that the TTY has the same layout as the X server
@@ -11,8 +11,8 @@
   # Enable automatic updates of the system
   system.autoUpgrade = {
     persistent = true;
-    enable = options.updates.enable;
-    dates = options.updates.date;
+    enable = nixosOptions.os.updates.enable;
+    dates = nixosOptions.os.updates.date;
     allowReboot = false;
   };
 

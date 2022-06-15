@@ -1,4 +1,4 @@
-{ pkgs, options }:
+{ pkgs, nixosOptions, ... }:
 
 {
   # GOTCHA: This user configuration is designed to be mutable, therefore the

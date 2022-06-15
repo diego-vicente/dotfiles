@@ -1,4 +1,4 @@
-{ pkgs, options }:
+{ pkgs, nixosOptions, ... }:
 
 {
   # Use the systemd-boot EFI boot loader.
@@ -10,7 +10,7 @@
       device = "nodev";
       efiSupport = true;
       # GOTCHA: check the available boot space using `df -h /boot`
-      configurationLimit = options.maxGenerations;
+      configurationLimit = nixosOptions.boot.maxGenerations;
       useOSProber = true;
     };
 

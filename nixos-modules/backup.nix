@@ -1,4 +1,4 @@
-{ pkgs, options, }:
+{ pkgs, nixosOptions, ... }:
 
 {
   # There is some manual requirements to perform before activating this module.
@@ -16,15 +16,15 @@
   #
   # [1]: https://christine.website/blog/borg-backup-2021-01-09
   services.borgbackup.jobs."borgbase" = {
-    paths = options.paths;
-    exclude = options.exclude;
-    repo = options.borgbaseRepo;
+    paths = nixosOptions.backup.paths;
+    exclude = nixosOptions.backup.exclude;
+    repo = nixosOptions.backup.borgbaseRepo;
     encryption = {
       mode = "repokey-blake2";
       passCommand = "cat /root/borgbackup/passcode";
     };
     environment.BORG_RSH = "ssh -i /root/borgbackup/ssh_key";
     compression = "auto,lzma";
-    startAt = options.schedule;
+    startAt = nixosOptions.backup.schedule;
   };
 }

@@ -1,4 +1,4 @@
-{ pkgs, options, ... }:
+{ pkgs, nixosOptions, ... }:
 
 {
   # Add the necessary networking utilities
@@ -10,7 +10,7 @@
   ];
 
   networking = {
-    hostName = options.hostname;
+    hostName = nixosOptions.networking.hostname;
 
     # Delegate networking to HostManager
     networkmanager.enable = true;
@@ -26,7 +26,7 @@
     # DHCP flag is soon to be deprecated, so it is set to false to emulate the
     # future default behavior. DHCP must be activated per interface.
     useDHCP = false;
-    interfaces.${options.wireless}.useDHCP = true;
+    interfaces.${nixosOptions.networking.wireless}.useDHCP = true;
 
     # Disable IPv6 for now due to some router hiccups
     enableIPv6 = false;

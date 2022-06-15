@@ -1,4 +1,4 @@
-{ pkgs, options }:
+{ pkgs, nixosOptions, ... }:
 
 {
   boot = {
@@ -39,8 +39,8 @@
     modesetting.enable = true;
     prime = {
       # sync.enable = true;
-      intelBusId = options.intelBusId;
-      nvidiaBusId = options.nvidiaBusId;
+      intelBusId = nixosOptions.nvidia.intelBusId;
+      nvidiaBusId = nixosOptions.nvidia.nvidiaBusId;
     };
   };
 

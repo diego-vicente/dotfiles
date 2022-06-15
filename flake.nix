@@ -40,10 +40,10 @@
       lib = nixpkgs.lib;
 
       ### Custom NixOS Builder ###
-      buildCustomNixOSConfig = { system, pkgs, hostname, options, homeOptions }:
+      buildCustomNixOSConfig = { system, pkgs, hostname, nixosOptions, homeOptions }:
         let
-          activeModules = lib.filterAttrs (name: set: builtins.isAttrs set) options;
-          importModule = name: options: ( import ./nixos-modules/${name}.nix { inherit pkgs options; } );
+          activeModules = lib.filterAttrs (name: set: builtins.isAttrs set) nixosOptions.${hostname};
+          importModule = name: _: ./nixos-modules/${name}.nix;
           # Move hardware imports to allow for development only environments
           hardwareImports = [ ./hardware-configuration/${hostname}.nix ];
           # overlays = [ { nixpkgs.overlays = import ./nixos-modules/overlays.nix; } ];
@@ -60,6 +60,7 @@
         in lib.nixosSystem {
           inherit system pkgs;
           modules = hardwareImports ++ moduleImports ++ homeConfig;
+          specialArgs = { nixosOptions = nixosOptions.${hostname}; };
         };
 
       homeOptions = {
@@ -190,15 +191,13 @@
     rec {
       nixosConfigurations = {
         soyuz = buildCustomNixOSConfig { 
-          inherit system pkgs homeOptions;
+          inherit system pkgs homeOptions nixosOptions;
           hostname = "soyuz";
-          options = nixosOptions.soyuz;
         };
 
         korolev = buildCustomNixOSConfig { 
-          inherit system pkgs homeOptions;
+          inherit system pkgs homeOptions nixosOptions;
           hostname = "korolev";
-          options = nixosOptions.korolev;
         };
       };
 
