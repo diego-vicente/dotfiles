@@ -58,6 +58,11 @@
           inherit system pkgs options;
           hostname = "korolev";
         };
+
+        vostok = lib.dvm.buildCustomNixOSConfig { 
+          inherit system pkgs options;
+          hostname = "vostok";
+        };
       };
 
       # Define the NixOS configurations
@@ -70,6 +75,11 @@
         "dvicente@korolev" = lib.dvm.buildCustomHomeConfig {
           inherit system options;
           hostname = "korolev";
+        };
+
+        "dvicente@vostok" = lib.dvm.buildCustomHomeConfig {
+          inherit system options;
+          hostname = "vostok";
         };
       };
     };

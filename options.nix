@@ -170,4 +170,80 @@
       photography = { };
     };
   };
+
+  # Vostok is my personal Dell XPS 15 9560
+  vostok = {
+    nixos = {
+      # Do not change this version unless active action has been taken since
+      # installation. Remember that updating the flake is done by modifying the
+      # inputs; this just defines how some stateful configuration should be
+      # parsed.
+      configuration.stateVersion = "21.05";
+      # Configure filesystem definition and some software to interact with the
+      # machine's hardware.
+      hardware = {
+        fileSystems = { };  # No filesystems are to be mounted by default.
+      };
+      # Configure the boot settings and other GRUB related aspects. 
+      boot = {
+        maxGenerations = 10;
+      };
+      # Configure the OS-related services.
+      os = {
+        # TODO: convert updates to flakes properly
+        updates = {
+          enable = false;
+          date = "*-*-* 13:00:00";
+        };
+      };
+      # Configure networking interfaces and tools.
+      networking = {
+        hostname = "vostok";
+        wireless = "wlp2s0";
+      };
+      # Configure the GPG setup.
+      gpg = { };
+      # Enable SSH.
+      ssh = { };
+      # Define the basic users (more in the home-manager config).
+      users = { };
+      # Set up backups using Borgbase repositories.
+      backup = {
+        paths = [ "/home" ];
+        exclude = [ "/home/*/usb" ];
+        borgbaseRepo = "vd67iwa5@vd67iwa5.repo.borgbase.com:repo";
+        schedule = "12:00";
+      };
+      # Set up the X server session and other interaction tools.
+      xserver = { };
+      # Define the default fonts for the system.
+      fonts = { };
+      # Set up the Nvidia graphics card.
+      nvidia = {
+        pci = {
+          intelBusId = "PCI:0:2:0";
+          nvidiaBusId = "PCI:1:0:0";
+        };
+      };
+    };
+
+    homeManager = {
+      # Set up and install the basic CLI tools that I use.
+      cli = { 
+        info = {
+          userName = "diego vicente";
+          userEmail = "mail@diego.codes";
+        };
+      };
+      # Define the graphical user interface and the keyboard shortcuts that I
+      # use.
+      gui = { };
+      # Set up the webcam.
+      webcam = { device = "/dev/video2"; };
+      # Set up the keyboard.
+      keyboard = { };
+      # Install Visual Studio Code and other complements.
+      vscode = { };
+    };
+  };
 }
