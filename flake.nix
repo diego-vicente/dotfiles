@@ -13,7 +13,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, unstable, home-manager, ... }:
+  outputs = { self, nixpkgs, unstable, home-manager, ... }@inputs:
     let
       system = "x86_64-linux";  # TODO: be more general for ARM?
 
@@ -37,64 +37,32 @@
         };
       };
 
-      lib = nixpkgs.lib;
+      lib = nixpkgs.lib.extend
+        (self: super: { dvm = import ./lib { inherit pkgs inputs; lib = self; }; });
 
       options = import ./options.nix;
-
-      ### Custom NixOS Builder ###
-      buildCustomNixOSConfig = { system, pkgs, hostname, options }:
-        let
-          activeModules = lib.filterAttrs (name: set: builtins.isAttrs set) options.${hostname}.nixos;
-          importModule = name: _: ./nixos-modules/${name}.nix;
-          # Move hardware imports to allow for development only environments
-          hardwareImports = [ ./hardware-configuration/${hostname}.nix ];
-          # overlays = [ { nixpkgs.overlays = import ./nixos-modules/overlays.nix; } ];
-          moduleImports = lib.attrsets.mapAttrsToList importModule activeModules;
-          homeConfig = [ 
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.dvicente = import ./home.nix;
-              home-manager.extraSpecialArgs = { homeOptions = options.${hostname}.homeManager; };
-            }
-          ]; 
-        in lib.nixosSystem {
-          inherit system pkgs;
-          modules = hardwareImports ++ moduleImports ++ homeConfig;
-          specialArgs = { nixosOptions = options.${hostname}.nixos; };
-        };
-
-      buildCustomHomeConfig = { system, hostname, options }:
-        home-manager.lib.homeManagerConfiguration {
-          inherit system;
-          username = "dvicente";
-          configuration = import ./home.nix;
-          homeDirectory = "/home/dvicente";
-          extraSpecialArgs = options.${hostname}.homeManager;
-        };
 
     in
     rec {
       nixosConfigurations = {
-        soyuz = buildCustomNixOSConfig { 
+        soyuz = lib.dvm.buildCustomNixOSConfig { 
           inherit system pkgs options;
           hostname = "soyuz";
         };
 
-        korolev = buildCustomNixOSConfig { 
+        korolev = lib.dvm.buildCustomNixOSConfig { 
           inherit system pkgs options;
           hostname = "korolev";
         };
       };
 
       homeConfigurations = {
-        "dvicente@soyuz" = buildCustomHomeConfig {
+        "dvicente@soyuz" = lib.dvm.buildCustomHomeConfig {
           inherit system options;
           hostname = "soyuz";
         };
 
-        "dvicente@korolev" = buildCustomHomeConfig {
+        "dvicente@korolev" = lib.dvm.buildCustomHomeConfig {
           inherit system options;
           hostname = "korolev";
         };
