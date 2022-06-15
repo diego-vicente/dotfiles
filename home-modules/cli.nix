@@ -1,4 +1,4 @@
-{ pkgs, options }:
+{ pkgs, homeOptions, ... }:
 
 {
   # Install all the important CLI tools for everyday use. These are available
@@ -25,7 +25,7 @@
   ];
 
   # Enable and configure the git user
-  programs.git = with options.info; {
+  programs.git = with homeOptions.cli.info; {
     enable = true;
     userName = userName;
     userEmail = userEmail;
@@ -63,8 +63,9 @@
     defaultOptions = [
       "--height=40%"
       "--reverse"
-      "--color=fg:#D8DEE9,bg:#2E3440,hl:#A3BE8C,fg+:#D8DEE9,bg+:#434C5E,hl+:#A3BE8C"
-      "--color=pointer:#BF616A,info:#4C566A,spinner:#4C566A,header:#4C566A,prompt:#81A1C1,marker:#EBCB8B"
+      # TODO: enable again once Nordic is ready for GTK4 or Gnome 42?
+      # "--color=fg:#D8DEE9,bg:#2E3440,hl:#A3BE8C,fg+:#D8DEE9,bg+:#434C5E,hl+:#A3BE8C"
+      # "--color=pointer:#BF616A,info:#4C566A,spinner:#4C566A,header:#4C566A,prompt:#81A1C1,marker:#EBCB8B"
     ];
   };
 

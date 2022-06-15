@@ -1,94 +1,21 @@
-args@{ config, lib, pkgs, hostname, ... }:
 
+{ lib, pkgs, homeOptions, ... }:
 
-with builtins; with lib; let
-  additionalArgs = rec {
-    # Some configurations require unstable packages. The default variable, pkgs,
-    # is linked to the stable channel and this one is included only for those
-    # packages that require it
-    unstable = import <nixpkgs-unstable> { config = config.nixpkgs.config; };
-    # Several configs depend on Emacs. This ensure all of them use the same
-    # package and are coupled together
-    emacsPkg = unstable.emacs;
-  };
-  # A list of attribute sets containing the path of each module and a list of
-  # machines it should apply to. This way I can ensure that some modules remain
-  # common to all machines and others are specific to each one, while being all
-  # included in the same configuration.
-  allModules = [
-    {
-      # A general set of CLI tools and settings I use on an everyday basis
-      path = ./home-modules/cli.nix;
-      machines = [ "korolev" "vostok" "soyuz" ];
-    }
-    {
-      # My GUI desktop configuration using Gnome
-      path = ./home-modules/gui.nix;
-      machines = [ "korolev" "vostok" "soyuz" ];
-    }
-    {
-      # My bare-bones Emacs experimental configuration
-      path = ./home-modules/emacs.nix;
-      machines = [ "korolev" "soyuz" ];
-    }
-    {
-      # My Emacs (doom-emacs) personal configuration
-      path = ./home-modules/doom-emacs.nix;
-      machines = [ "vostok" ];
-    }
-    {
-      # My bare-bones Emacs experimental configuration
-      path = ./home-modules/vscode.nix;
-      machines = [ "korolev" "soyuz" "vostok" ];
-    }
-    {
-      # A basic keyboard layout and variant configuration
-      path = ./home-modules/keyboard.nix;
-      machines = [ "korolev" "vostok" "soyuz" ];
-    }
-    {
-      # Webcam configuration and settings
-      path = ./home-modules/webcam.nix;
-      machines = [ "korolev" "soyuz" ];
-    }
-    {
-      # My personal mail configuration (mbsync + mu)
-      path = ./home-modules/mail.nix;
-      machines = [ "korolev" "vostok" ];
-    }
-    {
-      # My Spotify (official + spotifyd) setup
-      path = ./home-modules/spotify.nix;
-      machines = [ "korolev" "vostok" "soyuz" ];
-    }
-    {
-      # Some of the music producing apps and packages
-      path = ./home-modules/music.nix;
-      machines = [ "vostok" ];
-    }
-    {
-      # Some work-related specific settings
-      path = ./home-modules/photography.nix;
-      machines = [ "korolev" ];
-    }
-    {
-      # Some work-related specific settings
-      path = ./home-modules/work.nix;
-      machines = [ "soyuz" ];
-    }
-  ];
-  currentModules = filter (module: elem hostname module.machines) allModules;
-  extendArguments = module: import module.path ( args // additionalArgs );
-in {
+let
+  activeModules = lib.filterAttrs (name: set: builtins.isAttrs set) homeOptions;
+  importModule = name: options: import ./home-modules/${name}.nix;
+  moduleImports = lib.attrsets.mapAttrsToList importModule activeModules;
+in
+{
+  # Let home-manager install itself
+  programs.home-manager.enable = true;
+
   # Enable home-manager to manage the XDG standard
-  xdg.enable = true;
+  # xdg.enable = true;
 
   # Allow unfree packages for the user
-  nixpkgs = {
-    config.allowUnfree = true;
-    overlays = import ./home-modules/overlays.nix;
-  };
+  # nixpkgs.overlays = import ./home-modules/overlays.nix;
 
   # Import the modules that are needed for this machine
-  imports = map extendArguments currentModules;
+  imports = moduleImports;
 }

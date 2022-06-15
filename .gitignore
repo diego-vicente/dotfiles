@@ -10,3 +10,6 @@ passwords/*
 
 # Ignore any possible files created by nix-rebuild test
 result
+
+# Don't commit the lock
+/flake.lock

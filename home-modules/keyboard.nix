@@ -1,4 +1,4 @@
-{ pkgs, options }:
+{ pkgs, homeOptions, ... }:
 
 {
   # Cofnigure the keyboard to use US international with dead keys. This allows

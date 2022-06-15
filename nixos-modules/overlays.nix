@@ -7,19 +7,20 @@
     self: super: {
       # Set the Chrome to dark mode always
       google-chrome = super.google-chrome.override {
-        commandLineArgs = "--force-dark-mode";
+        commandLineArgs = "--enable-features=WebUIDarkMode --force-dark-mode";
       };
-      # Change the PaperWM version to next-release for Gnome 40 
-      gnomeExtensions = super.gnomeExtensions // {
-        paperwm = super.gnomeExtensions.paperwm.overrideAttrs ( _: {
-          src = super.fetchFromGitHub {
-            owner = "paperwm";
-            repo = "PaperWM";
-            rev = "e9f714846b9eac8bdd5b33c3d33f1a9d2fbdecd4"; # next-release
-            sha256 = "0wdigmlw4nlm9i4vr24kvhpdbgc6381j6y9nrwgy82mygkcx55l1";
-          };
-        });
-      };
+      # TODO: come back to Nordic once GTK4 is supported?
+      # nordic = super.nordic.overrideAttrs ( _: {
+      #   srcs = [
+      #     (super.fetchFromGitHub {
+      #       owner = "EliverLara";
+      #       repo = "Nordic";
+      #       rev = "bbc9df3075f5422c120ddb943a0f0b376861033b";  # branch 42
+      #       sha256 = "sha256-vTFzPm1aZ4HYNo75pqsUWbp432aaM3fHpSiUj7gIf78=";
+      #       name = "Nordic";
+      #     })
+      #   ];
+      # });
     }
   )
 ]

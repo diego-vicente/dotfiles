@@ -1,9 +1,9 @@
-{ pkgs, options }:
+{ pkgs, homeOptions, ... }:
 
 let
   v4l = pkgs.v4l-utils;
   # if hostname == "soyuz" then  else "/dev/video0";
-  device = options.device;
+  device = homeOptions.webcam.device;
 in {
   # Install video4linux utilites
   home.packages = [ v4l ];

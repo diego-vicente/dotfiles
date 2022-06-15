@@ -1,4 +1,4 @@
-{ pkgs, options }:
+{ pkgs, homeOptions, ... }:
 
 {
   # Install all GUI related packages
@@ -16,14 +16,16 @@
     gnome.gnome-tweaks
     gnome.gnome-calendar
     gnome.dconf-editor
-    gnomeExtensions.user-themes
+    # TODO: enable again once Nordic is ready for GTK4 or Gnome 42?
+    # gnomeExtensions.user-themes
     gnomeExtensions.espresso
     gnomeExtensions.paperwm 
+    emote
     # Trackpad gestures
     gnomeExtensions.x11-gestures
     touchegg
     # Other apps
-    google-chrome  # GOTCHA: modified via nix-modules/overlays.nix
+    google-chrome
     calibre
     insomnia
     flameshot
@@ -32,8 +34,10 @@
   ];
 
   dconf.settings = {
+    # TODO: not working in Gnome 42
     "org/gnome/desktop/background" = {
-      picture-uri = "${../assets/caffeine.png}";
+      picture-uri-light = "${../assets/caffeine_nord.png}";
+      picture-uri-dark = "${../assets/caffeine_dark.png}";
     };
     "org/gnome/desktop/wm/preferences" = {
       button-layout = "appmenu:minimize,maximize,close";
@@ -48,7 +52,8 @@
       enabled-extensions = [
         "GPaste@gnome-shell-extensions.gnome.org"
         "workspace-indicator@gnome-shell-extensions.gcampax.github.com"
-        "user-theme@gnome-shell-extensions.gcampax.github.com"
+        # TODO: enable again once Nordic is ready for GTK4 or Gnome 42?
+        # "user-theme@gnome-shell-extensions.gcampax.github.com"
         "x11gestures@joseexposito.github.io"
         "espresso@coadmunkee.github.com"
         # FIXME: tiling window manager is still not compatible with Gnome 40
@@ -67,9 +72,10 @@
       workspaces-only-on-primary = false;
       attach-modal-dialogs = false;
     };
-    "org/gnome/shell/extensions/user-theme" = {
-      name = "Nordic";  # nordic should be installed
-    };
+    # TODO: enable again once Nordic is ready for GTK4 or Gnome 42?
+    # "org/gnome/shell/extensions/user-theme" = {
+    #   name = "Nordic";  # nordic should be installed
+    # };
     "org/gnome/desktop/wm/keybindings" = {
       # Actions
       cycle-windows = ["<Super>o"];
@@ -162,21 +168,40 @@
     };
   };
 
-  gtk = {
-    enable = true;
-    font.name = "Noto Sans";
-    theme = {
-      name = "Nordic";
-      package = pkgs.nordic;
-    };
-  };
+  # TODO: enable again once Nordic is ready for GTK4 or Gnome 42?
+  # gtk = {
+  #   enable = true;
+  #   font.name = "Noto Sans";
+  #   theme = {
+  #     name = "Nordic";
+  #     package = pkgs.nordic;
+  #   };
+  # };
 
   # Set the Gnome Terminal to use the Nord profile
   programs.gnome-terminal = {
     enable = true;
     profile = {
-      "5ddfe964-7ee6-4131-b449-26bdd97518f7" = {  # ... for instance
+      "5ddfe964-7ee6-4131-b449-26bdd97518f5" = {  # ... for instance
         default = true;
+        visibleName = "Dark";
+        cursorShape = "block";
+        font = "JetBrains Mono NL 12";
+        showScrollbar = false;
+        # colors = {
+        #   foregroundColor = "#D8DEE9";
+        #   backgroundColor = "#2E3440";
+        #   boldColor = "#D9DEE9";
+        #   palette = [
+        #     "#3B4252" "#BF616A" "#A3BE8C" "#EBCB8B"
+        #     "#81A1C1" "#B48EAD" "#88C0D0" "#E5E9F0"
+        #     "#4C566A" "#BF616A" "#A3BE8C" "#EBCB8B"
+        #     "#81A1C1" "#B48EAD" "#8FBCBB" "#ECEFF4"
+        #   ];
+        # };
+      };
+      "5ddfe964-7ee6-4131-b449-26bdd97518f7" = {  # ... for instance
+        default = false;
         visibleName = "Nord";
         cursorShape = "block";
         font = "JetBrains Mono NL 12";
@@ -222,6 +247,7 @@
     };
   };
 
+  # TODO: enable again once Nordic is ready for GTK4 or Gnome 42?
   # Set the nord theme across the X server
-  home.file.".Xresources".source = ../assets/nord-xresources;
+  # home.file.".Xresources".source = ../assets/nord-xresources;
 }
