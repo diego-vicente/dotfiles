@@ -17,6 +17,8 @@
     let
       system = "x86_64-linux";  # TODO: be more general for ARM?
 
+      # Define the configuration to be applied to both stable and unstable
+      # packages
       commonConfig = { allowUnfree = true; };
 
       # Import unstable packages with the common config
@@ -37,13 +39,15 @@
         };
       };
 
+      # Extend lib with the custom functions found in this repository
       lib = nixpkgs.lib.extend
         (self: super: { dvm = import ./lib { inherit pkgs inputs; lib = self; }; });
 
+      # The options file defines most behavior in the repository
       options = import ./options.nix;
 
-    in
-    rec {
+    in rec {
+      # Define the NixOS configurations
       nixosConfigurations = {
         soyuz = lib.dvm.buildCustomNixOSConfig { 
           inherit system pkgs options;
@@ -56,6 +60,7 @@
         };
       };
 
+      # Define the NixOS configurations
       homeConfigurations = {
         "dvicente@soyuz" = lib.dvm.buildCustomHomeConfig {
           inherit system options;

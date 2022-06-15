@@ -2,11 +2,9 @@
 { lib, pkgs, homeOptions, ... }:
 
 let
-  activeModules = lib.filterAttrs (name: set: builtins.isAttrs set) homeOptions;
-  importModule = name: _: ./home-modules/${name}.nix;
-  moduleImports = lib.attrsets.mapAttrsToList importModule activeModules;
-in
-{
+  # TODO: how to propagate lib.dvm here as well?
+  dvmLib = import ./lib { inherit pkgs lib; };
+in {
   # Let home-manager install itself
   programs.home-manager.enable = true;
 
@@ -17,5 +15,5 @@ in
   nixpkgs.overlays = import ./home-modules/overlays.nix;
 
   # Import the modules that are needed for this machine
-  imports = moduleImports;
+  imports = dvmLib.optionsToImports homeOptions ./home-modules;
 }
