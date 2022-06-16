@@ -28,7 +28,6 @@
     google-chrome
     calibre
     insomnia
-    flameshot
     # Rolling release apps
     unstable.rmview
   ];
@@ -135,6 +134,7 @@
       focus-active-notification = ["<Super>."];
       toggle-message-tray = ["<Super>n"];
       toggle-overview = ["<Super>d"];
+      show-screenshot-ui = ["<Super><Shift>s"];
     };
     
     # Define arbitrary commands as custom key bindings
@@ -145,11 +145,6 @@
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/browser/"
         "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/editor/"
       ];
-    };
-    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/flameshot" = {
-      name = "Screenshot (using Flameshot)";
-      binding = "<Super><Shift>s";
-      command = "${pkgs.flameshot}/bin/flameshot gui";
     };
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/gterminal" = {
       name = "Terminal (new window)";
