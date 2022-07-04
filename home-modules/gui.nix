@@ -179,21 +179,21 @@
     profile = {
       "5ddfe964-7ee6-4131-b449-26bdd97518f5" = {  # ... for instance
         default = true;
-        visibleName = "Dark";
+        visibleName = "Plastic";
         cursorShape = "block";
         font = "JetBrains Mono NL 12";
         showScrollbar = false;
-        # colors = {
-        #   foregroundColor = "#D8DEE9";
-        #   backgroundColor = "#2E3440";
-        #   boldColor = "#D9DEE9";
-        #   palette = [
-        #     "#3B4252" "#BF616A" "#A3BE8C" "#EBCB8B"
-        #     "#81A1C1" "#B48EAD" "#88C0D0" "#E5E9F0"
-        #     "#4C566A" "#BF616A" "#A3BE8C" "#EBCB8B"
-        #     "#81A1C1" "#B48EAD" "#8FBCBB" "#ECEFF4"
-        #   ];
-        # };
+        colors = {
+          foregroundColor = "#A9B2C3";
+          backgroundColor = "#21252B";
+          boldColor = "#D2DDF2";
+          palette = [
+            "#21252B" "#B85960" "#98C379" "#C4A469"
+            "#61AFEF" "#B57EDC" "#56B6C2" "#A9B2C3"
+            "#5F6672" "#FF7A85" "#C6FF9E" "#FFD588"
+            "#67BAFF" "#D192FF" "#71EFFF" "#DDE8FF"
+          ];
+        };
       };
       "5ddfe964-7ee6-4131-b449-26bdd97518f7" = {  # ... for instance
         default = false;
