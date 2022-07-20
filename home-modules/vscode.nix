@@ -4,6 +4,8 @@
   home.packages = with pkgs; [
     # The unstable version provides a rolling release
     unstable.vscode
+    # Include neovim for editor integration
+    neovim
     # Other dependencies for the editor
     rnix-lsp
     nixpkgs-fmt
