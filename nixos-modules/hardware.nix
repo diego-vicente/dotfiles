@@ -14,5 +14,6 @@
     zip
     unzip
     unrar
+    atool
   ];
 }
