@@ -79,6 +79,8 @@
       keyboard = { };
       # Install Visual Studio Code and other complements.
       vscode = { };
+      # Configure Obsidian for note taking
+      obsidian = { };
       # Install some program I need at work.
       work = { };
     };
@@ -166,6 +168,8 @@
       keyboard = { };
       # Install Visual Studio Code and other complements.
       vscode = { };
+      # Configure Obsidian for note taking
+      obsidian = { };
       # Install the photography programs.
       photography = { };
     };
