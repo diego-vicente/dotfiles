@@ -81,6 +81,11 @@
           inherit system options;
           hostname = "vostok";
         };
+
+        "dvicente@chaika" = lib.dvm.buildCustomHomeConfig {
+          inherit system options;
+          hostname = "chaika";
+        };
       };
     };
 }

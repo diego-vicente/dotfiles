@@ -250,4 +250,16 @@
       vscode = { };
     };
   };
+
+  # Chaika is my personal MacBook Pro mid-2014 using macOS Monterey
+  chaika = {
+    homeManager = {
+      cli = { 
+        info = {
+          userName = "diego vicente";
+          userEmail = "mail@diego.codes";
+        };
+      };
+    };
+  };
 }
