@@ -61,6 +61,7 @@
       favorite-apps = [
         "google-chrome.desktop"
         "code.desktop"
+        "obsidian.desktop"
         "org.gnome.Terminal.desktop"
       ];
     };
