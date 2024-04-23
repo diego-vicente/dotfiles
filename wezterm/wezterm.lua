@@ -100,7 +100,20 @@ config.keys = {
     key = "l",
     mods = "CMD",
     action = wezterm.action.ActivatePaneDirection('Right')
-  }
+  },
+
+  -- Use CMD+w to close the pane, CMD+SHIFT+w to close the tab
+  {
+    key = "w",
+    mods = "CMD",
+    action = wezterm.action.CloseCurrentPane { confirm = true }
+  },
+
+  {
+    key = "w",
+    mods = "CMD|SHIFT",
+    action = wezterm.action.CloseCurrentTab { confirm = true }
+  },
 }
 
 return config
