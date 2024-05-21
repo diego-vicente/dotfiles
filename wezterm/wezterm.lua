@@ -114,6 +114,17 @@ config.keys = {
     mods = "CMD|SHIFT",
     action = wezterm.action.CloseCurrentTab { confirm = true }
   },
+
+  -- Launch commands in a new pane
+  {
+    key = 'g',
+    mods = 'CMD',
+    action = wezterm.action.SplitPane {
+      direction = 'Right',
+      command = { args = { os.getenv 'SHELL', '-c', 'lg' } },
+      size = { Cells = 120 },
+    },
+  }
 }
 
 return config
