@@ -5,24 +5,45 @@ local config = wezterm.config_builder()
 config.default_prog = { '/opt/homebrew/bin/fish', '-l' }
 
 -- Appearance, colors, and fonts
-local function scheme_for_appearance(appearance)
+
+---Return the suitable argument depending on the appearance
+---@param arg { light: any, dark: any } light and dark alternatives
+---@return any
+local function depending_on_appearance(arg)
+  local appearance = wezterm.gui.get_appearance()
   if appearance:find 'Dark' then
-    return 'Catppuccin Mocha'
+    return arg.dark
   else
-    return 'Catppuccin Latte'
+    return arg.light
   end
 end
 
-config.color_scheme = scheme_for_appearance(wezterm.gui.get_appearance())
+config.color_scheme = depending_on_appearance {
+  light = 'Catppuccin Latte',
+  dark = 'Catppuccin Mocha',
+}
 
+config.use_fancy_tab_bar = false
+config.tab_max_width = 32
+config.colors = {
+  tab_bar = {
+    active_tab = depending_on_appearance {
+      light = { fg_color = '#f8f8f2', bg_color = '#209fb5' },
+      dark = { fg_color = '#292c3c', bg_color = '#74c7ec' },
+    }
+  }
+}
+
+config.font_size = 14
 config.font = wezterm.font {
   family = 'JetBrains Mono',
   weight = 'DemiBold',
 }
-config.font_size = 15.5
+-- config.line_height = 1.15
 
-config.use_fancy_tab_bar = false
-config.tab_max_width = 32
+-- Behavior
+config.native_macos_fullscreen_mode = true
+config.pane_focus_follows_mouse = true
 
 -- Mouse events
 config.mouse_bindings = {
