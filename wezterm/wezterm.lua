@@ -4,6 +4,7 @@ local config = wezterm.config_builder()
 -- Configuration
 config.default_prog = { '/opt/homebrew/bin/fish', '-l' }
 
+
 -- Appearance, colors, and fonts
 
 ---Return the suitable argument depending on the appearance
@@ -93,8 +94,7 @@ config.keys = {
 
   -- Move to a pane (prompt to which one)
   {
-    key = "m",
-    mods = "CMD",
+    mods = "CMD", key = "m",
     action = wezterm.action.PaneSelect
   },
 
@@ -123,6 +123,32 @@ config.keys = {
     action = wezterm.action.ActivatePaneDirection('Right')
   },
 
+  -- Move to another pane (next or previous)
+  {
+    key = "[",
+    mods = "CMD",
+    action = wezterm.action.ActivatePaneDirection 'Prev'
+  },
+
+  {
+    key = "]",
+    mods = "CMD",
+    action = wezterm.action.ActivatePaneDirection 'Next'
+  },
+
+  -- Move to another pane (next or previous)
+  {
+    key = "{",
+    mods = "CMD|SHIFT",
+    action = wezterm.action.ActivateTabRelative(-1)
+  },
+
+  {
+    key = "}",
+    mods = "CMD|SHIFT",
+    action = wezterm.action.ActivateTabRelative(1)
+  },
+
   -- Use CMD+w to close the pane, CMD+SHIFT+w to close the tab
   {
     key = "w",
@@ -142,6 +168,7 @@ config.keys = {
     mods = 'CMD',
     action = wezterm.action.SplitPane {
       direction = 'Right',
+      -- `lg` is an alias for themed lazygit
       command = { args = { os.getenv 'SHELL', '-c', 'lg' } },
       size = { Cells = 120 },
     },
