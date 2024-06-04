@@ -1,22 +1,6 @@
 local wezterm = require 'wezterm'
 local config = wezterm.config_builder()
 
--- Configuration
-config.default_prog = { '/opt/homebrew/bin/fish', '-l' }
-
-
-config.launch_menu = {
-  {
-    label = 'fish',
-    args = { '/opt/homebrew/bin/fish', '-l' },
-  },
-  {
-    label = 'bash',
-    args = { '/bin/bash', '-l' },
-  }
-}
-
-
 -- Appearance, colors, and fonts
 
 ---Return the suitable argument depending on the appearance
@@ -52,11 +36,24 @@ config.font = wezterm.font {
   family = 'JetBrains Mono',
   weight = 'DemiBold',
 }
--- config.line_height = 1.15
+
 
 -- Behavior
 config.native_macos_fullscreen_mode = true
 config.pane_focus_follows_mouse = true
+
+config.default_prog = { '/opt/homebrew/bin/fish', '-l' }
+config.launch_menu = {
+  {
+    label = 'fish',
+    args = { '/opt/homebrew/bin/fish', '-l' },
+  },
+  {
+    label = 'bash',
+    args = { '/bin/bash', '-l' },
+  }
+}
+
 
 -- Mouse events
 config.mouse_bindings = {
