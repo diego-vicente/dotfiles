@@ -147,6 +147,15 @@ config.keys = {
     action = wezterm.action.ActivatePaneDirection('Right')
   },
 
+  -- Use CMD+Shift+S t swap the active pane and another one
+  {
+    key = "s",
+    mods = "CMD|SHIFT",
+    action=wezterm.action{
+      PaneSelect = { mode = "SwapWithActiveKeepFocus" }
+    }
+  },
+
   -- Move to another pane (next or previous)
   {
     key = "[",
@@ -160,7 +169,7 @@ config.keys = {
     action = wezterm.action.ActivatePaneDirection 'Next'
   },
 
-  -- Move to another pane (next or previous)
+  -- Move to another tab (next or previous)
   {
     key = "{",
     mods = "CMD|SHIFT",
