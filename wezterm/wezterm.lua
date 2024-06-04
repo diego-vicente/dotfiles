@@ -5,6 +5,18 @@ local config = wezterm.config_builder()
 config.default_prog = { '/opt/homebrew/bin/fish', '-l' }
 
 
+config.launch_menu = {
+  {
+    label = 'fish',
+    args = { '/opt/homebrew/bin/fish', '-l' },
+  },
+  {
+    label = 'bash',
+    args = { '/bin/bash', '-l' },
+  }
+}
+
+
 -- Appearance, colors, and fonts
 
 ---Return the suitable argument depending on the appearance
@@ -58,6 +70,18 @@ config.mouse_bindings = {
 
 -- Keybindings
 config.keys = {
+  -- Show tab navigator
+  {
+    key = 'p',
+    mods = 'CMD',
+    action = wezterm.action.ShowTabNavigator
+  },
+  -- Show launcher menu
+  {
+    key = 'P',
+    mods = 'CMD|SHIFT',
+    action = wezterm.action.ShowLauncher
+  },
   -- Vertical pipe (|) -> horizontal split
   {
     key = '\\',
