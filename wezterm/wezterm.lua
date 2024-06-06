@@ -192,16 +192,21 @@ config.keys = {
     action = wezterm.action.CloseCurrentTab { confirm = true }
   },
 
+  -- Use CMD+z to enter zoom state
+  {
+    key = 'z',
+    mods = 'CMD',
+    action = wezterm.action.TogglePaneZoomState,
+  },
+
   -- Launch commands in a new pane
   {
     key = 'g',
     mods = 'CMD',
-    action = wezterm.action.SplitPane {
-      direction = 'Right',
-      -- `lg` is an alias for themed lazygit
-      command = { args = { os.getenv 'SHELL', '-c', 'lg' } },
-      size = { Cells = 120 },
-    },
+    action = wezterm.action.SplitHorizontal {
+      -- `lg` is a custom alias for `lazygit`
+      args = { os.getenv 'SHELL', '-c', 'lg' },
+    }
   }
 }
 
