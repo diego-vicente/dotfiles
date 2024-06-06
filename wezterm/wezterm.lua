@@ -79,6 +79,7 @@ config.keys = {
     mods = 'CMD|SHIFT',
     action = wezterm.action.ShowLauncher
   },
+
   -- Vertical pipe (|) -> horizontal split
   {
     key = '\\',
@@ -87,7 +88,6 @@ config.keys = {
       domain = 'CurrentPaneDomain'
     },
   },
-
   -- Underscore (_) -> vertical split
   {
     key = '-',
@@ -144,26 +144,17 @@ config.keys = {
     action = wezterm.action.ActivatePaneDirection('Right')
   },
 
-  -- Use CMD+Shift+S t swap the active pane and another one
-  {
-    key = "s",
-    mods = "CMD|SHIFT",
-    action=wezterm.action{
-      PaneSelect = { mode = "SwapWithActiveKeepFocus" }
-    }
-  },
-
   -- Move to another pane (next or previous)
   {
     key = "[",
     mods = "CMD",
-    action = wezterm.action.ActivatePaneDirection 'Prev'
+    action = wezterm.action.ActivatePaneDirection('Prev')
   },
 
   {
     key = "]",
     mods = "CMD",
-    action = wezterm.action.ActivatePaneDirection 'Next'
+    action = wezterm.action.ActivatePaneDirection('Next')
   },
 
   -- Move to another tab (next or previous)
@@ -177,6 +168,15 @@ config.keys = {
     key = "}",
     mods = "CMD|SHIFT",
     action = wezterm.action.ActivateTabRelative(1)
+  },
+
+  -- Use CMD+Shift+S t swap the active pane and another one
+  {
+    key = "s",
+    mods = "CMD|SHIFT",
+    action=wezterm.action{
+      PaneSelect = { mode = "SwapWithActiveKeepFocus" }
+    }
   },
 
   -- Use CMD+w to close the pane, CMD+SHIFT+w to close the tab
