@@ -65,6 +65,36 @@ config.mouse_bindings = {
   }
 }
 
+--- Bind a movement key to a direction
+---
+--- If the current pane is running nvim, send the key to it using CTRL
+--- as the modifier instead. If not, move the next pane in the given
+--- direction.
+--- @param key string the key to send
+--- @param direction string the direction to move the pane
+local function bind_movement(key, direction)
+  local function basename(str)
+    local name = string.gsub(str, "(.*/)(.*)", "%2")
+    return name
+  end
+
+  return function(win, pane)
+    local name = basename(pane:get_foreground_process_name())
+    win:toast_notification('wezterm', name, nil, 4000)
+    if name == 'nvim' then
+      win:perform_action(
+        wezterm.action.SendKey{ key = key, mods = 'CTRL' },
+        pane
+      )
+    else
+      win:perform_action(
+        wezterm.action.ActivatePaneDirection(direction),
+        pane
+      )
+    end
+  end
+end
+
 -- Keybindings
 config.keys = {
   -- Show tab navigator
@@ -123,25 +153,25 @@ config.keys = {
   {
     key = "h",
     mods = "CMD",
-    action = wezterm.action.ActivatePaneDirection('Left')
+    action = wezterm.action_callback(bind_movement('h', 'Left'))
   },
 
   {
     key = "j",
     mods = "CMD",
-    action = wezterm.action.ActivatePaneDirection('Down')
+    action = wezterm.action_callback(bind_movement('j', 'Down'))
   },
 
   {
     key = "k",
     mods = "CMD",
-    action = wezterm.action.ActivatePaneDirection('Up')
+    action = wezterm.action_callback(bind_movement('k', 'Up'))
   },
 
   {
     key = "l",
     mods = "CMD",
-    action = wezterm.action.ActivatePaneDirection('Right')
+    action = wezterm.action_callback(bind_movement('l', 'Right'))
   },
 
   -- Move to another pane (next or previous)
@@ -209,5 +239,6 @@ config.keys = {
     }
   }
 }
+
 
 return config
