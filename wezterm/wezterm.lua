@@ -237,6 +237,14 @@ config.keys = {
       -- `lg` is a custom alias for `lazygit`
       args = { os.getenv 'SHELL', '-c', 'lg' },
     }
+  },
+  {
+    key = 'r',
+    mods = 'CTRL',
+    -- action = wezterm.action.SplitHorizontal {
+    --   args = { os.getenv 'SHELL', '-c', '_atuin_search' },
+    -- }
+    action = wezterm.action.SendKey {key = 'r', mods = 'CTRL'}
   }
 }
 
