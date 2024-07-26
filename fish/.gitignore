@@ -1,0 +1,9 @@
+# Ignore some non-relevant files
+fishd.tmp.*
+fish_variables
+
+# The functions directory is full of functions defined by plugins; instead of
+# ignoring each one, just ignore the whole directory and define a space for my
+# own functions
+functions/*
+!functions/dvicente
