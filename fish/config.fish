@@ -54,11 +54,38 @@ if status is-interactive
     fish_vi_key_bindings
 
     # Set up some alias only for interactive sessions
-    alias ls='exa --header --long --git'
-    alias la='exa --header --long --git --all'
-    alias lst='exa --header --long --git --tree'
-    alias lat='exa --header --long --git --tree --all'
-    alias tree='exa --tree'
+    alias ls='eza --header --long --git'
+    alias la='eza --header --long --git --all'
+    alias lst='eza --header --long --git --tree'
+    alias lat='eza --header --long --git --tree --all'
+    alias tree='eza --tree'
     alias cat='bat'
     alias watch='viddy'
+
+    # Set up some abbreviations
+    abbr -ga gs 'git status --short'
+    abbr -ga gsl 'git status'
+    abbr -ga gl 'git log --all --graph'
+    abbr -ga ga 'git add'
+    abbr -ga gap 'git add --patch'
+    abbr -ga gc 'git commit'
+    abbr -ga gp 'git push'
+    abbr -ga gf 'git pull'
+    abbr -ga gcl 'git clone'
+
+    abbr -ga ua 'uv add'
+    abbr -ga ur 'uv run'
+
+    abbr -ga p python
+    abbr -ga pm 'python -m'
+
+    abbr -ga gauth 'gcloud auth application-default login'
 end
+
+
+# bun
+set --export BUN_INSTALL "$HOME/.bun"
+set --export PATH $BUN_INSTALL/bin $PATH
+
+set -gx OBSIDIAN_API_KEY bbf303fa16734766440d789a77c3caa1186599c22a89406266d1406b2520266b
+
