@@ -25,12 +25,19 @@ direnv hook fish | source
 # Configure cargo
 source "$HOME/.cargo/env.fish"
 
+# Run the function to set the Cursor prompt when ran by agents, and tide otherwise
+cursor_prompt
+
 # Define some alias
 alias bat='bat --theme=$(bat_theme)'  # check fish/functions/bat_theme.fish
 alias lazygit='LG_CONFIG_FILE=$(lazygit_theme) /opt/homebrew/bin/lazygit'  # check fish/functions/lazygit_theme.fish
 alias lg='lazygit'
 
 if status is-interactive
+    # Configure the colors to work properly
+    set -gx COLORTERM truecolor
+    set -gx fish_term24bit 1
+
     # Disable the greeting
     set -g fish_greeting
 
