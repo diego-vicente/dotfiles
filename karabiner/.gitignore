@@ -1,0 +1,4 @@
+# Karabiner-Elements rewrites these into its config dir at runtime; only
+# karabiner.json is hand-managed.
+automatic_backups/
+assets/
