@@ -1,0 +1,42 @@
+# Language servers
+[language-server.ruff]
+command = "ruff"
+args = ["server", "--preview"]
+
+[[language]]
+name = "markdown"
+formatter = { command = "dprint", args = ["fmt", "--stdin", "md"]}
+
+[language-server.sql-language-server]
+command = "sql-language-server"
+args = ["up", "--method", "stdio"]
+
+# Language configurations
+[[language]]
+name = "python"
+language-servers = [ "pyright", "ruff" ]
+formatter = { command = "ruff", args = ["format"] }
+
+[[language]]
+name = "sql"
+language-servers = [ "sql-language-server" ]
+
+[[language]] 
+name = "markdown" 
+scope = "source.md" 
+injection-regex = "md|markdown" 
+file-types = ["md", "markdown", "PULLREQ_EDITMSG", "mkd", "mdwn", "mdown", "markdn", "mdtxt", "mdtext", "workbook"] 
+roots = [".marksman.toml"] 
+language-servers = [ "marksman" ] 
+indent = { tab-width = 2, unit = "  " }
+soft-wrap.enable = true
+
+[[language]]
+name = "tmux.conf"
+scope = "source.conf"
+file-types = [ { glob = "tmux.conf" }, { glob = ".tmux.conf" } ]
+comment-token = "#"
+
+[[grammar]]
+name = "tmux.conf"
+source = { git = "https://github.com/Freed-Wu/tree-sitter-tmux" }
