@@ -1,0 +1,3 @@
+# zellij leaves timestamped backups of config.kdl when it rewrites it.
+*.bak
+*.bak.*
