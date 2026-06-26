@@ -1,0 +1,6 @@
+node_modules
+package.json
+bun.lock
+
+# Runtime state (turn counter), rewritten constantly by the notifier plugin.
+opencode-notifier-state.json

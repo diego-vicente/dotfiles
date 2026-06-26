@@ -39,3 +39,4 @@ link_or_replace $PWD/cmux                $HOME/.config/cmux;
 link_or_replace $PWD/claude              $HOME/.claude;
 link_or_replace $PWD/claude/claude.json  $HOME/.claude.json;
 link_or_replace $PWD/ghostty             $HOME/.config/ghostty;
+link_or_replace $PWD/opencode            $HOME/.config/opencode;

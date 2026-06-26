@@ -1,0 +1,67 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "autoupdate": true,
+  "plugin": ["@mohak34/opencode-notifier@latest"],
+  "provider": {
+    "google-vertex": {
+      "models": {},
+      "options": {
+        "project": "carto-ai-staff-usage",
+        "location": "us-east5"
+      }
+    },
+    "google-vertex-anthropic": {
+      "models": {},
+      "options": {
+        "project": "carto-ai-staff-usage",
+        "location": "us-east5"
+      }
+    }
+  },
+  // "tools": {
+  //   "read": true,
+  //   "write": false,
+  //   "bash": false
+  // },
+  "mcp": {
+    // "obsidian": {
+    //   "type": "local",
+    //   "command": ["mcp-server"],
+    //   "environment": {
+    //     "OBSIDIAN_API_KEY": "***REMOVED-OBSIDIAN-KEY***"
+    //   }
+    // },
+    // "readwise": {
+    //   "type": "local",
+    //   "command": ["npx", "-y", "@readwise/readwise-mcp"],
+    //   "environment": {
+    //     "ACCESS_TOKEN": "***REMOVED-READWISE-TOKEN***"
+    //   }
+    // },
+    // "things3": {
+    //   "type": "local",
+    //   "command": ["uv", "--directory", "/Users/dvicente/Projects/Personal/things-mcp", "run", "things_server.py"]
+    // },
+    // "bigquery": {
+    //   "type": "local",
+    //   "command": ["/opt/homebrew/bin/toolbox", "--prebuilt", "bigquery", "--stdio"],
+    //   "environment": {
+    //     "BIGQUERY_PROJECT": "cartodb-on-gcp-datascience"
+    //   }
+    // },
+    // "hevy": {
+    //   "type": "local",
+    //   "command": ["npx", "-y", "hevy-mcp"],
+    //   "environment": {
+    //     "HEVY_API_KEY": "***REMOVED-HEVY-KEY***"
+    //   }
+    // },
+    // "carto-outline": {
+    //   "type": "local",
+    //   "command": ["uvx", "--from", "git+https://github.com/Vortiago/mcp-outline", "mcp-outline"],
+    //   "environment": {
+    //     "OUTLINE_API_KEY": "***REMOVED-OUTLINE-KEY***"
+    //   }
+    // }
+  }
+}
