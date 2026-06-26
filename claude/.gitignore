@@ -1,0 +1,45 @@
+# ============================================================================
+# ~/.claude is symlinked here (see scripts/link-dotfiles.sh), so this directory
+# IS the live Claude Code state: OAuth credentials, chat history, per-project
+# session data, caches — hundreds of MB, much of it secret. We therefore IGNORE
+# EVERYTHING by default and re-include only the hand-picked config worth syncing.
+# To start tracking something new, add another `!name` line below.
+# NOTE: git ignore patterns do NOT support trailing inline comments — keep each
+# `!pattern` on its own line.
+# ============================================================================
+
+# Ignore everything at the top level...
+/*
+
+# ...except this ignore file and the curated config below.
+
+!.gitignore
+
+# Global instructions.
+!CLAUDE.md
+
+# MCP server list (currently empty — re-check it holds no tokens before commit).
+!mcp.json
+
+# Small helper scripts kept on PATH.
+!bin/
+
+# Hook / helper scripts.
+!get-session-title.sh
+!notify-needs-input.sh
+!notify-stop.sh
+
+# Tracked: the curated permissions/plugins/prefs. The secret-bearing `env`
+# block (Honeycomb key, telemetry, email) lives in settings.local.json instead,
+# which stays ignored below.
+!settings.json
+
+# Defense in depth — never let these slip in even if a rule above gets broad.
+.credentials.json
+claude.json
+.claude.json
+history.jsonl
+settings.local.json
+*.bak
+*.bak.*
+*.tmp.*

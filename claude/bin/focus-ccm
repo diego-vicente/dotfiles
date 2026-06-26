@@ -1,0 +1,13 @@
+#!/bin/bash
+# Focus the ccm (claude-code-monitor) dashboard terminal in Ghostty.
+# Uses Ghostty's native AppleScript API to find the terminal by title.
+osascript -e '
+tell application "Ghostty"
+  set matches to every terminal whose name starts with "ccm"
+  if (count of matches) > 0 then
+    focus (item 1 of matches)
+    return true
+  end if
+  return false
+end tell
+' 2>/dev/null
