@@ -40,3 +40,4 @@ link_or_replace $PWD/claude              $HOME/.claude;
 link_or_replace $PWD/claude/claude.json  $HOME/.claude.json;
 link_or_replace $PWD/ghostty             $HOME/.config/ghostty;
 link_or_replace $PWD/opencode            $HOME/.config/opencode;
+link_or_replace $PWD/zsh/.zshenv         $HOME/.zshenv;
