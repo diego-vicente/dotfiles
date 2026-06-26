@@ -31,3 +31,4 @@ link_or_replace $PWD/fish	 $HOME/.config/fish;
 link_or_replace $PWD/git                 $HOME/.config/git;
 link_or_replace $PWD/git-hooks           $HOME/.git-hooks;
 link_or_replace $PWD/karabiner           $HOME/.config/karabiner;
+link_or_replace $PWD/zellij              $HOME/.config/zellij;
