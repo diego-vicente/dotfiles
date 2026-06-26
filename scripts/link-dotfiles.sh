@@ -35,3 +35,4 @@ link_or_replace $PWD/zellij              $HOME/.config/zellij;
 link_or_replace $PWD/atuin               $HOME/.config/atuin;
 link_or_replace $PWD/btop                $HOME/.config/btop;
 link_or_replace $PWD/helix               $HOME/.config/helix;
+link_or_replace $PWD/cmux                $HOME/.config/cmux;
