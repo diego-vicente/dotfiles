@@ -1,0 +1,3 @@
+# cmux writes timestamped backups next to cmux.json on launch/migration.
+*.bak
+*.bak.*
