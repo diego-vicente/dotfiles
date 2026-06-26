@@ -1,0 +1,69 @@
+[user]
+	name = Diego Vicente
+	email = dvicente@carto.com
+
+[core]
+	compression = 9
+	whitespace = warn
+	excludesfile = /Users/dvicente/.config/git/ignore
+	hooksPath = /Users/dvicente/.git-hooks
+
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+
+[column]
+	ui = auto
+
+[url "git@github.com:CartoDB/"]
+	insteadOf = "carto:"
+
+[url "git@github.com:diego-vicente/"]
+	insteadOf = "dvicente:"
+
+[url "git@github.com:"]
+	insteadOf = "gh:"
+
+[init]
+	defaultBranch = main
+
+[status]
+	branch = true
+	showStash = true
+
+[push]
+	autoSetupRemote = true
+	default = current
+	followTags = true
+
+[pull]
+	default = current
+	rebase = true
+
+[rebase]
+	autoStash = true
+	missingCommitsCheck = warn
+
+[branch]
+	sort = -committerdate
+
+[tag]
+	sort = -taggerdate
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	navigate = true  # use n and N to move between diff sections
+	dark = true      # or light = true, or omit for auto-detection
+
+[merge]
+	conflictstyle = zdiff3
+[credential "https://github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential

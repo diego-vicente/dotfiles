@@ -28,4 +28,5 @@ link_or_replace () {
 link_or_replace $PWD/nvim        $HOME/.config/nvim;
 link_or_replace $PWD/wezterm     $HOME/.config/wezterm;
 link_or_replace $PWD/fish	 $HOME/.config/fish;
-
+link_or_replace $PWD/git                 $HOME/.config/git;
+link_or_replace $PWD/git-hooks           $HOME/.git-hooks;

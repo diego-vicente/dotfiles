@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+#
+# Global commit-msg hook: reject commits containing a
+# Co-Authored-By trailer with an @anthropic.com address,
+# then chain into the project-local hook if one exists.
+#
+
+BLOCKED_DOMAIN="@anthropic\\.com"
+COMMIT_MSG_FILE="$1"
+
+if grep -qiE "Co-Authored-By:.*${BLOCKED_DOMAIN}" "$COMMIT_MSG_FILE"; then
+    echo "❌ Commit rejected: contains a Co-Authored-By line with an @anthropic.com address."
+    echo "   Remove the Co-Authored-By trailer and try again."
+    exit 1
+fi
+
+# Chain to the project-local hook so per-repo hooks still run.
+LOCAL_HOOK="$(git rev-parse --git-dir 2>/dev/null)/hooks/commit-msg"
+if [ -x "$LOCAL_HOOK" ]; then
+    exec "$LOCAL_HOOK" "$@"
+fi

@@ -1,0 +1,10 @@
+# Global list of gitignored files to copy into new worktrees.
+# Per-project .worktreeinclude (in repo root) takes precedence if present.
+#
+# One path per line, relative to repo root. Blank lines and #comments ignored.
+
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

@@ -1,0 +1,18 @@
+.DS_Store
+
+**/.claude/settings.local.json
+
+**/CLAUDE.local.md
+
+# direnv cache directory
+.direnv
+
+# git worktree directories
+.worktrees
+worktrees
+
+# superpowers design docs
+docs/superpowers
+
+# local dev secrets (warehouse keys, etc.)
+.secrets/
