@@ -1,0 +1,9 @@
+{
+  "notificationSystem": "ghostty",
+  "sounds": {
+    "complete": "/System/Library/Sounds/Tink.aiff",
+    "error": "/System/Library/Sounds/Sosumi.aiff",
+    "permission": "/System/Library/Sounds/Basso.aiff",
+    "question": "/System/Library/Sounds/Pop.aiff"
+  }
+}
