@@ -1,0 +1,3 @@
+#!/bin/bash
+export NODE_PATH="$HOME/.claude/lib/node_modules"
+exec node "$@"

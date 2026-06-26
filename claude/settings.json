@@ -1,0 +1,113 @@
+{
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "permissions": {
+    "allow": [
+      "Bash(cnode ~/.claude/skills/headless-browser/scripts/fetch.mjs *)",
+      "Bash(cnode ~/.claude/skills/headless-browser/scripts/extract.mjs *)",
+      "Bash(cnode ~/.claude/skills/headless-browser/scripts/screenshot.mjs *)",
+      "Bash(git status *)",
+      "Bash(git log *)",
+      "Bash(git diff *)",
+      "Bash(git branch *)",
+      "Bash(git show *)",
+      "Bash(ls *)",
+      "Bash(which *)",
+      "Bash(cat *)",
+      "Bash(head *)",
+      "Bash(tail *)",
+      "Bash(wc *)",
+      "Bash(echo *)",
+      "Bash(pwd *)",
+      "Bash(find *)",
+      "Bash(tree *)",
+      "Bash(uptime *)",
+      "Bash(uname *)",
+      "Bash(env *)",
+      "Bash(docker ps *)",
+      "Bash(brew list *)",
+      "Bash(brew info *)",
+      "Bash(jq *)",
+      "Bash(grep *)",
+      "Bash(obsidian read *)",
+      "Bash(obsidian daily:read *)",
+      "Bash(obsidian search *)",
+      "Bash(obsidian backlinks *)",
+      "Bash(obsidian tags *)",
+      "Bash(obsidian aliases *)",
+      "Bash(obsidian bases *)",
+      "Bash(obsidian base:views *)",
+      "Bash(obsidian base:query *)",
+      "Bash(obsidian diff *)",
+      "Bash(obsidian tasks *)",
+      "Bash(obsidian help *)",
+      "Bash(carto auth status *)",
+      "Bash(carto auth whoami *)",
+      "Bash(carto connections list *)",
+      "Bash(carto connections get *)",
+      "Bash(carto connections browse *)",
+      "Bash(carto connections describe *)",
+      "Bash(carto sql query *)",
+      "Bash(carto workflows list *)",
+      "Bash(carto workflows get *)",
+      "Bash(carto workflows validate *)",
+      "Bash(carto workflows to-sql *)",
+      "Bash(carto workflows show *)",
+      "Bash(carto workflows components *)",
+      "Bash(carto workflows inputs *)",
+      "WebSearch",
+      "WebFetch"
+    ],
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(git push --force *)",
+      "Bash(git push * --force *)",
+      "Bash(git clean *)",
+      "Bash(git reset --hard *)",
+      "Bash(git checkout -- *)",
+      "Bash(> *)",
+      "Bash(chmod 777 *)",
+      "Bash(curl * | bash *)",
+      "Bash(curl * | sh *)",
+      "Bash(wget * | bash *)",
+      "Bash(wget * | sh *)"
+    ],
+    "defaultMode": "auto"
+  },
+  "hooks": {},
+  "enabledPlugins": {
+    "superpowers@claude-plugins-official": false,
+    "clippy@clippy-framework": true,
+    "claude-code-setup@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {
+    "clippy-framework": {
+      "source": {
+        "source": "github",
+        "repo": "diego-vicente/clippy-framework"
+      }
+    }
+  },
+  "syntaxHighlightingDisabled": false,
+  "effortLevel": "high",
+  "theme": "custom:catppuccin",
+  "remoteControlAtStartup": true,
+  "agentPushNotifEnabled": true,
+  "skipAutoPermissionPrompt": true,
+  "autoMode": {
+    "environment": [
+      "Source control: github.com/CartoDB and github.com/dvicente",
+      "Cloud provider: GCP, project cartodb-on-gcp-datascience",
+      "Obsidian vault at ~/Projects/Personal/Digital Garden \u2014 safe to read and write notes via the obsidian CLI or file tools",
+      "Windows PC korolev \u2014 safe to SSH into via the windows-pc skill script",
+      "CARTO CLI (carto) \u2014 safe for all read operations, ask before mutations",
+      "Telemetry exports to Honeycomb (api.honeycomb.io)",
+      "No sandbox is enabled \u2014 Bash commands have full filesystem and network access. Be conservative with any command that writes outside the working directory or project scope.",
+      "Trusted local tools: obsidian, cnode, carto, brew, docker, git, fish shell utilities",
+      "Sensitive paths \u2014 never read or write without asking: ~/.ssh/, ~/.gnupg/, ~/.aws/, ~/.config/gcloud/, ~/.claude/settings.json"
+    ]
+  },
+  "tui": "fullscreen"
+}

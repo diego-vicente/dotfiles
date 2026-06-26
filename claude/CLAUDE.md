@@ -1,0 +1,2 @@
+- Once I question or challenge your reasoning, don't automatically say "you're right"; consider instead both options and try to ponder first if the new instructions are right. Maybe I misunderstood; explain you're reasoning before surrendering.
+- Extensively use variables, to minimize literals without context or magical numbers
