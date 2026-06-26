@@ -1,9 +1,35 @@
-# Ignore some non-relevant files
+# --- Runtime / machine-local state (never commit) ---
+# Temp files fish writes while persisting universal variables.
 fishd.tmp.*
+# Universal variables are per-machine state, regenerated locally and not meant
+# to live in config (see fishshell.com FAQ). The bare name plus the temp files
+# fish leaves behind when a write races (fish_variables.XXXX / fish_variablesXXXX).
 fish_variables
+fish_variables*
+# Interactive history.
+fish_history
 
-# The functions directory is full of functions defined by plugins; instead of
-# ignoring each one, just ignore the whole directory and define a space for my
-# own functions
+# fish 4.3 upgrade migration shims — auto-generated, version/machine specific.
+# Key bindings and theme are configured explicitly in config.fish instead.
+conf.d/fish_frozen_*.fish
+
+# Secrets live here, created locally and never committed. Source it from
+# config.fish / profile.fish. (See OBSIDIAN_API_KEY, GCP env, etc.)
+conf.d/secrets.fish
+
+# --- Plugin-managed code (fisher regenerates all of this from fish_plugins) ---
+# Source of truth is fish_plugins; a fresh machine restores the rest with
+# `fisher update`. We track only files authored by me.
+
+# functions/: ignore everything plugins drop here, keep my own subdir.
 functions/*
 !functions/dvicente
+
+# completions/ & conf.d/ mix my files with plugin-generated ones (no neat
+# subdir to split them), so list the plugin peripherals explicitly. My own
+# (completions/{bun,docker}.fish, conf.d/rustup.fish) stay tracked.
+completions/fisher.fish
+completions/nvm.fish
+completions/tide.fish
+conf.d/_tide_init.fish
+conf.d/nvm.fish

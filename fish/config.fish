@@ -1,11 +1,20 @@
 # Add the local binary directories as the highest priority
 fish_add_path --prepend ~/.local/bin ~/Projects/bin
 
+# Add Claude Code skill utilities (cnode, etc.)
+fish_add_path --append ~/.claude/bin
+
 # Add the Homebrew directories
 fish_add_path --prepend /opt/homebrew/bin /usr/local/bin
 
 # Set the new curl as default
 fish_add_path --prepend /opt/homebrew/opt/curl/bin
+
+# When launched inside a cmux pane, ensure cmux's claude wrapper wins over the
+# native binary so hooks (session lifecycle, permission UI) reach cmux.
+if set -q CMUX_SURFACE_ID
+    fish_add_path --prepend /Applications/cmux.app/Contents/Resources/bin
+end
 
 # Add the Google Cloud SDK directory
 fish_add_path --append ~/.local/bin/google-cloud-sdk/bin
@@ -28,12 +37,20 @@ source "$HOME/.cargo/env.fish"
 # Run the function to set the Cursor prompt when ran by agents, and tide otherwise
 cursor_prompt
 
+# Evalute profile.fish
+source $__fish_config_dir/profile.fish
+
 # Define some alias
-alias bat='bat --theme=$(bat_theme)'  # check fish/functions/bat_theme.fish
-alias lazygit='LG_CONFIG_FILE=$(lazygit_theme) /opt/homebrew/bin/lazygit'  # check fish/functions/lazygit_theme.fish
+# alias bat='bat --theme=$(bat_theme)' # check fish/functions/bat_theme.fish
+# alias lazygit='LG_CONFIG_FILE=$(lazygit_theme) /opt/homebrew/bin/lazygit' # check fish/functions/lazygit_theme.fish
+alias bat='bat --theme="Catppuccin Mocha"'
+alias lazygit='LG_CONFIG_FILE=~/Projects/Personal/dotfiles/lazygit/mocha.yml /opt/homebrew/bin/lazygit'
 alias lg='lazygit'
 
 if status is-interactive
+    # Use default (emacs-style) key bindings
+    fish_default_key_bindings
+
     # Configure the colors to work properly
     set -gx COLORTERM truecolor
     set -gx fish_term24bit 1
@@ -49,9 +66,6 @@ if status is-interactive
 
     # Configure zoxide
     zoxide init fish | source
-
-    # Set up the vi mode
-    fish_vi_key_bindings
 
     # Set up some alias only for interactive sessions
     alias ls='eza --header --long --git'
@@ -80,12 +94,14 @@ if status is-interactive
     abbr -ga pm 'python -m'
 
     abbr -ga gauth 'gcloud auth application-default login'
+    abbr -ga cl claude
+    abbr -ga ccl carto_claude
+    abbr -ga oc opencode
 end
 
-
 # bun
-set --export BUN_INSTALL "$HOME/.bun"
-set --export PATH $BUN_INSTALL/bin $PATH
+fish_add_path $HOME/.local/bin
+fish_add_path $OBSIDIAN_VAULT_PATH/.obsidian/plugins/mcp-tools/bin
 
-set -gx OBSIDIAN_API_KEY ***REMOVED-OBSIDIAN-KEY***
-
+# Add the Obsidian CLI
+fish_add_path --append /Applications/Obsidian.app/Contents/MacOS
