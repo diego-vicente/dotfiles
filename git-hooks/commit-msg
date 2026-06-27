@@ -8,6 +8,16 @@
 BLOCKED_DOMAIN="@anthropic\\.com"
 COMMIT_MSG_FILE="$1"
 
+# Strip the "Claude-Session:" deep-link trailer the Claude Code harness injects.
+# There is no settings.json key or env var to disable it: the `attribution`
+# setting only governs the Co-Authored-By text, and the dedicated requests to
+# control the session URL were closed "not planned"
+# (anthropics/claude-code#40733, #41873). So we remove it here instead.
+if grep -qE '^Claude-Session:' "$COMMIT_MSG_FILE"; then
+    perl -ni -e 'print unless /^Claude-Session:/' "$COMMIT_MSG_FILE"
+    perl -0pi -e 's/\n+\z/\n/' "$COMMIT_MSG_FILE"  # drop trailing blank lines
+fi
+
 if grep -qiE "Co-Authored-By:.*${BLOCKED_DOMAIN}" "$COMMIT_MSG_FILE"; then
     echo "❌ Commit rejected: contains a Co-Authored-By line with an @anthropic.com address."
     echo "   Remove the Co-Authored-By trailer and try again."
