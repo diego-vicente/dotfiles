@@ -28,14 +28,14 @@
     //   "type": "local",
     //   "command": ["mcp-server"],
     //   "environment": {
-    //     "OBSIDIAN_API_KEY": "***REMOVED-OBSIDIAN-KEY***"
+    //     "OBSIDIAN_API_KEY": "{env:OBSIDIAN_API_KEY}"
     //   }
     // },
     // "readwise": {
     //   "type": "local",
     //   "command": ["npx", "-y", "@readwise/readwise-mcp"],
     //   "environment": {
-    //     "ACCESS_TOKEN": "***REMOVED-READWISE-TOKEN***"
+    //     "ACCESS_TOKEN": "{env:READWISE_ACCESS_TOKEN}"
     //   }
     // },
     // "things3": {
@@ -53,14 +53,14 @@
     //   "type": "local",
     //   "command": ["npx", "-y", "hevy-mcp"],
     //   "environment": {
-    //     "HEVY_API_KEY": "***REMOVED-HEVY-KEY***"
+    //     "HEVY_API_KEY": "{env:HEVY_API_KEY}"
     //   }
     // },
     // "carto-outline": {
     //   "type": "local",
     //   "command": ["uvx", "--from", "git+https://github.com/Vortiago/mcp-outline", "mcp-outline"],
     //   "environment": {
-    //     "OUTLINE_API_KEY": "***REMOVED-OUTLINE-KEY***"
+    //     "OUTLINE_API_KEY": "{env:OUTLINE_API_KEY}"
     //   }
     // }
   }
