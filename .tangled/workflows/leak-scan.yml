@@ -1,0 +1,40 @@
+# Secret/leak scanning for this dotfiles repo.
+# Runs gitleaks on every push and pull request as a backstop against
+# committing credentials into tracked config files.
+#
+# Docs: https://docs.tangled.org/spindles
+# NOTE: CI only runs once a spindle is attached to this repo in
+#       Tangled repo settings -> Pipelines. The workflow file alone
+#       does nothing until a spindle is configured.
+
+when:
+  # Any push to any branch (Tangled default branch here is `main`).
+  - event: ["push", "manual"]
+    branch: ["**"]
+  # Any pull request, regardless of target branch.
+  - event: ["pull_request"]
+    branch: ["**"]
+
+# Lightweight engine: pulls packages straight from Nixpkgs, no VM.
+engine: "nixery"
+
+# Full history so the scan covers every commit, not just the latest one.
+# Secrets persist in git history even after being "removed" in a later
+# commit, so a depth-1 clone would miss them.
+clone:
+  depth: 0
+
+dependencies:
+  nixpkgs:
+    - gitleaks
+
+steps:
+  # Scan the entire commit history. gitleaks exits non-zero when it
+  # finds a leak, which fails the step and the pipeline.
+  - name: "Scan git history for secrets"
+    command: "gitleaks detect --source . --redact --verbose"
+
+  # Also scan the working tree as plain files (not diffs). Catches
+  # secrets sitting in current config regardless of how they got there.
+  - name: "Scan working tree for secrets"
+    command: "gitleaks detect --source . --no-git --redact --verbose"
