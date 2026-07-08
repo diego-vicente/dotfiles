@@ -42,9 +42,9 @@ source $__fish_config_dir/profile.fish
 
 # Define some alias
 # alias bat='bat --theme=$(bat_theme)' # check fish/functions/bat_theme.fish
-# alias lazygit='LG_CONFIG_FILE=$(lazygit_theme) /opt/homebrew/bin/lazygit' # check fish/functions/lazygit_theme.fish
 alias bat='bat --theme="Catppuccin Mocha"'
-alias lazygit='LG_CONFIG_FILE=~/Projects/Personal/dotfiles/lazygit/mocha.yml /opt/homebrew/bin/lazygit'
+# lazygit theme follows the system appearance via appearance-sync's lazygit.sh
+# handler, which writes ~/.config/lazygit/config.yml; plain lazygit reads it.
 alias lg='lazygit'
 
 if status is-interactive

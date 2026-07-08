@@ -42,3 +42,5 @@ link_or_replace $PWD/ghostty             $HOME/.config/ghostty;
 link_or_replace $PWD/opencode            $HOME/.config/opencode;
 link_or_replace $PWD/zsh/.zshenv         $HOME/.zshenv;
 link_or_replace $PWD/kanata              $HOME/.config/kanata;
+link_or_replace $PWD/appearance-sync     $HOME/.config/appearance-sync;
+link_or_replace $PWD/appearance-sync/com.dvicente.appearance-sync.plist  $HOME/Library/LaunchAgents/com.dvicente.appearance-sync.plist;
