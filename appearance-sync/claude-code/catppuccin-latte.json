@@ -1,0 +1,77 @@
+{
+  "name": "Catppuccin Latte (Peach)",
+  "base": "light",
+  "overrides": {
+    "text": "#4c4f69",
+    "inverseText": "#eff1f5",
+    "inactive": "#9ca0b0",
+    "subtle": "#ccd0da",
+    "suggestion": "#7287fd",
+    "background": "#eff1f5",
+    "userMessageBackground": "#e6e9ef",
+    "bashMessageBackgroundColor": "#dce0e8",
+    "memoryBackgroundColor": "#dce0e8",
+
+    "claude": "#fe640b",
+    "claudeShimmer": "#ff8a3d",
+    "claudeBlue_FOR_SYSTEM_SPINNER": "#fe640b",
+    "claudeBlueShimmer_FOR_SYSTEM_SPINNER": "#ff8a3d",
+
+    "autoAccept": "#40a02b",
+    "permission": "#e64553",
+    "permissionShimmer": "#ed6573",
+    "planMode": "#8839ef",
+    "ide": "#1e66f5",
+    "remember": "#df8e1d",
+
+    "promptBorder": "#bcc0cc",
+    "promptBorderShimmer": "#acb0be",
+    "bashBorder": "#bcc0cc",
+
+    "success": "#40a02b",
+    "error": "#d20f39",
+    "warning": "#df8e1d",
+    "warningShimmer": "#ecb44a",
+
+    "diffAdded": "rgb(220,240,210)",
+    "diffRemoved": "rgb(245,210,215)",
+    "diffAddedDimmed": "rgb(230,242,220)",
+    "diffRemovedDimmed": "rgb(248,225,228)",
+    "diffAddedWord": "#40a02b",
+    "diffRemovedWord": "#d20f39",
+    "diffAddedWordDimmed": "rgb(120,180,100)",
+    "diffRemovedWordDimmed": "rgb(220,90,110)",
+
+    "red_FOR_SUBAGENTS_ONLY": "#d20f39",
+    "blue_FOR_SUBAGENTS_ONLY": "#1e66f5",
+    "green_FOR_SUBAGENTS_ONLY": "#40a02b",
+    "yellow_FOR_SUBAGENTS_ONLY": "#df8e1d",
+    "purple_FOR_SUBAGENTS_ONLY": "#8839ef",
+    "orange_FOR_SUBAGENTS_ONLY": "#fe640b",
+    "pink_FOR_SUBAGENTS_ONLY": "#ea76cb",
+    "cyan_FOR_SUBAGENTS_ONLY": "#179299",
+
+    "professionalBlue": "#1e66f5",
+
+    "rainbow_red": "#d20f39",
+    "rainbow_orange": "#fe640b",
+    "rainbow_yellow": "#df8e1d",
+    "rainbow_green": "#40a02b",
+    "rainbow_blue": "#04a5e5",
+    "rainbow_indigo": "#7287fd",
+    "rainbow_violet": "#8839ef",
+    "rainbow_red_shimmer": "#e63a5e",
+    "rainbow_orange_shimmer": "#ff8a3d",
+    "rainbow_yellow_shimmer": "#ecb44a",
+    "rainbow_green_shimmer": "#6abf52",
+    "rainbow_blue_shimmer": "#42c0f0",
+    "rainbow_indigo_shimmer": "#94a4fe",
+    "rainbow_violet_shimmer": "#a565f3",
+
+    "clawd_body": "#fe640b",
+    "clawd_background": "#eff1f5",
+
+    "rate_limit_fill": "#fe640b",
+    "rate_limit_empty": "#ccd0da"
+  }
+}

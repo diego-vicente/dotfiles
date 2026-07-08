@@ -234,7 +234,6 @@ config.keys = {
     key = 'g',
     mods = 'CMD',
     action = wezterm.action.SplitHorizontal {
-      -- `lg` is a custom alias for `lazygit`
       args = { os.getenv 'SHELL', '-c', 'lg' },
     }
   },
