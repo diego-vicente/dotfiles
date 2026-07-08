@@ -112,3 +112,6 @@ fish_add_path $OBSIDIAN_VAULT_PATH/.obsidian/plugins/mcp-tools/bin
 
 # Add the Obsidian CLI
 fish_add_path --append /Applications/Obsidian.app/Contents/MacOS
+
+# omnara
+fish_add_path /Users/dvicente/.omnara/bin
