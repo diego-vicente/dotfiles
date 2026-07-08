@@ -11,3 +11,7 @@ passwords/*
 
 # Ignore the global Poetry environment
 /poetry_venv
+
+# 1Password service-account token (loaded by the shells, never committed)
+.config/op/
+service-account-token

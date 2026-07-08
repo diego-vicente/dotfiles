@@ -40,6 +40,13 @@ cursor_prompt
 # Evalute profile.fish
 source $__fish_config_dir/profile.fish
 
+# 1Password service account token for the `op` CLI, used by the 1password-secrets
+# skill (and everything reading secrets through it). Kept in a 0600 file rather
+# than inline here. Lets `op read` work non-interactively, no Touch ID prompt.
+if test -r ~/.config/op/service-account-token
+    set -gx OP_SERVICE_ACCOUNT_TOKEN (cat ~/.config/op/service-account-token)
+end
+
 # Define some alias
 # alias bat='bat --theme=$(bat_theme)' # check fish/functions/bat_theme.fish
 alias bat='bat --theme="Catppuccin Mocha"'
