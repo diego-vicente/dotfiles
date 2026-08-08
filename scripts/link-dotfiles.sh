@@ -32,6 +32,7 @@ link_or_replace $PWD/git                 $HOME/.config/git;
 link_or_replace $PWD/git-hooks           $HOME/.git-hooks;
 link_or_replace $PWD/karabiner           $HOME/.config/karabiner;
 link_or_replace $PWD/zellij              $HOME/.config/zellij;
+link_or_replace $PWD/tmux                $HOME/.config/tmux;
 link_or_replace $PWD/atuin               $HOME/.config/atuin;
 link_or_replace $PWD/btop                $HOME/.config/btop;
 link_or_replace $PWD/helix               $HOME/.config/helix;
