@@ -37,15 +37,25 @@ window manager.
 
 ## Keys
 
-Prefix is **`C-Space`** — free in fish, nvim and the Claude Code prompt box,
-unlike `C-a` (beginning-of-line) and `C-b` (backward-char).
+Two leaders, one per device:
 
-**`cmd+;` is a second leader on the Mac.** macOS never transmits Cmd to the
-terminal, so tmux cannot bind it; Ghostty catches the chord and injects `0x1c`
-(`C-\`), which is set as `prefix2`. Deliberately not `C-Space` — that's NUL
-(`\x00`), which a Ghostty `text:` action doesn't reliably deliver. `C-Space`
-remains primary because it's the one that also works from rootshell, where
-there is no Cmd key. Quick terminal moved to `cmd+'` to free the chord.
+| Device | Press | Byte | tmux slot |
+|---|---|---|---|
+| Mac (Ghostty) | `cmd+;` | `0x1c` | `prefix` = `C-\` |
+| iPhone (rootshell) | `Ctrl` then `b` | `0x02` | `prefix2` = `C-b` |
+
+macOS never transmits Cmd to the terminal, so `cmd+;` cannot be a tmux binding
+at all — Ghostty catches the chord and injects the byte. Quick terminal moved
+to `cmd+'` to free it.
+
+`C-b` exists for the phone: rootshell's on-screen keys are a fixed set and its
+keybind config isn't reachable on iPhone, so the prefix has to be something the
+toolbar can already type. It's also tmux's stock prefix, so every doc applies
+unmodified. Cost: `C-b` (backward-char) is gone in fish everywhere.
+
+**Not `C-Space`.** That's NUL (`0x00`) — iOS swallows it as the system
+input-language switcher ([rootshell #227](https://github.com/kitknox/rootshell/issues/227)),
+and it's the one byte with known delivery flakiness inside a `text:` action.
 
 | Key | Does |
 |---|---|
@@ -57,7 +67,7 @@ there is no Cmd key. Quick terminal moved to `cmd+'` to free the chord.
 | `alt+1..5` | jump to window N (no prefix) |
 | `prefix` `Tab` | last window |
 | `prefix` `s` | session tree |
-| `prefix` `C-Space` | last session |
+| `prefix` `C-\` | last session (i.e. `cmd+;` twice) |
 | `prefix` `r` | reload config |
 
 Session switching is deliberately understated: with two pinned workspaces, a
