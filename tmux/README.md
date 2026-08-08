@@ -40,6 +40,13 @@ window manager.
 Prefix is **`C-Space`** — free in fish, nvim and the Claude Code prompt box,
 unlike `C-a` (beginning-of-line) and `C-b` (backward-char).
 
+**`cmd+;` is a second leader on the Mac.** macOS never transmits Cmd to the
+terminal, so tmux cannot bind it; Ghostty catches the chord and injects `0x1c`
+(`C-\`), which is set as `prefix2`. Deliberately not `C-Space` — that's NUL
+(`\x00`), which a Ghostty `text:` action doesn't reliably deliver. `C-Space`
+remains primary because it's the one that also works from rootshell, where
+there is no Cmd key. Quick terminal moved to `cmd+'` to free the chord.
+
 | Key | Does |
 |---|---|
 | `prefix` `\|` / `-` | split right / down, in the current pane's cwd |

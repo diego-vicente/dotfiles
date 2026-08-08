@@ -23,9 +23,19 @@ confirm-close-surface = false
 
 keybind = shift+enter=text:\n
 
-keybind = global:cmd+semicolon=toggle_quick_terminal
+# Moved off cmd+; so that key can become the tmux leader (see below).
+keybind = global:cmd+apostrophe=toggle_quick_terminal
 quick-terminal-position = center
 quick-terminal-size = 50%,50%
+
+# tmux leader on cmd+;
+#
+# macOS never sends Cmd to the terminal, so tmux cannot bind it. Ghostty
+# catches the chord and injects 0x1c (C-\), which tmux.conf sets as `prefix2`.
+# Ghostty keybinds fire before tmux sees any input, so there is no collision
+# with the primary C-Space prefix — both work, and only C-Space works on the
+# phone, where there is no Cmd key.
+keybind = cmd+semicolon=text:\x1c
 
 # ===========================================================================
 # tmux owns everything below the window level
