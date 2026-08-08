@@ -2,9 +2,21 @@ theme = catppuccin-mocha.conf
 font-thicken = true
 
 # Configure for macOS
+# shell-integration must stay EXPLICIT: Ghostty auto-detects the shell from the
+# basename of `command`, so anything launched as tmux would get no injection.
 shell-integration = fish
+# no-cursor: tmux and the integration otherwise fight over cursor shape.
+# ssh-terminfo/ssh-env: remote hosts have no xterm-ghostty entry, and tmux there
+# hard-fails with "missing or unsuitable terminal". This installs it on connect.
+shell-integration-features = no-cursor,ssh-env,ssh-terminfo
 desktop-notifications = true
 macos-option-as-alt = true
+
+# tmux owns session state, so don't let Ghostty restore a second, stale copy.
+window-save-state = never
+# Ghostty only ever sees `tmux: client` and cannot inspect the pane tree, so the
+# "are you at a prompt" heuristic never fires and this prompts on every close.
+confirm-close-surface = false
 
 # notify-on-command-finish = unfocused
 # notify-on-command-finish-after = 30s

@@ -18,19 +18,22 @@ usable width, which visibly degrades Claude Code's TUI.
 
 ## Launching
 
-```sh
-tmux/bin/tmux-workspace.sh work
-tmux/bin/tmux-workspace.sh personal
+```fish
+tmux-connect personal        # attach here, or switch session if already in tmux
+tmux-connect work
+tmux-connect -w work         # open a new Ghostty window pinned to it
 ```
 
+Defined in `fish/functions/dvicente/tmux-connect.fish`, with completions.
 Idempotent (`new-session -A`), so re-running attaches instead of forking a
-duplicate. Uses Ghostty 1.3's AppleScript API — `ghostty +new-window` is
-GTK/Linux only and Ghostty has said it will not come to the macOS CLI.
+duplicate. The session is always created detached first, so it exists even if
+the GUI step fails and the phone can attach with no Ghostty window ever open.
 
-To make them real Mac citizens: wrap each in Automator → *Application* → *Run
-AppleScript*, save to `~/Applications`, then Dock → Options → **Assign To →
-Desktop N** and add to Login Items. macOS owns geometry and Spaces; tmux owns
-persistence. Don't make tmux a window manager.
+`-w` uses Ghostty 1.3's AppleScript API — `ghostty +new-window` is GTK/Linux
+only and is not planned for the macOS CLI.
+
+macOS owns window geometry and Spaces; tmux owns persistence. Don't make tmux a
+window manager.
 
 ## Keys
 
