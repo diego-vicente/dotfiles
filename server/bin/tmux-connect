@@ -1,0 +1,44 @@
+#!/bin/sh
+#
+# Attach to a named tmux session on claw. Deployed to ~/bin/tmux-connect.
+#
+#   tmux-connect            -> session "main"
+#   tmux-connect garden     -> session "garden"
+#
+# Plain POSIX sh on purpose. The login shell here is bash (so SSH automation
+# keeps working) while tmux panes run fish, so the entry point has to work from
+# either. The laptop's equivalent is a fish function; this box can't assume it.
+
+set -eu
+
+DEFAULT_SESSION="main"
+TMUX_BIN="/usr/bin/tmux"
+
+case "${1:-}" in
+	-h|--help)
+		echo "usage: tmux-connect [session]   (default: ${DEFAULT_SESSION})"
+		echo
+		echo "  Attaches in the current terminal, or switches session if already"
+		echo "  inside tmux. Creates the session detached first, so it survives"
+		echo "  even if this shell goes away."
+		exit 0
+		;;
+esac
+
+if [ "$#" -gt 1 ]; then
+	echo "tmux-connect: one session name at a time" >&2
+	exit 2
+fi
+
+session="${1:-$DEFAULT_SESSION}"
+
+# Detached first: the session then outlives this shell, which is the whole
+# reason for running agents on this box.
+"$TMUX_BIN" new-session -A -d -s "$session" -c "$HOME"
+
+# Nesting tmux inside tmux means doubled prefixes for every keystroke.
+if [ -n "${TMUX:-}" ]; then
+	exec "$TMUX_BIN" switch-client -t "$session"
+else
+	exec "$TMUX_BIN" attach-session -t "$session"
+fi
