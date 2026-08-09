@@ -19,10 +19,22 @@ usable width, which visibly degrades Claude Code's TUI.
 ## Launching
 
 ```fish
+tmux-connect                 # picker: every live session here AND on claw
 tmux-connect personal        # attach here, or switch session if already in tmux
-tmux-connect work
 tmux-connect -w work         # open a new Ghostty window pinned to it
+tmux-connect -l              # picker, local only (no SSH round-trip)
 ```
+
+With no argument it's a landing page: one fzf list of every live session on
+both machines, plus the workspaces you can start, with live ones marked `●` and
+startable ones `+`. Picking a claw row `exec`s into `ssh -t claw tmux-connect
+<session>`.
+
+Built on fzf rather than [sesh] because sesh is single-machine, and both boxes
+have a session called `personal` — a picker that can't tell them apart is worse
+than none. The remote lookup is `BatchMode=yes` with a 4s timeout and fails
+silently, so the picker still works offline with only local rows. There's
+deliberately no `fzf --preview`: it would fire an SSH round-trip per keystroke.
 
 Defined in `fish/functions/dvicente/tmux-connect.fish`, with completions.
 Idempotent (`new-session -A`), so re-running attaches instead of forking a

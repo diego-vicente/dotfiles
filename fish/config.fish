@@ -115,3 +115,4 @@ fish_add_path --append /Applications/Obsidian.app/Contents/MacOS
 
 # omnara
 fish_add_path /Users/dvicente/.omnara/bin
+
