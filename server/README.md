@@ -15,7 +15,7 @@ CLAW_HOST=... ./server/deploy.sh
 |---|---|
 | `tmux.conf` | `~/.config/tmux/tmux.conf` |
 | `fish/config.fish` | `~/.config/fish/config.fish` |
-| `bin/tmux-connect` | `~/bin/tmux-connect` |
+| `bin/tmux-connect` | `/usr/local/bin/tmux-connect` |
 
 ## Shell layout
 
@@ -29,6 +29,17 @@ where you actually type, and bash stays the automation-facing entry point.
 
 That's why `tmux-connect` is POSIX `sh` here and a fish function on the laptop:
 it has to work from either shell.
+
+## Why /usr/local/bin and not ~/bin
+
+An SSH "initial command" — what rootshell runs on connect — is a **non-login**
+shell. Its PATH is only `/usr/local/bin:/usr/bin:/bin:/usr/games`; `~/bin` is
+added by `~/.profile`, which non-login shells never read.
+
+With the script in `~/bin`, connecting from the phone produced
+`tmux-connect: command not found`, the shell exited, and the tab closed
+immediately — looking exactly like a crash. `deploy.sh` now installs to
+/usr/local/bin and asserts reachability from a bare non-login PATH.
 
 ## Workspaces
 
