@@ -1,4 +1,6 @@
-theme = catppuccin-mocha.conf
+# Follows the macOS appearance natively — no appearance-sync handler needed.
+# Ghostty re-reads this on system light/dark switch and repaints live.
+theme = light:catppuccin-latte.conf,dark:catppuccin-mocha.conf
 font-thicken = true
 
 # Configure for macOS

@@ -110,6 +110,33 @@ can be configured to detach on tab close.
 suggest) would make closing the last window of `work` silently hop that Ghostty
 window to `personal` — wrong for pinned workspaces.
 
+## Appearance (light/dark)
+
+**No `appearance-sync` handler, on purpose.** Both layers switch on their own:
+
+- **Ghostty** does it natively: `theme = light:catppuccin-latte.conf,dark:catppuccin-mocha.conf`.
+  It re-reads on the macOS appearance toggle and repaints live.
+- **tmux** uses **ANSI 0-15 and `default` only** — never 256-palette indices,
+  never hex. Terminals theme 0-15 themselves, so the bar simply inherits
+  whatever palette the *client* has.
+
+That second rule is what makes this work everywhere a handler couldn't:
+
+| Where | How it follows |
+|---|---|
+| Ghostty on the Mac | Ghostty repaints, tmux inherits |
+| SSH into claw | server has no appearance of its own; it inherits the client's |
+| rootshell on the phone | rootshell's own day/night theme, tmux inherits |
+
+A handler would have had to know the appearance of a *remote* client, which is
+not knowable from a headless box. Inheriting is the only correct answer.
+
+Latte and mocha define completely different ANSI 0-15 palettes, so this really
+does track — it isn't a fudge.
+
+The laptop accents `colour4` (blue); claw accents `colour1` (red). Both stay
+theme-relative, so they're distinguishable without being fixed colours.
+
 ## Plugins
 
 Three, on purpose. `prefix + I` to install.
