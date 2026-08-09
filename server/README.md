@@ -30,6 +30,19 @@ where you actually type, and bash stays the automation-facing entry point.
 That's why `tmux-connect` is POSIX `sh` here and a fish function on the laptop:
 it has to work from either shell.
 
+## Workspaces
+
+Same two names as the laptop, on purpose — one habit, both machines.
+
+```sh
+tmux-connect work        # ~/Projects   (CartoDB remotes)
+tmux-connect personal    # ~/repos      (clippy-ai-dev remotes)
+```
+
+The directories differ from the laptop because the layout does: there is no
+`~/Projects/Personal` on this box, and inventing one just to match a path would
+be worse than pointing at what actually exists.
+
 ## Prefix
 
 **`C-a`, deliberately different from the laptop's `C-\` / `C-b`.**
@@ -67,7 +80,17 @@ Re-add a block only once the tool is actually installed on the box.
 
 ## Networking
 
-The box has a **static public IP** (`34.45.78.65`), so unlike the roaming
-laptop it's already reachable. Tailscale here buys consistent naming and mesh
-with the Mac, not reachability — `claw.diego.codes A 34.45.78.65` would also
-work, and is one DNS record with no daemon.
+On the tailnet as **`gcloud-ai-instance`** (`100.108.1.3`). `~/.ssh/config` has
+a `Host claw` block pointing at the MagicDNS name, which `deploy.sh` uses by
+default; override with `CLAW_HOST`.
+
+The box also has a **static public IP** (`34.45.78.65`), so unlike the roaming
+laptop it was already reachable. Tailscale here buys consistent naming and mesh
+with the Mac, not reachability — that public IP still works as a fallback if
+the tailnet is down.
+
+The iPhone's rootshell key is in `~/.ssh/authorized_keys`. Entries 1 and 3 of
+that file are `# Added by Google`; `google-guest-agent` is currently inactive
+and OS Login is unset, so nothing rewrites the file — but if that agent is ever
+re-enabled it can rewrite it and drop the key. First thing to suspect if the
+phone stops connecting.

@@ -9,7 +9,7 @@
 
 set -euo pipefail
 
-readonly REMOTE_HOST="${CLAW_HOST:-dvicente@34.45.78.65}"
+readonly REMOTE_HOST="${CLAW_HOST:-claw}"
 readonly REMOTE_KEY="${CLAW_KEY:-$HOME/.ssh/google_compute_engine}"
 readonly SRC_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
