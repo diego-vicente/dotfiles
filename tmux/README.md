@@ -63,7 +63,7 @@ and it's the one byte with known delivery flakiness inside a `text:` action.
 | `prefix` `h j k l` | move between panes |
 | `prefix` `H J K L` | resize (repeatable) |
 | `prefix` `z` | zoom pane |
-| `prefix` `c` | new window |
+| `prefix` `t` | new window (`c` also works) |
 | `alt+1..5` | jump to window N (no prefix) |
 | `prefix` `Tab` | last window |
 | `prefix` `s` | session tree |
