@@ -43,18 +43,55 @@ keybind = cmd+semicolon=text:\x1c
 # tmux owns everything below the window level
 #
 # Ghostty is a display surface only: it draws one tmux client per macOS window
-# and gets out of the way. Every split, tab and navigation binding is unbound
-# here so the keystroke falls through to tmux, which handles sessions, windows,
-# panes and movement between them. See tmux/tmux.conf for the replacements.
+# and gets out of the way. Its own split/tab bindings are either UNBOUND (so the
+# keystroke falls through) or TRANSLATED into a tmux prefix sequence, so the
+# familiar cmd chords drive tmux instead of Ghostty. See tmux/tmux.conf.
 #
 # Window-level keys are deliberately KEPT (cmd+n, cmd+w, cmd+q): macOS still
 # owns window geometry and Spaces. That layer is not tmux's job.
 # ===========================================================================
 
-# Splits -> tmux prefix + | and -, prefix + hjkl, prefix + z
-keybind = cmd+d=unbind
-keybind = cmd+shift+d=unbind
-keybind = cmd+shift+enter=unbind
+# Ghostty no longer *performs* these actions — it injects the tmux prefix byte
+# (0x1c = C-\, our prefix) followed by the key, so the tmux binding you already
+# have does the work. macOS never transmits Cmd to the terminal, so this
+# translation is the only way a cmd chord can drive tmux at all.
+#
+# Payloads must not contain "=": Ghostty splits trigger from action on the
+# FIRST "=", so an action containing one is misparsed.
+
+# Panes
+keybind = cmd+d=text:\x1c|
+keybind = cmd+shift+d=text:\x1c-
+keybind = cmd+h=text:\x1ch
+keybind = cmd+j=text:\x1cj
+keybind = cmd+k=text:\x1ck
+keybind = cmd+l=text:\x1cl
+keybind = cmd+shift+enter=text:\x1cz
+
+# Windows (tmux windows — what Ghostty would call tabs)
+keybind = cmd+t=text:\x1ct
+keybind = cmd+1=text:\x1c1
+keybind = cmd+digit_1=text:\x1c1
+keybind = cmd+2=text:\x1c2
+keybind = cmd+digit_2=text:\x1c2
+keybind = cmd+3=text:\x1c3
+keybind = cmd+digit_3=text:\x1c3
+keybind = cmd+4=text:\x1c4
+keybind = cmd+digit_4=text:\x1c4
+keybind = cmd+5=text:\x1c5
+keybind = cmd+digit_5=text:\x1c5
+
+# Sessions
+keybind = cmd+s=text:\x1cs
+
+# GOTCHA: cmd+h is also a system-level "Hide Window" shortcut and never reaches
+# Ghostty until you clear it in:
+#   > Settings > Keyboard > Keyboard Shortcuts...
+#
+# DELIBERATELY NOT BOUND: cmd+w. It still closes the Ghostty window, which is
+# what you want — tmux's kill-pane lives on prefix + x.
+
+# Still unbound: Ghostty's own split/tab navigation, which tmux replaces.
 keybind = cmd+[=unbind
 keybind = cmd+]=unbind
 keybind = cmd+alt+up=unbind
@@ -66,32 +103,11 @@ keybind = cmd+ctrl+down=unbind
 keybind = cmd+ctrl+left=unbind
 keybind = cmd+ctrl+right=unbind
 keybind = cmd+ctrl+equal=unbind
-
-# GOTCHA: cmd+h is also a system-level "Hide Window" binding. To let tmux see
-# it at all you must clear it in:
-#   > Settings > Keyboard > Keyboard Shortcuts...
-keybind = cmd+h=unbind
-keybind = cmd+j=unbind
-keybind = cmd+k=unbind
-keybind = cmd+l=unbind
-
-# Tabs -> tmux windows: prefix + c, alt+1..5, prefix + n/p, prefix + Tab
-keybind = cmd+t=unbind
 keybind = cmd+alt+w=unbind
 keybind = cmd+shift+[=unbind
 keybind = cmd+shift+]=unbind
 keybind = ctrl+tab=unbind
 keybind = ctrl+shift+tab=unbind
-keybind = cmd+1=unbind
-keybind = cmd+digit_1=unbind
-keybind = cmd+2=unbind
-keybind = cmd+digit_2=unbind
-keybind = cmd+3=unbind
-keybind = cmd+digit_3=unbind
-keybind = cmd+4=unbind
-keybind = cmd+digit_4=unbind
-keybind = cmd+5=unbind
-keybind = cmd+digit_5=unbind
 keybind = cmd+6=unbind
 keybind = cmd+digit_6=unbind
 keybind = cmd+7=unbind
@@ -100,8 +116,3 @@ keybind = cmd+8=unbind
 keybind = cmd+digit_8=unbind
 keybind = cmd+9=unbind
 keybind = cmd+digit_9=unbind
-
-# NOT DONE ON PURPOSE: Ghostty can fake native chords by injecting the tmux
-# prefix, e.g. `keybind = cmd+1=text:\x01\x31` for a C-a prefix. Our prefix is
-# C-Space, which is NUL (\x00), and a NUL byte in a text: action is not
-# reliably delivered. Use the tmux bindings directly instead.
