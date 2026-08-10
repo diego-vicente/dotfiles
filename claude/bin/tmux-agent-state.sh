@@ -33,6 +33,7 @@ PANE_OPT="@agent_pane"    # deliberately NOT the same name as SESSION_OPT:
                           # tmux options inherit, so an unset pane option would
                           # resolve to the session's value and clearing would
                           # silently never take effect.
+WINDOW_OPT="@agent_win"
 SESSION_OPT="@agent"
 
 event="${1:-}"
@@ -54,6 +55,27 @@ if [ -z "$state" ]; then
 	tmux set -p -t "$TMUX_PANE" -u "$PANE_OPT" 2>/dev/null
 else
 	tmux set -p -t "$TMUX_PANE" "$PANE_OPT" "$state" 2>/dev/null
+fi
+
+# ---- aggregate the window's panes -----------------------------------------
+# A separate option name from the session's: tmux options inherit, so reusing
+# @agent here would make every window show the session's verdict.
+window="$(tmux display-message -p -t "$TMUX_PANE" '#{window_id}' 2>/dev/null)"
+if [ -n "$window" ]; then
+	win_winner=""
+	for s in $(tmux list-panes -t "$window" -F "#{$PANE_OPT}" 2>/dev/null); do
+		case "$s" in
+			"$STATE_ASKING")  win_winner="$STATE_ASKING"; break ;;
+			"$STATE_ERROR")   [ "$win_winner" = "$STATE_ASKING" ] || win_winner="$STATE_ERROR" ;;
+			"$STATE_DONE")    case "$win_winner" in "$STATE_ASKING"|"$STATE_ERROR") ;; *) win_winner="$STATE_DONE" ;; esac ;;
+			"$STATE_RUNNING") [ -n "$win_winner" ] || win_winner="$STATE_RUNNING" ;;
+		esac
+	done
+	if [ -z "$win_winner" ]; then
+		tmux set -w -t "$window" -u "$WINDOW_OPT" 2>/dev/null
+	else
+		tmux set -w -t "$window" "$WINDOW_OPT" "$win_winner" 2>/dev/null
+	fi
 fi
 
 # ---- aggregate the session's panes down to one state ----------------------
