@@ -57,6 +57,11 @@ function tmux-connect -d "Attach a tmux session in the work or personal context"
     # the phone can attach to it with no Ghostty window ever open.
     $tmux_bin new-session -A -d -s $session -c $workdir
 
+    # Window names are shown relative to this. It cannot come from
+    # #{session_path}: automatic-rename-format is evaluated with no session
+    # bound, so that format is empty there.
+    $tmux_bin set -t $session @root $workdir
+
     if set -q _flag_window
         _tmux_connect_ghostty_window $session $workdir "$tmux_bin"
         return $status
