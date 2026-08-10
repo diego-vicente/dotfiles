@@ -82,11 +82,9 @@ five_hour() {
 	fi
 	h=$((left / 3600))
 	m=$(((left % 3600) / 60))
-	if [ "$h" -gt 0 ]; then
-		printf '%s (%dh %02dm left)' "$out" "$h" "$m"
-	else
-		printf '%s (%dm left)' "$out" "$m"
-	fi
+	# H:MM, and always with the hour even when it is 0, so the field keeps a
+	# stable width and the bar does not reflow every hour.
+	printf '%s (%d:%02d left)' "$out" "$h" "$m"
 }
 
 # Below this width the path is dropped and only the allowance is shown — on a
