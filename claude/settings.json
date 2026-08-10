@@ -98,6 +98,36 @@
         ]
       }
     ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/bin/tmux-agent-state.sh PreToolUse"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/bin/tmux-agent-state.sh PostToolUse"
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/bin/tmux-agent-state.sh PostToolUseFailure"
+          }
+        ]
+      }
+    ],
     "PermissionRequest": [
       {
         "hooks": [
@@ -108,12 +138,32 @@
         ]
       }
     ],
-    "Notification": [
+    "PermissionDenied": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "$HOME/.claude/bin/tmux-agent-state.sh Notification"
+            "command": "$HOME/.claude/bin/tmux-agent-state.sh PermissionDenied"
+          }
+        ]
+      }
+    ],
+    "Elicitation": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/bin/tmux-agent-state.sh Elicitation"
+          }
+        ]
+      }
+    ],
+    "ElicitationResult": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/bin/tmux-agent-state.sh ElicitationResult"
           }
         ]
       }
@@ -138,12 +188,79 @@
         ]
       }
     ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/bin/tmux-agent-state.sh SubagentStart"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/bin/tmux-agent-state.sh SubagentStop"
+          }
+        ]
+      }
+    ],
     "SessionEnd": [
       {
         "hooks": [
           {
             "type": "command",
             "command": "$HOME/.claude/bin/tmux-agent-state.sh SessionEnd"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "permission_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/bin/tmux-agent-state.sh Notification:permission_prompt"
+          }
+        ]
+      },
+      {
+        "matcher": "agent_needs_input",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/bin/tmux-agent-state.sh Notification:agent_needs_input"
+          }
+        ]
+      },
+      {
+        "matcher": "elicitation_dialog",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/bin/tmux-agent-state.sh Notification:elicitation_dialog"
+          }
+        ]
+      },
+      {
+        "matcher": "idle_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/bin/tmux-agent-state.sh Notification:idle_prompt"
+          }
+        ]
+      },
+      {
+        "matcher": "agent_completed",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/bin/tmux-agent-state.sh Notification:agent_completed"
           }
         ]
       }

@@ -1,106 +1,134 @@
 #!/bin/sh
 #
-# Publish Claude Code's state into tmux, for the session bar and the picker.
+# Publish Claude Code's state into tmux, for the status bar and the picker.
 #
-# Wired to several hook events in settings.json; the event name arrives both as
-# $1 and in the stdin JSON. Each event maps to one state:
+# TWO AXES, kept separate on purpose. Every tool that got this right (Paseo,
+# cmux, marmonitor) separates them; the ones that collapsed them into a single
+# "unread badge" hit the same bugs.
 #
-#   SessionStart      -> idle
-#   UserPromptSubmit  -> running
-#   PermissionRequest -> asking     (Claude is blocked ON YOU)
-#   Notification      -> asking
-#   Stop              -> done
-#   StopFailure       -> error
-#   SessionEnd        -> (cleared)
+#   PHASE      what the agent is doing. A pure function of the last hook.
+#              (none) | working | blocked | idle | error
 #
-# State is written on the PANE, then aggregated onto the SESSION, because a
-# session may hold several agents and the bar has room for one verdict.
+#   ATTENTION  whether it wants YOU. This is what the glyph shows.
+#              blocked | finished | error | (none)
+#
+# The rule three unrelated codebases converge on:
+#
+#   FINISHED IS A NOTIFICATION. The work is done and safe; seeing it IS the
+#   resolution. It clears on attention, or when the next turn starts.
+#
+#   BLOCKED IS A CONDITION. Seeing it does not resolve it — the agent is still
+#   stuck. It clears ONLY when the condition ends: a tool proceeds, you deny, an
+#   elicitation is answered, the turn stops, or the session ends.
+#
+# `finished` is raised on the working -> idle EDGE, not by Stop alone: a Stop
+# after an idle stretch is not a completion.
 #
 # CAVEAT: Claude Code does not export $TMUX_PANE — it is inherited from the
-# shell that launched `claude`. That holds when you start it in a pane, and
-# does NOT hold under Remote Control or a daemon, where this no-ops on purpose
-# rather than guessing which pane to blame.
+# shell that launched `claude`. True when you start it in a pane, false under
+# Remote Control or a daemon, where this no-ops rather than guessing.
 
 set -u
 
-STATE_IDLE="idle"
-STATE_RUNNING="running"
-STATE_ASKING="asking"
-STATE_DONE="done"
-STATE_ERROR="error"
+PHASE_WORKING="working"
+PHASE_BLOCKED="blocked"
+PHASE_IDLE="idle"
+PHASE_ERROR="error"
 
-PANE_OPT="@agent_pane"    # deliberately NOT the same name as SESSION_OPT:
-                          # tmux options inherit, so an unset pane option would
-                          # resolve to the session's value and clearing would
-                          # silently never take effect.
-WINDOW_OPT="@agent_win"
-SESSION_OPT="@agent"
+ATTN_BLOCKED="blocked"
+ATTN_FINISHED="finished"
+ATTN_ERROR="error"
+
+# Distinct option names per scope. tmux options INHERIT, so a pane sharing a
+# name with its session would resolve to the session's value and could never be
+# cleared.
+PANE_PHASE="@agent_phase"
+PANE_ATTN="@agent_attn"
+PANE_TOKEN="@agent_token"
 
 event="${1:-}"
 [ -n "${TMUX_PANE:-}" ] || exit 0
 command -v tmux >/dev/null 2>&1 || exit 0
 
+pane="$TMUX_PANE"
+get()       { tmux display-message -p -t "$pane" "#{$1}" 2>/dev/null; }
+set_opt()   { tmux set -p -t "$pane" "$1" "$2" 2>/dev/null; }
+unset_opt() { tmux set -p -t "$pane" -u "$1" 2>/dev/null; }
+
+prev_phase="$(get "$PANE_PHASE")"
+prev_attn="$(get "$PANE_ATTN")"
+
+phase="$prev_phase"
+attn="$prev_attn"
+clear_phase=0
+
 case "$event" in
-	SessionStart)      state="$STATE_IDLE" ;;
-	UserPromptSubmit)  state="$STATE_RUNNING" ;;
-	PermissionRequest) state="$STATE_ASKING" ;;
-	Notification)      state="$STATE_ASKING" ;;
-	Stop)              state="$STATE_DONE" ;;
-	StopFailure)       state="$STATE_ERROR" ;;
-	SessionEnd)        state="" ;;
-	*)                 exit 0 ;;
+	SessionStart)
+		phase="$PHASE_IDLE"; attn="" ;;
+
+	# --- work in progress --------------------------------------------------
+	UserPromptSubmit)
+		# A new turn supersedes anything you had not looked at yet.
+		phase="$PHASE_WORKING"; attn="" ;;
+	PreToolUse|PostToolBatch)
+		phase="$PHASE_WORKING" ;;
+
+	# --- the condition ended -----------------------------------------------
+	# A tool actually proceeding is the signal that a human answered. Without
+	# this transition, `blocked` persisted for the rest of the turn even though
+	# nothing was waiting on you any more.
+	PostToolUse|PostToolUseFailure|PermissionDenied|ElicitationResult)
+		phase="$PHASE_WORKING"
+		[ "$prev_attn" = "$ATTN_BLOCKED" ] && attn="" ;;
+
+	# --- blocked on the human ----------------------------------------------
+	PermissionRequest|Elicitation)
+		phase="$PHASE_BLOCKED"; attn="$ATTN_BLOCKED" ;;
+	Notification:permission_prompt|Notification:agent_needs_input|Notification:elicitation_dialog)
+		phase="$PHASE_BLOCKED"; attn="$ATTN_BLOCKED" ;;
+
+	# Claude nagging that it has been idle is NOT a block. Mapping the whole
+	# Notification event to "asking" is what latched a permanent "?" that
+	# nothing could clear.
+	Notification:idle_prompt)
+		phase="$PHASE_IDLE" ;;
+	Notification:auth_success|Notification:elicitation_complete|Notification:elicitation_response)
+		: ;;
+
+	# --- turn ended ---------------------------------------------------------
+	Stop|Notification:agent_completed)
+		if [ "$prev_phase" = "$PHASE_WORKING" ] || [ "$prev_phase" = "$PHASE_BLOCKED" ]; then
+			attn="$ATTN_FINISHED"
+		elif [ "$prev_attn" = "$ATTN_BLOCKED" ]; then
+			attn=""
+		fi
+		phase="$PHASE_IDLE" ;;
+	StopFailure)
+		phase="$PHASE_ERROR"; attn="$ATTN_ERROR" ;;
+
+	# A subagent finishing says NOTHING about the parent turn. Explicit so it is
+	# never helpfully "fixed" into a completion.
+	SubagentStart|SubagentStop)
+		: ;;
+
+	SessionEnd)
+		clear_phase=1; attn="" ;;
+
+	*) exit 0 ;;
 esac
 
-if [ -z "$state" ]; then
-	tmux set -p -t "$TMUX_PANE" -u "$PANE_OPT" 2>/dev/null
+if [ "$clear_phase" = 1 ] || [ -z "$phase" ]; then
+	unset_opt "$PANE_PHASE"
 else
-	tmux set -p -t "$TMUX_PANE" "$PANE_OPT" "$state" 2>/dev/null
+	set_opt "$PANE_PHASE" "$phase"
 fi
 
-# ---- aggregate the window's panes -----------------------------------------
-# A separate option name from the session's: tmux options inherit, so reusing
-# @agent here would make every window show the session's verdict.
-window="$(tmux display-message -p -t "$TMUX_PANE" '#{window_id}' 2>/dev/null)"
-if [ -n "$window" ]; then
-	win_winner=""
-	for s in $(tmux list-panes -t "$window" -F "#{$PANE_OPT}" 2>/dev/null); do
-		case "$s" in
-			"$STATE_ASKING")  win_winner="$STATE_ASKING"; break ;;
-			"$STATE_ERROR")   [ "$win_winner" = "$STATE_ASKING" ] || win_winner="$STATE_ERROR" ;;
-			"$STATE_DONE")    case "$win_winner" in "$STATE_ASKING"|"$STATE_ERROR") ;; *) win_winner="$STATE_DONE" ;; esac ;;
-			"$STATE_RUNNING") [ -n "$win_winner" ] || win_winner="$STATE_RUNNING" ;;
-		esac
-	done
-	if [ -z "$win_winner" ]; then
-		tmux set -w -t "$window" -u "$WINDOW_OPT" 2>/dev/null
-	else
-		tmux set -w -t "$window" "$WINDOW_OPT" "$win_winner" 2>/dev/null
-	fi
-fi
-
-# ---- aggregate the session's panes down to one state ----------------------
-# Ordered by how much each state is blocking YOU: something waiting on your
-# input outranks something that merely finished.
-session="$(tmux display-message -p -t "$TMUX_PANE" '#{session_name}' 2>/dev/null)" || exit 0
-[ -n "$session" ] || exit 0
-
-winner=""
-for s in $(tmux list-panes -s -t "$session" -F "#{$PANE_OPT}" 2>/dev/null); do
-	case "$s" in
-		"$STATE_ASKING")  winner="$STATE_ASKING"; break ;;
-		"$STATE_ERROR")   [ "$winner" = "$STATE_ASKING" ] || winner="$STATE_ERROR" ;;
-		"$STATE_DONE")    case "$winner" in "$STATE_ASKING"|"$STATE_ERROR") ;; *) winner="$STATE_DONE" ;; esac ;;
-		"$STATE_RUNNING") [ -n "$winner" ] || winner="$STATE_RUNNING" ;;
-	esac
-done
-
-if [ -z "$winner" ]; then
-	tmux set -t "$session" -u "$SESSION_OPT" 2>/dev/null
+if [ -n "$attn" ]; then
+	set_opt "$PANE_ATTN" "$attn"
+	# A fresh token invalidates any dwell timer still sleeping for an older state.
+	set_opt "$PANE_TOKEN" "$(date +%s)-$$"
 else
-	tmux set -t "$session" "$SESSION_OPT" "$winner" 2>/dev/null
+	unset_opt "$PANE_ATTN"
 fi
 
-# Repaint now instead of waiting for status-interval.
-tmux refresh-client -S 2>/dev/null
-
-exit 0
+exec "$(dirname "$0")/tmux-agent-rollup.sh" "$pane"
