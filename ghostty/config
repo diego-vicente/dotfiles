@@ -70,6 +70,9 @@ keybind = cmd+shift+enter=text:\x1cz
 
 # Windows (tmux windows — what Ghostty would call tabs)
 keybind = cmd+t=text:\x1ct
+# prev / next window. \x1c is the prefix; [ and ] are the tmux bindings.
+keybind = cmd+shift+h=text:\x1c[
+keybind = cmd+shift+l=text:\x1c]
 keybind = cmd+1=text:\x1c1
 keybind = cmd+digit_1=text:\x1c1
 keybind = cmd+2=text:\x1c2
@@ -92,8 +95,6 @@ keybind = cmd+s=text:\x1cs
 # what you want — tmux's kill-pane lives on prefix + x.
 
 # Still unbound: Ghostty's own split/tab navigation, which tmux replaces.
-keybind = cmd+[=unbind
-keybind = cmd+]=unbind
 keybind = cmd+alt+up=unbind
 keybind = cmd+alt+down=unbind
 keybind = cmd+alt+left=unbind
