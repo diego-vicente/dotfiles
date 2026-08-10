@@ -305,13 +305,13 @@
     "environment": [
       "Source control: github.com/CartoDB and github.com/dvicente",
       "Cloud provider: GCP, project cartodb-on-gcp-datascience",
-      "Obsidian vault at ~/Projects/Personal/Digital Garden \u2014 safe to read and write notes via the obsidian CLI or file tools",
-      "Windows PC korolev \u2014 safe to SSH into via the windows-pc skill script",
-      "CARTO CLI (carto) \u2014 safe for all read operations, ask before mutations",
+      "Obsidian vault at ~/Projects/Personal/Digital Garden — safe to read and write notes via the obsidian CLI or file tools",
+      "Windows PC korolev — safe to SSH into via the windows-pc skill script",
+      "CARTO CLI (carto) — safe for all read operations, ask before mutations",
       "Telemetry exports to Honeycomb (api.honeycomb.io)",
-      "No sandbox is enabled \u2014 Bash commands have full filesystem and network access. Be conservative with any command that writes outside the working directory or project scope.",
+      "No sandbox is enabled — Bash commands have full filesystem and network access. Be conservative with any command that writes outside the working directory or project scope.",
       "Trusted local tools: obsidian, cnode, carto, brew, docker, git, fish shell utilities",
-      "Sensitive paths \u2014 never read or write without asking: ~/.ssh/, ~/.gnupg/, ~/.aws/, ~/.config/gcloud/, ~/.claude/settings.json"
+      "Sensitive paths — never read or write without asking: ~/.ssh/, ~/.gnupg/, ~/.aws/, ~/.config/gcloud/, ~/.claude/settings.json"
     ]
   },
   "statusLine": {
