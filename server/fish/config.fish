@@ -23,6 +23,19 @@ end
 # Own functions live in a subfolder, same convention as the laptop
 set -a fish_function_path $__fish_config_dir/functions
 
+# Claude Code clamps itself to 256 colours whenever $TMUX is set — a defensive
+# chalk.level = 2 in src/ink/colorize.ts (clampChalkLevelForTmux), applied
+# regardless of whether truecolor actually works. Ours does: tmux negotiates
+# RGB with Ghostty and 24-bit escapes pass through byte-identical.
+#
+# Set OUTSIDE `status is-interactive` and NOT in settings.json: the clamp is
+# evaluated at module load, before settings env injection, so settings.json is
+# too late, and Claude Code is not always launched from an interactive shell.
+#
+# Undocumented escape hatch — see anthropics/claude-code#46146. It can vanish
+# without a changelog entry; if colours go washed out again, check that first.
+set -gx CLAUDE_CODE_TMUX_TRUECOLOR 1
+
 # ---------------------------------------------------------------------------
 # Interactive
 # ---------------------------------------------------------------------------
