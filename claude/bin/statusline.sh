@@ -16,6 +16,16 @@
 
 set -u
 
+# Cached to a FILE, not only to tmux options: tmux options die with the server,
+# so a fresh tmux had a blank allowance until some agent happened to render.
+# The file also means the figure shows outside tmux, and in a tmux started long
+# after the last Claude session.
+#
+# NOT under ~/.claude — that is a symlink into the dotfiles repo, and this is
+# runtime state, not config.
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/tmux-claude"
+STATE_FILE="$STATE_DIR/usage"
+
 OPT_5H="@claude_5h"
 OPT_7D="@claude_7d"
 OPT_RESETS="@claude_5h_resets"
@@ -45,6 +55,21 @@ cost="$(field '.cost.total_cost_usd')"
 round() { [ -n "$1" ] && printf '%.0f' "$1" 2>/dev/null || printf ''; }
 five_h_r="$(round "$five_h")"
 seven_d_r="$(round "$seven_d")"
+
+# Write the cache first, and unconditionally — it must not depend on being
+# inside tmux, which is the whole point.
+if [ -n "$five_h_r" ] || [ -n "$resets" ]; then
+	mkdir -p "$STATE_DIR" 2>/dev/null
+	tmp="$STATE_FILE.$$"
+	{
+		printf 'five_h=%s\n'  "${five_h_r:-}"
+		printf 'resets=%s\n'  "${resets:-}"
+		printf 'seven_d=%s\n' "${seven_d_r:-}"
+		printf 'cost=%s\n'    "${cost:-}"
+		printf 'model=%s\n'   "${model:-}"
+	} > "$tmp" 2>/dev/null && mv "$tmp" "$STATE_FILE" 2>/dev/null
+	rm -f "$tmp" 2>/dev/null
+fi
 
 if command -v tmux >/dev/null 2>&1 && [ -n "${TMUX:-}" ]; then
 	[ -n "$five_h_r"  ] && tmux set -g "$OPT_5H"   "$five_h_r"  2>/dev/null

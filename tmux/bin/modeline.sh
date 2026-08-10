@@ -14,6 +14,11 @@
 
 set -u
 
+# Read from the cache file rather than tmux options: options die with the tmux
+# server, so a fresh server showed a blank allowance until an agent happened to
+# render. The file survives server restarts and Claude not running at all.
+STATE_FILE="${XDG_STATE_HOME:-$HOME/.local/state}/tmux-claude/usage"
+
 OPT_PCT="@claude_5h"
 OPT_RESETS="@claude_5h_resets"
 
@@ -65,8 +70,19 @@ short_path() {
 # 5h allowance: "10% (3h 55m left)"
 # ---------------------------------------------------------------------------
 five_hour() {
-	pct=$(tmux show -gv "$OPT_PCT" 2>/dev/null)
-	resets=$(tmux show -gv "$OPT_RESETS" 2>/dev/null)
+	pct=""
+	resets=""
+	if [ -r "$STATE_FILE" ]; then
+		while IFS='=' read -r k v; do
+			case "$k" in
+				five_h) pct="$v" ;;
+				resets) resets="$v" ;;
+			esac
+		done < "$STATE_FILE"
+	fi
+	# tmux options are a fallback for a server populated before the cache existed.
+	[ -n "$pct" ]    || pct=$(tmux show -gv "$OPT_PCT" 2>/dev/null)
+	[ -n "$resets" ] || resets=$(tmux show -gv "$OPT_RESETS" 2>/dev/null)
 	[ -n "$pct" ] || return 0
 
 	out="${pct}%"
@@ -77,7 +93,10 @@ five_hour() {
 	now=$(date +%s)
 	left=$((resets - now))
 	if [ "$left" -le 0 ]; then
-		printf '%s (resetting)' "$out"
+		# The stored window has already rolled over, so the cached percentage
+		# describes a period that is over. Showing it would be a confident lie;
+		# the dash keeps the field's width without claiming a number.
+		printf '5h —'
 		return 0
 	fi
 	h=$((left / 3600))
