@@ -23,7 +23,7 @@ function tmux-connect -d "Attach a tmux session in the work or personal context"
     if set -q _flag_help
         echo "usage: tmux-connect [-w|--window] {"(string join '|' $contexts)"} [project]"
         echo
-        echo "  tmux-connect work            -> session work/$default_project"
+        echo "  tmux-connect work            -> newest work/* session, else work/$default_project"
         echo "  tmux-connect work api        -> session work/api      in ~/Projects/api"
         echo "  tmux-connect personal garden -> session personal/garden"
         echo "  -w  open a new Ghostty window pinned to it"
@@ -44,14 +44,32 @@ function tmux-connect -d "Attach a tmux session in the work or personal context"
         return 2
     end
 
-    set -l project $default_project
-    test (count $argv) -eq 2; and set project $argv[2]
-
     set -l root $context_roots[$index]
-    set -l workdir $root
-    test -d "$root/$project"; and set workdir "$root/$project"
+    set -l session
+    set -l workdir
 
-    set -l session "$context/$project"
+    if test (count $argv) -eq 2
+        set -l project $argv[2]
+        set session "$context/$project"
+        set workdir $root
+        test -d "$root/$project"; and set workdir "$root/$project"
+    else
+        # No project named: go to the context's most recently active session
+        # rather than inventing one. Creating "<context>/main" when the context
+        # already had sessions was just noise.
+        set -l existing ($tmux_bin list-sessions \
+            -F '#{session_activity} #{session_name}' 2>/dev/null \
+            | string match -r "^\\d+ $context/.*" \
+            | sort -rn | head -1 | string replace -r '^\\d+ ' '')
+        if test -n "$existing"
+            set session $existing
+            set workdir ($tmux_bin display-message -p -t $session '#{session_path}' 2>/dev/null)
+            test -n "$workdir"; or set workdir $root
+        else
+            set session "$context/$default_project"
+            set workdir $root
+        end
+    end
 
     # Detached first: the session then exists even if the GUI step fails, and
     # the phone can attach to it with no Ghostty window ever open.
