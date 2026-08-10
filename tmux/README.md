@@ -202,3 +202,49 @@ tmuxp, smug, tmuxinator.
 Worth adding to `CLAUDE.md` once you run several agents: *"tmux session `work`,
 panes addressed `work:<window>.<pane>`."* Agents can then
 `tmux capture-pane -p -t work:3.1` and tail a sibling pane deterministically.
+
+## Leftover work
+
+Next session is the status/mode line — readability and looks. Everything below
+is open, roughly in priority order.
+
+### Known rough edges
+
+- **Status bar aesthetics** — the reason for the next session. Current bar is
+  functional, not designed: spacing, separators, and the tier breakpoints
+  (160/120/80) were picked from measurements, not taste.
+- **`#()` caching lag.** The modeline re-runs on `status-interval` (15s), so
+  after a resize the right-hand side keeps the old tier's content for up to
+  15s. Lower the interval or accept it.
+- **lazygit window names** read `lg ~/P/P/trellis`. The title is not a path by
+  our test (it starts with `lg `), so it wins over the basename. Tightening the
+  path test to catch `<word> ~/...` would fix it.
+- **Relative window paths** (`a/b/c` instead of the basename) need naming
+  driven from a hook — `automatic-rename-format` runs with no session bound, so
+  `#{session_path}` and session-scoped `@root` are both empty there. `@root` is
+  already set per session by `tmux-connect` for exactly this.
+
+### Not started
+
+- **Role-based responsive reflow.** `break-pane`/`join-pane` preserve the
+  running process (verified), so a 5-pane layout can become 2 windows on a
+  laptop live. Needs a declarative per-project file — tmuxp is the chosen tool,
+  nothing written yet.
+- **Per-project declarative layouts** (tmuxp), globally gitignored.
+- **Deploying the status bar to claw.** `server/tmux.conf` does not source
+  `status.conf`, so the agent markers and modeline are laptop-only.
+- **Attention state on the phone.** Untested whether the markers read well in
+  rootshell.
+
+### Decided, deliberately not done
+
+- **Session isolation by socket / `TMUX_TMPDIR`.** Rejected: rootshell's
+  session discovery runs as its own SSH exec channel and always resolves to the
+  default socket, so isolation would blind the phone's picker. Prefixes are a
+  convention, not a wall, and that was the accepted trade.
+- **Restoring live agents** (tmux-resurrect et al). Conversation history can be
+  restored via `claude --resume`; a running agent cannot. Not worth the moving
+  parts yet.
+- **Ghostty 1.4 native `tmux -CC`.** Not close — tracking issue has no
+  assignee, the architecture PR was auto-closed, contributor branch last moved
+  in April. Do not plan around it.
