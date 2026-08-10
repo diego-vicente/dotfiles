@@ -18,6 +18,7 @@ set -u
 
 OPT_5H="@claude_5h"
 OPT_7D="@claude_7d"
+OPT_RESETS="@claude_5h_resets"
 OPT_COST="@claude_cost"
 OPT_MODEL="@claude_model"
 
@@ -37,6 +38,7 @@ branch="$(field '.workspace.git_worktree')"
 ctx_pct="$(field '.context_window.used_percentage')"
 five_h="$(field '.rate_limits.five_hour.used_percentage')"
 seven_d="$(field '.rate_limits.seven_day.used_percentage')"
+resets="$(field '.rate_limits.five_hour.resets_at')"
 cost="$(field '.cost.total_cost_usd')"
 
 # Round the percentages; Claude sends floats like 23.5.
@@ -49,12 +51,14 @@ if command -v tmux >/dev/null 2>&1 && [ -n "${TMUX:-}" ]; then
 	[ -n "$seven_d_r" ] && tmux set -g "$OPT_7D"   "$seven_d_r" 2>/dev/null
 	[ -n "$cost"      ] && tmux set -g "$OPT_COST" "$(printf '%.2f' "$cost" 2>/dev/null)" 2>/dev/null
 	[ -n "$model"     ] && tmux set -g "$OPT_MODEL" "$model" 2>/dev/null
+	[ -n "$resets"    ] && tmux set -g "$OPT_RESETS" "$resets" 2>/dev/null
 fi
 
-# ---- the line Claude Code itself shows -------------------------------------
-out="$model"
-[ -n "$cwd" ]     && out="$out  $(basename "$cwd")"
-[ -n "$branch" ]  && out="$out  ($branch)"
-[ -n "$ctx_pct" ] && out="$out  ctx ${ctx_pct}%"
-[ -n "$five_h_r" ] && out="$out  5h ${five_h_r}%"
-printf '%s' "$out"
+# Claude Code's own status line stays EMPTY on purpose — the numbers live in
+# the tmux bar instead. This script is configured as statusLine only because
+# that is the only place Claude Code exposes rate_limits at all; hooks do not
+# receive it.
+#
+# Tradeoff worth knowing: configuring any statusLine makes Claude Code drop
+# most of its footer keyboard hints ("esc to interrupt", "? for shortcuts").
+printf ''

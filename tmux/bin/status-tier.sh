@@ -27,26 +27,23 @@ case "$width" in ''|*[!0-9]*) exit 0 ;; esac
 sessions='#{E:@comp_sessions}'
 session_one='#{E:@comp_session_one}'
 windows='#{E:@comp_windows}'
-five='#{E:@comp_5h}'
-cost='#{E:@comp_cost}'
-path='#{E:@comp_path}'
-clock='#{E:@comp_clock}'
+right='#{E:@comp_right}'
 
 if [ "$width" -ge "$WIDTH_WIDE" ]; then
 	left="$sessions"
-	right="$path  $five  $cost  $clock "
+	right="$right "
 	winlist="$windows"
 elif [ "$width" -ge "$WIDTH_MEDIUM" ]; then
 	left="$sessions"
-	right="$five  $cost  $clock "
+	right="$right "
 	winlist="$windows"
 elif [ "$width" -ge "$WIDTH_NARROW" ]; then
 	left="$sessions"
-	right="$five  $clock "
+	right="$right "
 	winlist=""
 else
 	left="$session_one"
-	right="$five "
+	right="$right "
 	winlist=""
 fi
 
