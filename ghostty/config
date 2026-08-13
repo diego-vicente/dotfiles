@@ -16,6 +16,18 @@ macos-option-as-alt = true
 
 # tmux owns session state, so don't let Ghostty restore a second, stale copy.
 window-save-state = never
+
+# Ghostty pads the grid by window-padding-x/y (2 each, the default) and paints
+# that strip with `background`. A filled status bar therefore stops at the grid
+# edge and gets framed in canvas colour — the bar reads as a floating rectangle
+# rather than a band across the top. `extend` paints the padding with the
+# nearest cell's background instead, so the bar runs to the window edge.
+#
+# The documented heuristics that suppress extending — default-background cells
+# in the nearest row, prompt rows, perfect-fit powerline glyphs — apply only to
+# primary-screen applications. tmux runs on the alternate screen, and every cell
+# in the bar carries an explicit background anyway, so neither exemption bites.
+window-padding-color = extend
 # Ghostty only ever sees `tmux: client` and cannot inspect the pane tree, so the
 # "are you at a prompt" heuristic never fires and this prompts on every close.
 confirm-close-surface = false

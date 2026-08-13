@@ -26,26 +26,37 @@ command -v tmux >/dev/null 2>&1 || exit 0
 # ours answers one question — does this need me? A finished turn does; a running
 # one explicitly does not.
 #
-#   blocked > error > finished > working > (nothing)
+#   blocked > error > finished > working > idle > (nothing)
 rank() {
 	case "$1" in
-		blocked)  echo 4 ;;
-		error)    echo 3 ;;
-		finished) echo 2 ;;
-		working)  echo 1 ;;
+		blocked)  echo 5 ;;
+		error)    echo 4 ;;
+		finished) echo 3 ;;
+		working)  echo 2 ;;
+		idle)     echo 1 ;;
 		*)        echo 0 ;;
 	esac
 }
 
-# A pane shows its attention if it has one, else "working" while it works.
-# Anything else contributes nothing — a plain shell must not read as an idle
-# agent (Paseo's null-is-not-idle).
+# A pane shows its attention if it has one, else what its phase is doing.
+#
+# AN EMPTY PHASE IS THE ONLY THING THAT MEANS "NO AGENT HERE". A plain shell
+# must never read as an idle agent, which is Paseo's null-is-not-idle rule, and
+# the phase option only exists in a pane once SessionStart has fired there. So
+# an empty phase contributes nothing, and every other phase contributes
+# something.
+#
+# Any phase that is neither empty nor `working` displays as `idle`: a chat is
+# open, no turn is running, and nothing waits on you. That covers the phase left
+# behind by an acknowledged finish, and equally the phase left by an
+# acknowledged error, which is still a live session rather than an absence.
 pane_display() {
 	a="$(tmux display-message -p -t "$1" "#{$PANE_ATTN}" 2>/dev/null)"
 	[ -n "$a" ] && { echo "$a"; return; }
 	p="$(tmux display-message -p -t "$1" "#{$PANE_PHASE}" 2>/dev/null)"
+	[ -z "$p" ] && { echo ""; return; }
 	[ "$p" = "working" ] && { echo working; return; }
-	echo ""
+	echo idle
 }
 
 roll() {

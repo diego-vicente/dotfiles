@@ -17,10 +17,17 @@
 #     while you read email in a browser, which is not attention.
 #
 # The dwell exists so tabbing past a pane does not count as having read it.
+#
+# CLEARING NO LONGER EMPTIES THE ENTRY. The pane keeps its phase, so it falls
+# back to the `idle` asterisk: the chat is still open, and only the demand for
+# attention has gone. The entry disappears when the agent itself ends.
 
 set -u
 
-DWELL_SECONDS=5
+# Ten seconds, not five. The dwell is now the whole distance between "this
+# finished and you have not seen it" and "this finished and you have", so it
+# buys a longer look before the green check turns into a quiet asterisk.
+DWELL_SECONDS=10
 
 PANE_ATTN="@agent_attn"
 PANE_TOKEN="@agent_token"

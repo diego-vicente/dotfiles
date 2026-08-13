@@ -29,25 +29,56 @@ session_one='#{E:@comp_session_one}'
 windows='#{E:@comp_windows}'
 right='#{E:@comp_right}'
 
+# The modeline no longer gets a trailing space per tier: the pill's own closing
+# fragment pads it, and doing both put two spaces before the right edge. The
+# wide and medium tiers stay separate branches even though they now agree —
+# dropping the path is modeline.sh's decision, made from the same width.
 if [ "$width" -ge "$WIDTH_WIDE" ]; then
 	left="$sessions"
-	right="$right "
 	winlist="$windows"
 elif [ "$width" -ge "$WIDTH_MEDIUM" ]; then
 	left="$sessions"
-	right="$right "
 	winlist="$windows"
 elif [ "$width" -ge "$WIDTH_NARROW" ]; then
 	left="$sessions"
-	right="$right "
 	winlist=""
 else
 	left="$session_one"
-	right="$right "
 	winlist=""
 fi
 
 tmux set -g status-left "$left" 2>/dev/null
 tmux set -g status-right "$right" 2>/dev/null
-tmux set -g status-format[0] "#[align=left]$left#[align=centre]$winlist#[align=right]$right" 2>/dev/null
+
+# ---------------------------------------------------------------------------
+# Wrap each group in its pill.
+#
+# The window pill is conditional IN THE FORMAT, not here: @comp_windows expands
+# to nothing when the session has a single window, and that is decided at draw
+# time, not at tier time. Wrapping it unconditionally would leave a pill
+# containing one space — two caps and a gap — floating in the middle of the bar
+# on every single-window session.
+#
+# The outer two use the flush variants so their edge cells keep the pill
+# background for ghostty to extend into the padding. See status.conf.
+# ---------------------------------------------------------------------------
+open='#{E:@pill_open}';        close='#{E:@pill_close}'
+open_flush='#{E:@pill_open_flush}'; close_flush='#{E:@pill_close_flush}'
+
+# Flush on the screen-facing side only: the sessions pill is flush LEFT and
+# capped right, the modeline pill is capped left and flush RIGHT.
+left_pill="$open_flush$left$close"
+right_pill="$open$right$close_flush"
+win_pill="#{?#{E:@comp_windows},$open$winlist$close,}"
+[ -z "$winlist" ] && win_pill=""
+
+tmux set -g status-format[0] \
+	"#[align=left]$left_pill#[align=centre]$win_pill#[align=right]$right_pill" 2>/dev/null
+
+# One row. The half-block stretch experiment is gone: it cost a whole row of
+# terminal to paint half of one, and the pills turned out to carry the
+# separation on their own without spending any height at all.
+tmux set -g status on 2>/dev/null
+tmux set -gu status-format[1] 2>/dev/null
+
 tmux refresh-client -S 2>/dev/null

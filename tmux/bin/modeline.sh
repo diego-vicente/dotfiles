@@ -114,16 +114,51 @@ pane_path="${1:-$PWD}"
 width="${2:-999}"
 case "$width" in ''|*[!0-9]*) width=999 ;; esac
 
+# ---------------------------------------------------------------------------
+# The allowance gets its own ORANGE SEGMENT, divided from the path by a solid
+# powerline slash. Orange because the figure is Claude's, and a reader should
+# not have to remember which grey number means what.
+#
+# tmux re-scans #() output for #[...] directives, verified by rendering: a
+# printf emitting "#[fg=colour1]B" comes back as ESC[31m around the B. So the
+# styling belongs here rather than in a second #(), and the bar keeps forking
+# once per status-interval instead of twice.
+#
+# Colours arrive as arguments rather than being read from tmux, because this
+# script already runs inside a #() and shelling back out to `tmux show` for
+# three values would triple its cost on every redraw.
+# ---------------------------------------------------------------------------
+pill="${3:-}"
+orange="${4:-}"
+canvas="${5:-}"
+SEP_SOLID=$(printf '\356\202\274')   # U+E0BC ple-upper_left_triangle
+
 f=$(five_hour)
 
+# The slash keeps the powerline colouring — pill ink over an orange background —
+# because the pill is the LIGHTER of the two. ple-upper_left_triangle is drawn
+# seven units past the top and bottom of the cell so nerd-fonts can butt two
+# segments together without a hairline seam, and only the ink overshoots. Pill
+# grey fringing onto the canvas measures 1.37 and disappears; orange would be
+# 1.93 and would show. See the separator note in status.conf.
+segment() {
+	if [ -n "$pill" ] && [ -n "$orange" ] && [ -n "$canvas" ]; then
+		printf '#[fg=%s,bg=%s]%s#[fg=%s,bg=%s,bold] %s ' \
+			"$pill" "$orange" "$SEP_SOLID" "$canvas" "$orange" "$1"
+	else
+		printf '   %s' "$1"
+	fi
+}
+
 if [ "$width" -lt "$WIDTH_DROP_PATH" ]; then
-	printf '%s' "$f"
+	[ -n "$f" ] && segment "$f"
 	exit 0
 fi
 
 p=$(short_path "$pane_path")
 if [ -n "$f" ]; then
-	printf '%s   %s' "$p" "$f"
+	printf '%s ' "$p"
+	segment "$f"
 else
 	printf '%s' "$p"
 fi
