@@ -28,6 +28,15 @@ window-save-state = never
 # primary-screen applications. tmux runs on the alternate screen, and every cell
 # in the bar carries an explicit background anyway, so neither exemption bites.
 window-padding-color = extend
+
+# NOT adjust-icon-height. It was set here to fix undersized agent markers in the
+# status bar, on the theory that the icons were capped shorter than the text.
+# The real cause was the cell AFTER each icon. Ghostty renders a nerd-font glyph
+# across two cells when the next cell is blank and shrinks it to one cell when
+# that cell is occupied, and the status bar packed a digit against one glyph in
+# a single place. Every other marker already had a space after it and always
+# looked right, which is what disproved the font theory.
+
 # Ghostty only ever sees `tmux: client` and cannot inspect the pane tree, so the
 # "are you at a prompt" heuristic never fires and this prompts on every close.
 confirm-close-surface = false
@@ -44,11 +53,10 @@ quick-terminal-size = 50%,50%
 
 # tmux leader on cmd+;
 #
-# macOS never sends Cmd to the terminal, so tmux cannot bind it. Ghostty
-# catches the chord and injects 0x1c (C-\), which tmux.conf sets as `prefix2`.
-# Ghostty keybinds fire before tmux sees any input, so there is no collision
-# with the primary C-Space prefix — both work, and only C-Space works on the
-# phone, where there is no Cmd key.
+# macOS never sends Cmd to the terminal, so tmux cannot bind the chord at all.
+# Ghostty catches it and writes 0x1c into the pty, which tmux reads as C-\ and
+# tmux.conf sets as `prefix`. Every other cmd chord below injects this same byte
+# followed by a key, so they all follow this one.
 keybind = cmd+semicolon=text:\x1c
 
 # ===========================================================================
