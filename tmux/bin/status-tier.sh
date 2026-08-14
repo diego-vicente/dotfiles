@@ -24,10 +24,10 @@ if [ -z "$width" ]; then
 fi
 case "$width" in ''|*[!0-9]*) exit 0 ;; esac
 
-sessions='#{E:@comp_sessions}'
+sessions='#{E:@comp_sessions_sel}'
 session_one='#{E:@comp_session_one}'
-windows='#{E:@comp_windows}'
-right='#{E:@comp_right}'
+windows='#{E:@comp_windows_sel}'
+right='#{E:@comp_right}#{E:@comp_ctx}'
 
 # The modeline no longer gets a trailing space per tier: the pill's own closing
 # fragment pads it, and doing both put two spaces before the right edge. The
@@ -67,9 +67,13 @@ open_flush='#{E:@pill_open_flush}'; close_flush='#{E:@pill_close_flush}'
 
 # Flush on the screen-facing side only: the sessions pill is flush LEFT and
 # capped right, the modeline pill is capped left and flush RIGHT.
+#
+# The modeline now ends with the workspace indicator rather than the orange
+# allowance, so the colour ghostty extends into the right padding is the pill
+# rather than the orange.
 left_pill="$open_flush$left$close"
 right_pill="$open$right$close_flush"
-win_pill="#{?#{E:@comp_windows},$open$winlist$close,}"
+win_pill="#{?#{E:@comp_windows_sel},$open$winlist$close,}"
 [ -z "$winlist" ] && win_pill=""
 
 tmux set -g status-format[0] \

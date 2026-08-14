@@ -119,6 +119,18 @@ GLYPH_FINISHED=$(printf '\357\201\230')  # U+F058 check-circle
 # times as often to spin a glyph.
 GLYPH_WORKING=$(printf '\357\204\220')   # U+F110 spinner
 GLYPH_IDLE=$(printf '\357\201\251')      # U+F069 asterisk
+# fa-maximize, the four solid diagonal arrows. Font Awesome publishes it at
+# f31e, and that codepoint is USELESS here: nerd-fonts reassigned f31e to
+# linux-archlabs and moved fa-maximize to f06f. Reading the codepoint off the
+# Font Awesome site is how the wrong glyph keeps arriving — fa-expand f065
+# draws thin corner brackets and fa-window_maximize f2d0 draws a window frame.
+GLYPH_EXPAND=$(printf '\357\201\257')    # U+F06F fa-maximize
+
+# The workspace indicator. fa-user_circle measures 923x924, exactly matching the
+# agent markers; fa-briefcase is 923x865, a little shorter, which is the shape
+# of a briefcase rather than a defect.
+GLYPH_PERSONAL=$(printf '\357\212\275')  # U+F2BD fa-user_circle
+GLYPH_WORK=$(printf '\357\202\261')      # U+F0B1 fa-briefcase
 
 command -v tmux >/dev/null 2>&1 || exit 0
 
@@ -171,7 +183,8 @@ esac
 # running server.
 sig="$flavour:$pill:$dim:$text:$canvas:$teal:$orange"
 sig="$sig:$SEP_THIN$SEP_SOLID_UL$SEP_SOLID_LR"
-sig="$sig:$GLYPH_BLOCKED$GLYPH_ERROR$GLYPH_FINISHED$GLYPH_WORKING$GLYPH_IDLE"
+sig="$sig:$GLYPH_BLOCKED$GLYPH_ERROR$GLYPH_FINISHED$GLYPH_WORKING$GLYPH_IDLE$GLYPH_EXPAND"
+sig="$sig:$GLYPH_PERSONAL$GLYPH_WORK"
 
 if [ "$(tmux show -gv "@bar_sig" 2>/dev/null)" != "$sig" ]; then
 	tmux set -g "$OPT_PILL"   "$pill"
@@ -191,6 +204,9 @@ if [ "$(tmux show -gv "@bar_sig" 2>/dev/null)" != "$sig" ]; then
 	tmux set -g @glyph_finished_ch "$GLYPH_FINISHED"
 	tmux set -g @glyph_working_ch  "$GLYPH_WORKING"
 	tmux set -g @glyph_idle_ch     "$GLYPH_IDLE"
+	tmux set -g @glyph_expand_ch   "$GLYPH_EXPAND"
+	tmux set -g @glyph_personal_ch "$GLYPH_PERSONAL"
+	tmux set -g @glyph_work_ch     "$GLYPH_WORK"
 
 	# The BAR itself is transparent — only the pills are filled. The gaps
 	# between them are canvas, and that emptiness is what separates the three
