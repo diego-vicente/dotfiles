@@ -16,7 +16,10 @@ link_or_replace () {
 	elif [ -e $target ]; then
 		echo "Backing up $target to ./backup/$run_id...";
 		mkdir -p ./backup/$run_id;
-		mv -r $target ./backup/$run_id/;
+		# mv has no -r flag; it moves directories recursively already. With -r
+		# the move failed silently, the target survived, and the following
+		# ln -s created a stray link *inside* it instead of replacing it.
+		mv $target ./backup/$run_id/;
 
 	fi;
 
@@ -44,3 +47,6 @@ link_or_replace $PWD/zsh/.zshenv         $HOME/.zshenv;
 link_or_replace $PWD/kanata              $HOME/.config/kanata;
 link_or_replace $PWD/appearance-sync     $HOME/.config/appearance-sync;
 link_or_replace $PWD/appearance-sync/com.dvicente.appearance-sync.plist  $HOME/Library/LaunchAgents/com.dvicente.appearance-sync.plist;
+link_or_replace $PWD/cache-cleanup       $HOME/.config/cache-cleanup;
+link_or_replace $PWD/cache-cleanup/com.dvicente.cache-cleanup.plist      $HOME/Library/LaunchAgents/com.dvicente.cache-cleanup.plist;
+link_or_replace $PWD/cache-cleanup/com.dvicente.health-watch.plist       $HOME/Library/LaunchAgents/com.dvicente.health-watch.plist;
