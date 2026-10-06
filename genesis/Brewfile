@@ -41,6 +41,10 @@ brew "tiger-vnc"
 # expect bw.
 brew "node@24", link: true
 
+# gcloud needs Python 3.10 or later, and the macOS system Python is 3.9. The
+# gcloud launcher finds python3.13 on the PATH by name.
+brew "python@3.13"
+
 # Applications. Each one updates itself after the first install.
 cask "ghostty"
 cask "obsidian"

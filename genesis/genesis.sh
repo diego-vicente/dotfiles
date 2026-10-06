@@ -73,12 +73,13 @@ install_bundle() {
   brew bundle install --file="$BREWFILE"
 }
 
-# Run a vendor install script when its binary is missing
+# Run a vendor install script when its binary is missing or does not start.
+# An interrupted install can leave a binary that exists but fails.
 install_with_vendor_script() {
   local name="$1" binary="$2" url="$3"
   shift 3
   step "$name"
-  if [[ -x "$binary" ]]; then
+  if "$binary" --version >/dev/null 2>&1; then
     skip "$binary"
     return
   fi
@@ -88,6 +89,10 @@ install_with_vendor_script() {
 install_vendor_tools() {
   install_with_vendor_script "Claude Code (native installer)" "$LOCAL_BIN/claude" "$CLAUDE_INSTALL_URL"
   install_with_vendor_script "uv (standalone installer)" "$LOCAL_BIN/uv" "$UV_INSTALL_URL"
+  # The installer refuses to overwrite a broken earlier install
+  if ! "$GCLOUD_DIR/bin/gcloud" --version >/dev/null 2>&1; then
+    rm -rf "$GCLOUD_DIR"
+  fi
   install_with_vendor_script "Google Cloud CLI" "$GCLOUD_DIR/bin/gcloud" "$GCLOUD_INSTALL_URL" \
     --disable-prompts --install-dir="$LOCAL_BIN"
 }
