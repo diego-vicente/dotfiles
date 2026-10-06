@@ -15,3 +15,9 @@ passwords/*
 # 1Password service-account token (loaded by the shells, never committed)
 .config/op/
 service-account-token
+
+# Local backups made by scripts/link-dotfiles.sh, and ad hoc .bak copies
+/backup/
+*.bak
+*.bak.*
+*.bak-*
