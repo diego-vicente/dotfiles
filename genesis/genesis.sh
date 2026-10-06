@@ -57,6 +57,8 @@ install_homebrew() {
   if [[ -x "$BREW_BIN" ]]; then
     skip "$("$BREW_BIN" --version | head -1)"
   else
+    # The non-interactive installer needs a cached sudo password
+    sudo -v
     NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL "$BREW_INSTALL_URL")"
   fi
   eval "$("$BREW_BIN" shellenv)"
@@ -126,6 +128,24 @@ link_dotfiles() {
 
 set_up_fish() {
   step "fish as the login shell"
+  if [[ ! -t 0 ]]; then
+    # sudo and chsh read a password from the terminal. Over a plain SSH command
+    # there is none, so skip this part and let the other steps run.
+    echo "    skipped: no terminal for the password prompt. Run genesis.sh again in a terminal."
+  else
+    register_fish_as_login_shell
+  fi
+
+  step "fish plugins"
+  if "$FISH_BIN" -c 'type -q fisher'; then
+    skip "fisher is installed"
+  else
+    # fisher update installs every plugin listed in fish/fish_plugins
+    "$FISH_BIN" -c "curl -fsSL $FISHER_URL | source && fisher update"
+  fi
+}
+
+register_fish_as_login_shell() {
   if grep -qx "$FISH_BIN" "$SHELLS_FILE"; then
     skip "$FISH_BIN is in $SHELLS_FILE"
   else
@@ -135,14 +155,6 @@ set_up_fish() {
     skip "login shell is $FISH_BIN"
   else
     chsh -s "$FISH_BIN"
-  fi
-
-  step "fish plugins"
-  if "$FISH_BIN" -c 'type -q fisher'; then
-    skip "fisher is installed"
-  else
-    # fisher update installs every plugin listed in fish/fish_plugins
-    "$FISH_BIN" -c "curl -fsSL $FISHER_URL | source && fisher update"
   fi
 }
 
@@ -171,8 +183,6 @@ EOF
 }
 
 main() {
-  # Ask for the password once. Homebrew and /etc/shells need it.
-  sudo -v
   install_command_line_tools
   install_homebrew
   install_bundle
