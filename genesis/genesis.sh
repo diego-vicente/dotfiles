@@ -24,10 +24,8 @@ readonly CLAUDE_INSTALL_URL="https://claude.ai/install.sh"
 readonly UV_INSTALL_URL="https://astral.sh/uv/install.sh"
 readonly GCLOUD_INSTALL_URL="https://sdk.cloud.google.com"
 readonly GCLOUD_DIR="$LOCAL_BIN/google-cloud-sdk"
-readonly OMNARA_INSTALL_URL="https://omnara.com/install.sh"
-readonly OMNARA_BIN="$HOME/.omnara/bin/omnara"
 # Global npm packages, as "binary:package" pairs
-readonly NPM_GLOBALS=("happy:happy" "carto:@carto/carto-cli" "bw:@bitwarden/cli")
+readonly NPM_GLOBALS=("carto:@carto/carto-cli" "bw:@bitwarden/cli")
 
 readonly FISH_BIN="$BREW_PREFIX/bin/fish"
 readonly SHELLS_FILE="/etc/shells"
@@ -90,7 +88,6 @@ install_vendor_tools() {
   install_with_vendor_script "uv (standalone installer)" "$LOCAL_BIN/uv" "$UV_INSTALL_URL"
   install_with_vendor_script "Google Cloud CLI" "$GCLOUD_DIR/bin/gcloud" "$GCLOUD_INSTALL_URL" \
     --disable-prompts --install-dir="$LOCAL_BIN"
-  install_with_vendor_script "Omnara" "$OMNARA_BIN" "$OMNARA_INSTALL_URL"
 }
 
 install_npm_globals() {
