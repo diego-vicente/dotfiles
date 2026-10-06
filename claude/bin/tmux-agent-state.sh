@@ -45,6 +45,7 @@ ATTN_ERROR="error"
 PANE_PHASE="@agent_phase"
 PANE_ATTN="@agent_attn"
 PANE_TOKEN="@agent_token"
+PANE_SID="@claude_session_id"
 
 event="${1:-}"
 [ -n "${TMUX_PANE:-}" ] || exit 0
@@ -64,6 +65,25 @@ clear_phase=0
 
 case "$event" in
 	SessionStart)
+		# RECORD WHICH CONVERSATION THIS PANE HOLDS. Every hook receives
+		# {session_id, transcript_path, cwd, ...} as JSON on stdin, and nothing
+		# else exposes the id: claude appends to its transcript and closes it, so
+		# no file handle is held, and `ps` shows the id only for a session that
+		# was started with an explicit --resume <uuid>.
+		#
+		# ONLY on SessionStart. This script also runs on every PreToolUse and
+		# PostToolUse, and reading stdin there would add a fork to the hottest
+		# path in the config for a value that never changes.
+		#
+		# A PANE OPTION, not a file keyed by address. `renumber-windows on` means
+		# window indices shift whenever a window closes, so any address recorded
+		# now can be stale by the time a save runs. The option travels with the
+		# pane; bin/resurrect-save-claude.sh reads it at save time, when the
+		# addresses are the ones resurrect is actually writing down.
+		if [ ! -t 0 ]; then
+			sid=$(cat | sed -n 's/.*"session_id"[[:space:]]*:[[:space:]]*"\([0-9a-fA-F-]\{36\}\)".*/\1/p' | head -1)
+			[ -n "$sid" ] && set_opt "$PANE_SID" "$sid"
+		fi
 		phase="$PHASE_IDLE"; attn="" ;;
 
 	# --- work in progress --------------------------------------------------

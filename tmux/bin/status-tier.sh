@@ -76,8 +76,19 @@ right_pill="$open$right$close_flush"
 win_pill="#{?#{E:@comp_windows_sel},$open$winlist$close,}"
 [ -z "$winlist" ] && win_pill=""
 
+# CONTINUUM'S AUTOSAVE TRIGGER RIDES ALONG HERE. It is a #() that saves at most
+# once per @continuum-save-interval and prints nothing, so it costs one fork per
+# status-interval and zero columns.
+#
+# It has to be in status-format[0]. continuum installs it into `status-right`,
+# which this bar never expands — status-format[0] replaces the default assembly
+# — and which line 51 above overwrites on every resize. Left alone, continuum
+# installs cleanly, reports success, and never saves.
+save='#(~/.tmux/plugins/tmux-continuum/scripts/continuum_save.sh)'
+[ -x "$HOME/.tmux/plugins/tmux-continuum/scripts/continuum_save.sh" ] || save=""
+
 tmux set -g status-format[0] \
-	"#[align=left]$left_pill#[align=centre]$win_pill#[align=right]$right_pill" 2>/dev/null
+	"$save#[align=left]$left_pill#[align=centre]$win_pill#[align=right]$right_pill" 2>/dev/null
 
 # One row. The half-block stretch experiment is gone: it cost a whole row of
 # terminal to paint half of one, and the pills turned out to carry the

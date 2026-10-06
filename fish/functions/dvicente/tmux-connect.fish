@@ -48,6 +48,31 @@ function tmux-connect -d "Attach a tmux session in the work or personal context"
     set -l session
     set -l workdir
 
+    # RESTORE BEFORE CHOOSING, or the first command after a reboot wins a race
+    # it should not enter. With no server running, `new-session -A` below would
+    # START the server, which is what triggers tmux-continuum's auto-restore —
+    # in the background. This function would then attach to the session it just
+    # invented while the real ones materialise beside it, and the restore would
+    # look like it never ran.
+    #
+    # Doing it here instead: start a bare server, restore synchronously, and
+    # only then look at what exists. `start-server` creates no session, so there
+    # is nothing for restore to collide with.
+    set -l restore $HOME/.tmux/plugins/tmux-resurrect/scripts/restore.sh
+    if not $tmux_bin has-session 2>/dev/null; and test -x $restore
+        set -l last $HOME/.local/share/tmux/resurrect/last
+        test -e $last; or set last $HOME/.tmux/resurrect/last
+        if test -e $last
+            # -f, not a bare start-server followed by source-file. A server
+            # with no sessions exits immediately, because exit-empty defaults
+            # to ON and only this config turns it off — so the bare form dies
+            # before the source-file lands and the restore has nothing to run
+            # against.
+            $tmux_bin -f $HOME/.config/tmux/tmux.conf start-server
+            $restore >/dev/null 2>&1
+        end
+    end
+
     if test (count $argv) -eq 2
         set -l project $argv[2]
         set session "$context/$project"
