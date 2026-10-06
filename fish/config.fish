@@ -34,8 +34,10 @@ set -a fish_function_path $__fish_config_dir/functions/dvicente
 # Configure direnv
 direnv hook fish | source
 
-# Configure cargo
-source "$HOME/.cargo/env.fish"
+# Configure cargo, if rustup is installed
+if test -r "$HOME/.cargo/env.fish"
+    source "$HOME/.cargo/env.fish"
+end
 
 # Run the function to set the Cursor prompt when ran by agents, and tide otherwise
 cursor_prompt
