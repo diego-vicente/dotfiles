@@ -24,6 +24,8 @@ link_or_replace () {
 	fi;
 
 	echo "Linking $origin -> $target...";
+	# A fresh Mac has no ~/Library/LaunchAgents, and ln does not create folders
+	mkdir -p "$(dirname "$target")";
 	ln -s $origin $target;
 }
 
