@@ -67,3 +67,10 @@
 [credential "https://gist.github.com"]
 	helper = 
 	helper = !/opt/homebrew/bin/gh auth git-credential
+
+# Per-tree identity. Order matters: ~/Projects/Personal is nested inside
+# ~/Projects, and for a repeated key the last matching include wins.
+[includeIf "gitdir/i:~/Projects/"]
+	path = ~/.config/git/config.work
+[includeIf "gitdir/i:~/Projects/Personal/"]
+	path = ~/.config/git/config.personal
