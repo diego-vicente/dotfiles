@@ -4,6 +4,9 @@ fish_add_path --prepend ~/.local/bin ~/Projects/bin
 # Add Claude Code skill utilities (cnode, etc.)
 fish_add_path --append ~/.claude/bin
 
+# Add the snag CLI, which the snag:capture skill calls as a bare command
+fish_add_path --append ~/Projects/Personal/snag/bin
+
 # Add the Homebrew directories
 fish_add_path --prepend /opt/homebrew/bin /usr/local/bin
 
@@ -129,3 +132,15 @@ fish_add_path --append /Applications/Obsidian.app/Contents/MacOS
 # omnara
 fish_add_path /Users/dvicente/.omnara/bin
 
+
+# Claude Code OAuth token, kept out of this tracked file on purpose
+set -g CLAUDE_TOKEN_FILE $HOME/.config/claude/oauth-token
+if test -r $CLAUDE_TOKEN_FILE
+    set -gx CLAUDE_CODE_OAUTH_TOKEN (string trim (cat $CLAUDE_TOKEN_FILE))
+end
+
+# Local Claude Agent SDK root for the VS Code Agents window (native/BYOK mode)
+set -g CLAUDE_AGENT_SDK_ROOT $HOME/.config/claude/agent-sdk
+if test -d $CLAUDE_AGENT_SDK_ROOT/node_modules/@anthropic-ai/claude-agent-sdk
+    set -gx VSCODE_AGENT_HOST_CLAUDE_SDK_ROOT $CLAUDE_AGENT_SDK_ROOT
+end
