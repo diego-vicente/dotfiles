@@ -1,0 +1,56 @@
+# Packages for a new Mac. genesis.sh runs `brew bundle` on this file.
+#
+# Some tools are NOT here on purpose, because their vendor recommends another
+# installer that also keeps them updated. genesis.sh installs them:
+#   claude    native installer (auto-updates)
+#   uv        standalone installer (keeps `uv self update`)
+#   gcloud    Google's installer (keeps `gcloud components update`)
+#   omnara    omnara.com installer (wraps `claude`, auto-updates)
+#   happy, carto, bw    global npm packages (Bitwarden documents npm for arm64)
+
+tap "stablyai/orca"
+
+# Shell and the tools that fish/config.fish and git/config call
+brew "fish"
+brew "atuin"
+brew "zoxide"
+brew "direnv"
+brew "eza"
+brew "bat"
+brew "viddy"
+brew "git"
+brew "git-delta"
+brew "gh"
+
+# Editors, terminal multiplexer and coding agents
+brew "helix"
+brew "neovim"
+brew "lazygit"
+brew "tmux"
+brew "opencode"
+
+# Build, search and site tools
+brew "just"
+brew "make"
+brew "ripgrep"
+brew "hugo"
+brew "exiftool"
+brew "tiger-vnc"
+
+# Node 24 is keg-only, so link it to put node and npm on the PATH. The global
+# npm packages listed at the top then install into /opt/homebrew/bin, where the skills
+# expect bw.
+brew "node@24", link: true
+
+# 1Password CLI stays until the skills that call `op` move to Bitwarden.
+cask "1password-cli"
+
+# Applications. Each one updates itself after the first install.
+cask "ghostty"
+cask "obsidian"
+cask "firefox"
+cask "helium-browser"
+cask "bitwarden"
+cask "docker-desktop"
+cask "stablyai/orca/orca"
+cask "ollama-app"

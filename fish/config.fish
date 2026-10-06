@@ -71,8 +71,10 @@ if status is-interactive
     # Configure atuin
     atuin init fish --disable-up-arrow | source
 
-    # Configure fuck
-    thefuck --alias | source
+    # Configure fuck, if installed. genesis/Brewfile no longer installs it.
+    if type -q thefuck
+        thefuck --alias | source
+    end
 
     # Configure zoxide
     zoxide init fish | source
