@@ -118,9 +118,6 @@ fish_add_path $OBSIDIAN_VAULT_PATH/.obsidian/plugins/mcp-tools/bin
 # Add the Obsidian CLI
 fish_add_path --append /Applications/Obsidian.app/Contents/MacOS
 
-# omnara
-fish_add_path /Users/dvicente/.omnara/bin
-
 # Claude Code OAuth token, kept out of this tracked file on purpose
 set -g CLAUDE_TOKEN_FILE $HOME/.config/claude/oauth-token
 if test -r $CLAUDE_TOKEN_FILE
