@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Launcher for the Reddit MCP server (GridfireAI/reddit-mcp, PyPI: reddit-mcp).
+#
+# Reads the Reddit OAuth app credentials from 1Password at process start, so no
+# secret is ever written into ~/.claude.json. Requires OP_SERVICE_ACCOUNT_TOKEN
+# in the environment, or an unlocked 1Password desktop integration.
+set -euo pipefail
+
+# Absolute paths: Claude Code may spawn this with a minimal PATH.
+readonly OP_BIN="/opt/homebrew/bin/op"
+readonly UVX_BIN="/opt/homebrew/bin/uvx"
+
+readonly OP_ITEM="op://Agentes/Reddit"
+readonly OP_FIELD_CLIENT_ID="client-id"
+readonly OP_FIELD_CLIENT_SECRET="client-secret"
+
+readonly MCP_PACKAGE="reddit-mcp"
+# reddit-mcp 0.1.2 imports mcp.server.fastmcp, which the mcp SDK removed in 2.0.
+# Without this pin uv resolves mcp 2.x and the server dies on import.
+readonly MCP_SDK_PIN="mcp[cli]<2"
+
+REDDIT_CLIENT_ID="$("${OP_BIN}" read "${OP_ITEM}/${OP_FIELD_CLIENT_ID}")"
+REDDIT_CLIENT_SECRET="$("${OP_BIN}" read "${OP_ITEM}/${OP_FIELD_CLIENT_SECRET}")"
+export REDDIT_CLIENT_ID REDDIT_CLIENT_SECRET
+
+exec "${UVX_BIN}" --with "${MCP_SDK_PIN}" "${MCP_PACKAGE}"
